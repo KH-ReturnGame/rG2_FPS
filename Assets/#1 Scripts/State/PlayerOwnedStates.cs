@@ -1,16 +1,18 @@
-using UnityEngine;
-
-public class PlayerOwnedStates : MonoBehaviour
+namespace PlayerOwnedStates
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class IsGround : State<Player>
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public override void Enter(Player player)
+        {
+            
+        }
+        public override void Execute(Player player)
+        {
+            
+        }
+        public override void Exit(Player player)
+        {
+            
+        }
     }
 }

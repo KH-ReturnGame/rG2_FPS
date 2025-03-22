@@ -1,16 +1,6 @@
-using UnityEngine;
-
-public class State : MonoBehaviour
+public abstract class State<T> where T : class
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public abstract void Enter(T entity);
+    public abstract void Execute(T entity);
+    public abstract void Exit(T entity);
 }
