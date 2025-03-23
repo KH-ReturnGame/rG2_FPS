@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     [Header("Input KeyCodes")]
     [SerializeField]
     private KeyCode keyCodeRun = KeyCode.LeftShift; // 달리기 키 설정
+    [SerializeField]
+    private KeyCode keyCodeJump = KeyCode.Space; // 달리기 키 설정
 
     [Header("Audio Clips")]
     [SerializeField]
@@ -31,7 +33,7 @@ public class Player : MonoBehaviour
     private PlayerStatus status;        // 플레이어 정보
     private PlayerAnimateController animator; // 애니메이션 재생 제어
     private AudioSource audioSource;
-    
+    private WeaponAssaultRifle weapon;
 
 
 
@@ -57,6 +59,7 @@ public class Player : MonoBehaviour
         status = GetComponent<PlayerStatus>();
         animator = GetComponent<PlayerAnimateController>();
         audioSource = GetComponent<AudioSource>();
+        weapon = GetComponentInChildren<WeaponAssaultRifle>();
     }
     public void Update()
     {
@@ -66,6 +69,8 @@ public class Player : MonoBehaviour
         // 마우스 회전,이동 업데이트
         UpdateRotate();
         UpdateMove();
+        UpdateJump();
+        UpdateWeaponAction();
     }
     
     //상태 추가 메소드
@@ -134,4 +139,25 @@ public class Player : MonoBehaviour
 
         movement.MoveTo(new Vector3(x, 0, z));
     }
+
+    private void UpdateJump()
+    {
+        if (Input.GetKeyDown(keyCodeJump))
+        {
+            movement.Jump();
+        }
+    }
+
+    private void UpdateWeaponAction()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            weapon.StartWeaponAction();
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            weapon.StopWeaponAction();
+        }
+    }
 }
+
