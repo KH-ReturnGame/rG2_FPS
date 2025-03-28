@@ -1,8 +1,14 @@
 using System.Collections;
 using UnityEngine;
 
+[System.Serializable]
+public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> { }
+
 public class WeaponAssaultRifle : MonoBehaviour
 {
+    [HideInInspector]
+    public AmmoEvent onAmmoEvent = new AmmoEvent();
+    
     [Header("Fire Effects")]
     [SerializeField]
     private GameObject muzzleFlashEffect;   // 총기 이펙트 on / off
@@ -28,11 +34,17 @@ public class WeaponAssaultRifle : MonoBehaviour
     private PlayerAnimateController animator;
     private CasingMemoryPool casingMemoryPool;
 
+    //외부에서 열람 가능한 Get 프로퍼티
+    public WeaponName WeaponName => weaponSet.weaponName;
+    
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         animator = GetComponentInParent<PlayerAnimateController>();
         casingMemoryPool = GetComponent<CasingMemoryPool>();
+        
+        // 처음 탄 수는 최대로 설정
+        weaponSet.currentAmmo = weaponSet.maxAmmo;
     }
 
     private void OnEnable()
@@ -41,6 +53,9 @@ public class WeaponAssaultRifle : MonoBehaviour
         PlaySound(audioClipTakeOutWeapon);
         // 총구 이펙트 오브젝트 비활성화
         muzzleFlashEffect.SetActive(false);
+        
+        //무기가 활성화될 때 탄 수 갱신
+        onAmmoEvent.Invoke(weaponSet.currentAmmo, weaponSet.maxAmmo);
     }
 
     private void PlaySound(AudioClip clip) // 기존 사운드 정지 후, 사운드 clip 교체후 재생
@@ -89,7 +104,7 @@ public class WeaponAssaultRifle : MonoBehaviour
 
     private void OnAttack()
     {
-        if (Time.time - lastAttackTime > weaponSet.attakRate)
+        if (Time.time - lastAttackTime > weaponSet.attackRate)
         {
             if (animator.MoveSpeed > 0.5f)
             {
@@ -97,6 +112,15 @@ public class WeaponAssaultRifle : MonoBehaviour
             }
 
             lastAttackTime = Time.time;
+            
+            // 탄 수 없으면 공격 X
+            if (weaponSet.currentAmmo <= 0)
+            {
+                return;
+            }
+            // 탄 감소, 탄 수 감소
+            weaponSet.currentAmmo--;
+            onAmmoEvent.Invoke(weaponSet.currentAmmo, weaponSet.maxAmmo);
 
             animator.Play("Fire", -1, 0); // 무기 애니메이션
             StartCoroutine("OnMuzzleFlashEffect"); // 총구 이펙트
@@ -109,7 +133,7 @@ public class WeaponAssaultRifle : MonoBehaviour
     {
         muzzleFlashEffect.SetActive(true);
 
-        yield return new WaitForSeconds(weaponSet.attakRate * 0.3f);
+        yield return new WaitForSeconds(weaponSet.attackRate * 0.3f);
 
         muzzleFlashEffect.SetActive(false);
     }
