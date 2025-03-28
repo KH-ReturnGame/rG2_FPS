@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class PlayerAnimateController : MonoBehaviour
 {
-    private Animator animator;// ¾Ö´Ï¸ŞÀÌÅÍ ÄÄÆ÷³ÍÆ®
+    private Animator animator;// ì• ë‹ˆë©”ì´í„° ì»´í¬ë„ŒíŠ¸
 
     private void Awake()
     {
-        // ÀÚ½Ä ¿ÀºêÁ§Æ®¿¡¼­ ¾Ö´Ï¸ŞÀÌÅÍ °¡Á®¿À±â
+        // ìì‹ ì˜¤ë¸Œì íŠ¸ì—ì„œ ì• ë‹ˆë©”ì´í„° ê°€ì ¸ì˜¤ê¸°
         animator = GetComponentInChildren<Animator>();
     }
 
-    // ÀÌµ¿ ¼Óµµ¸¦ ¾Ö´Ï¸ŞÀÌÅÍÀÇ ÆÄ¶ó¹ÌÅÍ °ªÀ¸·Î ¼³Á¤
+    // ì´ë™ ì†ë„ë¥¼ ì• ë‹ˆë©”ì´í„°ì˜ íŒŒë¼ë¯¸í„° ê°’ìœ¼ë¡œ ì„¤ì •
     public float MoveSpeed
     {
         set => animator.SetFloat("movementSpeed", value);
