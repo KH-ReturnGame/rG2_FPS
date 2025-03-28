@@ -7,6 +7,10 @@ public class WeaponAssaultRifle : MonoBehaviour
     [SerializeField]
     private GameObject muzzleFlashEffect;   // 총기 이펙트 on / off
 
+    [Header("Spawn Points")] 
+    [SerializeField]
+    private Transform casingSpawnPoint; //탄피 생성 위치
+    
     [Header("Audio Clips")]
     [SerializeField]
     private AudioClip audioClipTakeOutWeapon;   // 무기 장착 사운드
@@ -18,15 +22,17 @@ public class WeaponAssaultRifle : MonoBehaviour
     [SerializeField]
     private WeaponSet weaponSet; // 무기 설정
 
-    private float lastAttackTime = 0; // 마지막 발사 시간 체ㅡㅋ
+    private float lastAttackTime = 0; // 마지막 발사 시간 체크
 
     private AudioSource audioSource;
     private PlayerAnimateController animator;
+    private CasingMemoryPool casingMemoryPool;
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         animator = GetComponentInParent<PlayerAnimateController>();
+        casingMemoryPool = GetComponent<CasingMemoryPool>();
     }
 
     private void OnEnable()
@@ -95,6 +101,7 @@ public class WeaponAssaultRifle : MonoBehaviour
             animator.Play("Fire", -1, 0); // 무기 애니메이션
             StartCoroutine("OnMuzzleFlashEffect"); // 총구 이펙트
             PlaySound(audioClipFire); // 총기 발사음
+            casingMemoryPool.SpawnCasing(casingSpawnPoint.position, transform.right); //탄피 생성
         }
     }
 
