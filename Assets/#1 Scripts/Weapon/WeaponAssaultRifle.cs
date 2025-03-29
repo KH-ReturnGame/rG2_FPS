@@ -22,6 +22,8 @@ public class WeaponAssaultRifle : MonoBehaviour
     private AudioClip audioClipTakeOutWeapon;   // 무기 장착 사운드
     [SerializeField]
     private AudioClip audioClipFire;   // 공격 사운드
+    [SerializeField]
+    private AudioClip audioClipReload;   // 재장전 사운드
 
 
     [Header("Weapon Setting")]
@@ -29,6 +31,7 @@ public class WeaponAssaultRifle : MonoBehaviour
     private WeaponSet weaponSet; // 무기 설정
 
     private float lastAttackTime = 0; // 마지막 발사 시간 체크
+    private bool isReload = false;
 
     private AudioSource audioSource;
     private PlayerAnimateController animator;
@@ -67,6 +70,9 @@ public class WeaponAssaultRifle : MonoBehaviour
 
     public void StartWeaponAction(int type = 0)
     {
+        //재장전 중일 때는 무기 액션 ㄴㄴ
+        if(isReload) return;
+        
         // 왼쪽 마우스 클릭 (공격 시작
         if (type == 0)
         {
@@ -90,6 +96,13 @@ public class WeaponAssaultRifle : MonoBehaviour
         {
             StopCoroutine("OnAttackLoop");
         }
+    }
+
+    public void StartReload()
+    {
+        if(isReload) return; //현재 재장전 중이면 꺼지셈
+        StopWeaponAction(); //무기 액션 도중 재장전 시도하면 무기 액션 종료하고 재장전
+        StartCoroutine("OnReload");
     }
 
     private IEnumerator OnAttackLoop()
@@ -136,5 +149,31 @@ public class WeaponAssaultRifle : MonoBehaviour
         yield return new WaitForSeconds(weaponSet.attackRate * 0.3f);
 
         muzzleFlashEffect.SetActive(false);
+    }
+
+    private IEnumerator OnReload()
+    {
+        isReload = true;
+        
+        //재장전 애니메이션 사운드 재생
+        animator.OnReload();
+        PlaySound(audioClipReload);
+
+        while (true)
+        {
+            // 사운드 재생중이 아니고, 현재 애니메이션이 Movement이면
+            // 재장전 애니메이션(, 사운드) 재생이 종료되었다는 뜻
+            if (audioSource.isPlaying == false && animator.CurrentAnimationIs("Movement"))
+            {
+                isReload = false;
+                
+                //현재 탄 수를 최대로 설정하고, 바뀐 탄 수 정보를 Text UI에 업데이트
+                weaponSet.currentAmmo = weaponSet.maxAmmo;
+                onAmmoEvent.Invoke(weaponSet.currentAmmo, weaponSet.maxAmmo);
+                yield break;
+            }
+
+            yield return null;
+        }
     }
 }

@@ -10,6 +10,16 @@ public class PlayerAnimateController : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
     }
 
+    public void OnReload()
+    {
+        animator.SetTrigger("onReload");
+    }
+
+    public bool CurrentAnimationIs(string name)
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).IsName(name);
+    }
+
     // 이동 속도를 애니메이터의 파라미터 값으로 설정
     public float MoveSpeed
     {

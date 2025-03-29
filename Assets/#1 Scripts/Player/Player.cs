@@ -21,7 +21,9 @@ public class Player : MonoBehaviour
     private KeyCode keyCodeRun = KeyCode.LeftShift; // 달리기 키 설정
     [SerializeField]
     private KeyCode keyCodeJump = KeyCode.Space; // 달리기 키 설정
-
+    [SerializeField]
+    private KeyCode keyCodeReload = KeyCode.R; // 재장전 키 설정
+    
     [Header("Audio Clips")]
     [SerializeField]
     private AudioClip audioClipWalk; // 걷기 사운드
@@ -157,6 +159,11 @@ public class Player : MonoBehaviour
         else if (Input.GetMouseButtonUp(0))
         {
             weapon.StopWeaponAction();
+        }
+
+        if (Input.GetKeyDown(keyCodeReload))
+        {
+            weapon.StartReload();
         }
     }
 }
