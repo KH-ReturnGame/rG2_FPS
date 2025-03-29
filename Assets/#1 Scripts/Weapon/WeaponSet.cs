@@ -10,6 +10,8 @@ public enum WeaponName
 public struct WeaponSet // (2) 구조체 정의 (클래스랑 비슷하지만 가벼움)
 {
     public WeaponName weaponName; //무기 이름
+    public int currentMagazine; //현재 탄창 수
+    public int maxMagazine; //최대 탄창 수
     public int currentAmmo; // 현재 탄약 수
     public int maxAmmo; // 최대 탄약 수
     public float attackRate; // 공격 속도
