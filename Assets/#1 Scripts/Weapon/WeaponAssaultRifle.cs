@@ -21,7 +21,9 @@ public class WeaponAssaultRifle : MonoBehaviour
     [Header("Spawn Points")] 
     [SerializeField]
     private Transform casingSpawnPoint; //탄피 생성 위치
-    
+    [SerializeField]
+    private Transform bulletSpawnPoint; //총알 생성 위치
+
     [Header("Audio Clips")]
     [SerializeField]
     private AudioClip audioClipTakeOutWeapon;   // 무기 장착 사운드
@@ -41,6 +43,8 @@ public class WeaponAssaultRifle : MonoBehaviour
     private AudioSource audioSource;
     private PlayerAnimateController animator;
     private CasingMemoryPool casingMemoryPool;
+    private ImpactMemoryPool impactMemoryPool; // 공격 효과 생성 후 활성/ 비활성 관리
+    private Camera mainCamera;                 // 광선 발사
 
     //외부에서 열람 가능한 Get 프로퍼티
     public WeaponName WeaponName => weaponSet.weaponName;
@@ -52,7 +56,9 @@ public class WeaponAssaultRifle : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         animator = GetComponentInParent<PlayerAnimateController>();
         casingMemoryPool = GetComponent<CasingMemoryPool>();
-        
+        impactMemoryPool = GetComponent<ImpactMemoryPool>();
+        mainCamera = Camera.main;
+
         // 처음 탄창 수는 최대로 설정
         weaponSet.currentMagazine = weaponSet.maxMagazine;
         // 처음 탄 수는 최대로 설정
@@ -150,6 +156,8 @@ public class WeaponAssaultRifle : MonoBehaviour
             StartCoroutine("OnMuzzleFlashEffect"); // 총구 이펙트
             PlaySound(audioClipFire); // 총기 발사음
             casingMemoryPool.SpawnCasing(casingSpawnPoint.position, transform.right); //탄피 생성
+
+            TwoStepRaycast();//광선 발사해 원하는 위치 공격
         }
     }
 
@@ -190,5 +198,35 @@ public class WeaponAssaultRifle : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    private void TwoStepRaycast()
+    {
+        Ray ray;
+        RaycastHit  hit;
+        Vector3 targetPoint = Vector3.zero;
+
+        // 화면의 중앙 좌표
+        ray = mainCamera.ViewportPointToRay(Vector3.one * 0.5f);
+        // 공격 사거리 안에 부딪히는 오브젝트 -> targetpoint는 ㅂ광선에 부딪힌 위치
+        if (Physics.Raycast(ray,out hit, weaponSet.attackDistance))
+        {
+            targetPoint = hit.point;
+        }
+        // 공격 사거리 안에 부딪히는 오브젝트 X  -> targetpoint는 최대 사거리 위치
+        else
+        {
+            targetPoint = ray.origin + ray.direction*weaponSet.attackDistance;
+        }
+        Debug.DrawRay(ray.origin, ray.direction * weaponSet.attackDistance, Color.red);
+
+        // 첫번쨰 Raycast 연산으로 얻어진 targetpont를 목표 지점으로 설정, 총구 시작점으로 해 Raycast 연산
+        Vector3 attakDirection = (targetPoint - bulletSpawnPoint.position).normalized;
+        if (Physics.Raycast(bulletSpawnPoint.position, attakDirection, out hit, weaponSet.attackDistance))
+        {
+            impactMemoryPool.SpawnImpact(hit);
+        }
+        Debug.DrawRay(bulletSpawnPoint.position, attakDirection*weaponSet.attackDistance, Color.blue);
+
     }
 }
