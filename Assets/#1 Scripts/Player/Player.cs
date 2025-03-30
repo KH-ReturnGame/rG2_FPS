@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     private PlayerMovement movement;    // 키보드 입력으로 플레이어 이동, 점프
     private PlayerStatus status;        // 플레이어 정보
     private AudioSource audioSource;
-    private WeaponAssaultRifle weapon;
+    private WeaponBase weapon;
 
 
 
@@ -163,6 +163,11 @@ public class Player : MonoBehaviour
         {
             weapon.StartReload();
         }
+    }
+
+    public void SwitchingWeapon(WeaponBase newWeapon)
+    {
+        weapon = newWeapon;
     }
 }
 
