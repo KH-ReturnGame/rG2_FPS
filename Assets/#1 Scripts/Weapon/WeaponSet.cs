@@ -4,6 +4,9 @@
 public enum WeaponName
 {
     AssaultRifle = 0,
+    Revolver,
+    CombatKnife,
+    HandGrenade,
 }
 
 [System.Serializable]  //(1) 구조체를 인스펙터에서 볼 수 있도록 설정
