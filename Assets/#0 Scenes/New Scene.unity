@@ -2684,6 +2684,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100012, guid: 182b7f11db452bc458d35a6c9eced06f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 324797519}
+    - targetCorrespondingSourceObject: {fileID: 100012, guid: 182b7f11db452bc458d35a6c9eced06f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 324797520}
   m_SourcePrefab: {fileID: 100100000, guid: 182b7f11db452bc458d35a6c9eced06f, type: 3}
 --- !u!1001 &81175922
 PrefabInstance:
@@ -11101,6 +11104,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab5f65e7c2f2be242b680b20b371762c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 0
+  weaponSet:
+    weaponName: 0
+    currentMagazine: 0
+    maxMagazine: 8
+    currentAmmo: 0
+    maxAmmo: 30
+    attackRate: 0.1
+    attackDistance: 30
+    isAutomaticAttack: 1
   onAmmoEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -11113,15 +11126,6 @@ MonoBehaviour:
   audioClipTakeOutWeapon: {fileID: 8300000, guid: 2ae41e984ff1f3e4a840a1a46b6a8816, type: 3}
   audioClipFire: {fileID: 8300000, guid: 38b450e2adcb6f542acc8c1d423bd8dc, type: 3}
   audioClipReload: {fileID: 8300000, guid: 5b907074256e36d41b92e89fb0790633, type: 3}
-  weaponSet:
-    weaponName: 0
-    currentMagazine: 0
-    maxMagazine: 8
-    currentAmmo: 0
-    maxAmmo: 30
-    attackRate: 0.1
-    attackDistance: 30
-    isAutomaticAttack: 1
 --- !u!114 &324797517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11150,6 +11154,18 @@ MonoBehaviour:
   impactPrefab:
   - {fileID: 8898418709004492063, guid: 5498684dda34ee846882e09eaf83567b, type: 3}
   - {fileID: 8898418709004492063, guid: ee12475d0fbf176428161c0bba9314b8, type: 3}
+--- !u!114 &324797520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324797512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aaa78927a3345741af02baee93b6a3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &325057322
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55047,7 +55063,6 @@ GameObject:
   - component: {fileID: 1681413250}
   - component: {fileID: 1681413249}
   - component: {fileID: 1681413251}
-  - component: {fileID: 1681413253}
   - component: {fileID: 1681413252}
   m_Layer: 6
   m_Name: Player
@@ -55255,18 +55270,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1681413253
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1681413245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9aaa78927a3345741af02baee93b6a3c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1688404673
 PrefabInstance:
   m_ObjectHideFlags: 0
