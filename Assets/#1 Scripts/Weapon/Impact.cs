@@ -17,7 +17,7 @@ public class Impact : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (particle.isPlaying == false)
+        if (particle.isPlaying == false && memoryPool != null)
         {
             memoryPool.DeactivatePoolItem(gameObject);
         }
