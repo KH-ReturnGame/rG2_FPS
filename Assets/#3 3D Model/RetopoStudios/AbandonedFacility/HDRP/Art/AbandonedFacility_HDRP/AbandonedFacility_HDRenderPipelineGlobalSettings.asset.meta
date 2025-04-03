@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4b8ca177c16be1a429da0f39304bdc19
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 302299
+  packageName: Abandoned Facility MODULAR
+  packageVersion: 1.0
+  assetPath: Assets/RetopoStudios/AbandonedFacility/HDRP/Art/AbandonedFacility_HDRP/AbandonedFacility_HDRenderPipelineGlobalSettings.asset
+  uploadId: 710539
