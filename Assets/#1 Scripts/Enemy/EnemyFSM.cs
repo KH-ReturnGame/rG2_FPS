@@ -2,18 +2,28 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum EnemyState { None = -1, Idle = 0, Wander, Pursuit, }
+public enum EnemyState { None = -1, Idle = 0, Wander, Pursuit, Attack, }
 
 public class EnemyFSM : MonoBehaviour
 {
-    
     [Header("Pursuit")]
     [SerializeField]
-    private float targetRecognitionRange = 8; 
+    private float targetRecognitionRange = 8;
     [SerializeField]
-    private float pursuitLimitRange = 10;   
+    private float pursuitLimitRange = 10;
+
+    [Header("Attack")]
+    [SerializeField]
+    private GameObject projectilePrefab;
+    [SerializeField]
+    private Transform projectileSpawnPoint;
+    [SerializeField]
+    private float attackRange = 5;
+    [SerializeField]
+    private float attackRate = 1;
 
     private EnemyState enemyState = EnemyState.None;
+    private float lastAttackTime = 0;
 
     private Transform target;
 
@@ -29,8 +39,6 @@ public class EnemyFSM : MonoBehaviour
         navMeshAgent.updateRotation = false;
     }
 
-  
-
     private void OnEnable()
     {
         ChangeState(EnemyState.Idle);
@@ -38,7 +46,10 @@ public class EnemyFSM : MonoBehaviour
 
     private void OnDisable()
     {
-        StopCoroutine(enemyState.ToString());
+        if (enemyState != EnemyState.None)
+        {
+            StopCoroutine(enemyState.ToString());
+        }
         enemyState = EnemyState.None;
     }
 
@@ -46,10 +57,13 @@ public class EnemyFSM : MonoBehaviour
     {
         if (enemyState == newState) return;
 
-        StopCoroutine(enemyState.ToString());
+        if (enemyState != EnemyState.None)
+        {
+            StopCoroutine(enemyState.ToString());
+        }
         enemyState = newState;
 
-        StartCoroutine(newState.ToString()); 
+        StartCoroutine(newState.ToString());
     }
 
     private IEnumerator Idle()
@@ -58,8 +72,7 @@ public class EnemyFSM : MonoBehaviour
 
         while (true)
         {
-            CalculateDistanceToTargetAndSelectState(); 
-
+            CalculateDistanceToTargetAndSelectState();
             yield return null;
         }
     }
@@ -77,10 +90,10 @@ public class EnemyFSM : MonoBehaviour
         float maxTime = 10;
 
         navMeshAgent.speed = PlayerStatus.WalkSpeed;
-        navMeshAgent.SetDestination(CalculateWanderPosition()); 
+        navMeshAgent.SetDestination(CalculateWanderPosition());
 
-        Vector3 to = new Vector3(navMeshAgent.destination.x, 0, navMeshAgent.destination.z); 
-        Vector3 from = new Vector3(transform.position.x, 0, transform.position.z); 
+        Vector3 to = new Vector3(navMeshAgent.destination.x, 0, navMeshAgent.destination.z);
+        Vector3 from = new Vector3(transform.position.x, 0, transform.position.z);
         transform.rotation = Quaternion.LookRotation(to - from);
 
         while (true)
@@ -88,14 +101,12 @@ public class EnemyFSM : MonoBehaviour
             currentTime += Time.deltaTime;
 
             to = new Vector3(navMeshAgent.destination.x, 0, navMeshAgent.destination.z);
-            from = new Vector3(transform.position.x, 0, transform.position.z); 
+            from = new Vector3(transform.position.x, 0, transform.position.z);
             if ((to - from).sqrMagnitude < 0.01f || currentTime >= maxTime)
             {
                 ChangeState(EnemyState.Idle);
             }
-
             CalculateDistanceToTargetAndSelectState();
-
             yield return null;
         }
     }
@@ -131,54 +142,79 @@ public class EnemyFSM : MonoBehaviour
     }
 
     private IEnumerator Pursuit()
-{
-    while (true)
     {
-        navMeshAgent.speed = PlayerStatus.RunSpeed;
-        navMeshAgent.SetDestination(target.position);
-        LookRotationToTarget();
-        CalculateDistanceToTargetAndSelectState();
-        yield return null;
+        while (true)
+        {
+            navMeshAgent.speed = PlayerStatus.RunSpeed;
+            navMeshAgent.SetDestination(target.position);
+            LookRotationToTarget();
+            CalculateDistanceToTargetAndSelectState();
+            yield return null;
+        }
     }
-}
 
-private void LookRotationToTarget()
-{
-    Vector3 to = new Vector3(target.position.x, 0, target.position.z);
-    Vector3 from = new Vector3(transform.position.x, 0, transform.position.z);
-
-    transform.rotation = Quaternion.LookRotation(to - from);
-
-    Quaternion rotation = Quaternion.LookRotation(to - from);
-    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 0.01f);
-}
-
-private void CalculateDistanceToTargetAndSelectState()
-{
-    if (target == null) return;
-    float distance = Vector3.Distance(target.position, transform.position);
-
-    if (distance <= targetRecognitionRange)
+    private IEnumerator Attack()
     {
-        ChangeState(EnemyState.Pursuit);
+        navMeshAgent.ResetPath();
+
+        while (true)
+        {
+            LookRotationToTarget();
+            CalculateDistanceToTargetAndSelectState();
+
+            if (Time.time - lastAttackTime > attackRate)
+            {
+                lastAttackTime = Time.time;
+                GameObject clone = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+                clone.GetComponent<EnemyProjectile>().Setup(target.position);
+            }
+            yield return null;
+        }
     }
-    else if (distance >= pursuitLimitRange)
+
+    private void LookRotationToTarget()
     {
-        ChangeState(EnemyState.Wander);
+        Vector3 to = new Vector3(target.position.x, 0, target.position.z);
+        Vector3 from = new Vector3(transform.position.x, 0, transform.position.z);
+
+        transform.rotation = Quaternion.LookRotation(to - from);
     }
-}
+
+    private void CalculateDistanceToTargetAndSelectState()
+    {
+        if (target == null) return;
+
+        float distance = Vector3.Distance(target.position, transform.position);
+
+        if (distance <= attackRange)
+        {
+            ChangeState(EnemyState.Attack);
+        }
+        else if (distance <= targetRecognitionRange)
+        {
+            ChangeState(EnemyState.Pursuit);
+        }
+        else if (distance >= pursuitLimitRange)
+        {
+            ChangeState(EnemyState.Wander);
+        }
+    }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.black;
-        Gizmos.DrawRay(transform.position, navMeshAgent.destination - transform.position);
+        if (navMeshAgent != null)
+        {
+            Gizmos.color = Color.black;
+            Gizmos.DrawRay(transform.position, navMeshAgent.destination - transform.position);
+        }
 
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, targetRecognitionRange);
 
-       Gizmos.color = Color.red;
-       Gizmos.DrawWireSphere(transform.position, targetRecognitionRange);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, pursuitLimitRange);
 
-
-       Gizmos.color = Color.green;
-       Gizmos.DrawWireSphere(transform.position, pursuitLimitRange);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }

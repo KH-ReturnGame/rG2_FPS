@@ -138,7 +138,7 @@ Transform:
   m_GameObject: {fileID: 5258126988908217455}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000053307394, y: 0.008726395, z: 0.006108407, w: 0.9999433}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.59, y: 0.989, z: 0.647}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 2406373276855836112}
   - component: {fileID: -5721931322301758103}
   - component: {fileID: 2060374838773100925}
-  - component: {fileID: -344796544831256271}
+  - component: {fileID: 1558524888984795024}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -266,6 +266,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8866247fe1c10dc4bb25aff358f458e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetRecognitionRange: 8
+  pursuitLimitRange: 10
+  projectilePrefab: {fileID: 8815770607534849977, guid: 8e6fe72d2ab7b2646a1439d6c02986b5, type: 3}
+  projectileSpawnPoint: {fileID: 803252016696935993}
+  attackRange: 8
+  attackRate: 1
 --- !u!114 &2060374838773100925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,7 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 1.5
   runSpeed: 2
---- !u!195 &-344796544831256271
+--- !u!195 &1558524888984795024
 NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -290,7 +296,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
