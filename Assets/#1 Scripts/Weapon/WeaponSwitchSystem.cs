@@ -79,7 +79,7 @@ public class WeaponSwitchSystem : MonoBehaviour
         {
             previousWeapon.gameObject.SetActive(false);
         }
-        
+        //Debug.Log(currentWeapon.gameObject);
         //현재 사용하는 무기 활성화
         currentWeapon.gameObject.SetActive(true);
     }

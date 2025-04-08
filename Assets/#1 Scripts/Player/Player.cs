@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         status = GetComponent<PlayerStatus>();
         audioSource = GetComponent<AudioSource>();
-        weapon = GetComponentInChildren<WeaponAssaultRifle>();
+        //weapon = GetComponentInChildren<WeaponSwitchSystem>();
     }
     public void Update()
     {
