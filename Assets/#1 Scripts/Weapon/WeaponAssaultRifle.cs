@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Mathematics.Geometry;
 using UnityEngine;
 
 [System.Serializable]
@@ -39,6 +40,9 @@ public class WeaponAssaultRifle : MonoBehaviour
 
     private float lastAttackTime = 0; // 마지막 발사 시간 체크
     private bool isReload = false;
+
+    //private float spread_coefficient = 1f;
+    private float spread_radius = 0.025f;
 
     private AudioSource audioSource;
     private PlayerAnimateController animator;
@@ -207,7 +211,9 @@ public class WeaponAssaultRifle : MonoBehaviour
         Vector3 targetPoint = Vector3.zero;
 
         // 화면의 중앙 좌표
-        ray = mainCamera.ViewportPointToRay(Vector3.one * 0.5f);
+        ray = Spread_Ray();
+        
+        
         // 공격 사거리 안에 부딪히는 오브젝트 -> targetpoint는 ㅂ광선에 부딪힌 위치
         if (Physics.Raycast(ray,out hit, weaponSet.attackDistance))
         {
@@ -229,4 +235,21 @@ public class WeaponAssaultRifle : MonoBehaviour
         Debug.DrawRay(bulletSpawnPoint.position, attakDirection*weaponSet.attackDistance, Color.blue);
 
     }
+
+    private Ray Spread_Ray()
+    {
+        //랜덤 생성
+        float random_Radius = Random.Range(0, spread_radius);
+        float random_Angle = Random.Range(0, 359);
+        float random_AngleRad = random_Angle * Mathf.Deg2Rad;
+        
+        //좌표로 만들기
+        Vector3 random_Point = new Vector3(random_Radius * Mathf.Cos(random_AngleRad),random_Radius * Mathf.Sin(random_AngleRad),0f);
+        Vector3 random_Point_Normal = random_Point / Camera.main.aspect;
+        Vector3 randomViewportPoint = new Vector3(0.5f, 0.5f, 0f) + random_Point_Normal;
+        
+        Ray ray = mainCamera.ViewportPointToRay(randomViewportPoint);
+        
+        return ray;
+    } 
 }
