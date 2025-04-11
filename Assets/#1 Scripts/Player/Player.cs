@@ -159,6 +159,15 @@ public class Player : MonoBehaviour
         else if (Input.GetMouseButtonUp(0))
         {
             weapon.StopWeaponAction();
+        } 
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            weapon.StartWeaponAction(1);
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            weapon.StartWeaponAction(1);
         }
 
         if (Input.GetKeyDown(keyCodeReload))

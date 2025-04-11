@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> { }
@@ -37,8 +38,17 @@ public class WeaponAssaultRifle : MonoBehaviour
     [SerializeField]
     private WeaponSet weaponSet; // 무기 설정
 
+    [Header("Aim UI")]
+    [SerializeField]
+    private Image imageAim;
+
     private float lastAttackTime = 0; // 마지막 발사 시간 체크
     private bool isReload = false;
+    private bool isAttak = false;
+    private bool isModeChange = false;
+    private float defaultModeFOV = 60;
+    private float aimModeFOV = 30;
+
 
     private AudioSource audioSource;
     private PlayerAnimateController animator;
@@ -76,6 +86,8 @@ public class WeaponAssaultRifle : MonoBehaviour
         onMagazineEvent.Invoke(weaponSet.currentMagazine);
         // 무기가 활성화될 때 탄 수 갱신
         onAmmoEvent.Invoke(weaponSet.currentAmmo, weaponSet.maxAmmo);
+
+        ResetVariables();
     }
 
     private void PlaySound(AudioClip clip) // 기존 사운드 정지 후, 사운드 clip 교체후 재생
@@ -89,6 +101,9 @@ public class WeaponAssaultRifle : MonoBehaviour
     {
         //재장전 중일 때는 무기 액션 ㄴㄴ
         if(isReload) return;
+
+        //모드 전환중 액션 ㄴ
+        if (isModeChange == true) return; 
         
         // 왼쪽 마우스 클릭 (공격 시작
         if (type == 0)
@@ -96,6 +111,7 @@ public class WeaponAssaultRifle : MonoBehaviour
             // ㅡ연속 공격
             if( weaponSet.isAutomaticAttack == true)
             {
+                isAttak = true;
                 StartCoroutine("OnAttackLoop");
             }
             // 단발 공격
@@ -104,6 +120,14 @@ public class WeaponAssaultRifle : MonoBehaviour
                 OnAttack();
             }
         }
+        //마우스 오른쪽 클릭 (모드 전환
+        else
+        {
+            //공격 중일 때 모드 전화 ㄴ
+            if (isAttak == true) return;
+
+            StartCoroutine("OnModeChange");
+        }
         
     }
 
@@ -111,6 +135,7 @@ public class WeaponAssaultRifle : MonoBehaviour
     {
         if(type == 0)
         {
+            isAttak = false;
             StopCoroutine("OnAttackLoop");
         }
     }
@@ -152,8 +177,11 @@ public class WeaponAssaultRifle : MonoBehaviour
             weaponSet.currentAmmo--;
             onAmmoEvent.Invoke(weaponSet.currentAmmo, weaponSet.maxAmmo);
 
-            animator.Play("Fire", -1, 0); // 무기 애니메이션
-            StartCoroutine("OnMuzzleFlashEffect"); // 총구 이펙트
+            // 무기 애니메이션 재생 ( 모드에 따라 AimFire or Fire 재생)
+            // animator.Play("Fire", -1, 0); // 무기 애니메이션
+            string animation = animator.AimModeIs == true ? "AimFire" : "Fire";
+            animator.Play(animation, -1, 0);
+            if ( animator.AimModeIs == false) StartCoroutine("OnMuzzleFlashEffect");// 총구 이펙트
             PlaySound(audioClipFire); // 총기 발사음
             casingMemoryPool.SpawnCasing(casingSpawnPoint.position, transform.right); //탄피 생성
 
@@ -229,4 +257,42 @@ public class WeaponAssaultRifle : MonoBehaviour
         Debug.DrawRay(bulletSpawnPoint.position, attakDirection*weaponSet.attackDistance, Color.blue);
 
     }
+
+    private IEnumerator OnModeChange()
+    {
+        float current = 0;
+        float percent = 0;
+        float time = 0.35f;
+
+        animator.AimModeIs = !animator.AimModeIs;
+        imageAim.enabled = !imageAim.enabled;
+
+        float start = mainCamera.fieldOfView;
+        float end = animator.AimModeIs == true ? aimModeFOV : defaultModeFOV;
+
+        isModeChange = true;
+
+        while (percent < 1)
+        {
+            current += Time.deltaTime;
+            percent = current / time;
+
+            //mode 에 따라 시야각 변경
+            mainCamera.fieldOfView = Mathf.Lerp(start, end, percent);
+
+            yield return null;
+        }
+
+        isModeChange = false;
+    }
+
+    private void ResetVariables()
+    {
+        isReload = false;
+        isAttak = false;
+        isModeChange = false;
+    }
+
+
+
 }

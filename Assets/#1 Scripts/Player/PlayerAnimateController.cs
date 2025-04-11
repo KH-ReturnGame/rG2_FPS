@@ -31,4 +31,11 @@ public class PlayerAnimateController : MonoBehaviour
     {
         animator.Play(stateName, layer, normalizedTime);
     }
+
+    /// Assaultt Rifle 마우스 오른쪽 클릭 액션
+    public bool AimModeIs
+    {
+        set => animator.SetBool("isAimMode", value);
+        get => animator.GetBool("isAimMode");
+    }
 }
