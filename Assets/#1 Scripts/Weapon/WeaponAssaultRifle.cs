@@ -230,7 +230,7 @@ public class WeaponAssaultRifle : MonoBehaviour
         Vector3 attakDirection = (targetPoint - bulletSpawnPoint.position).normalized;
         if (Physics.Raycast(bulletSpawnPoint.position, attakDirection, out hit, weaponSet.attackDistance))
         {
-            impactMemoryPool.SpawnImpact(hit);
+            impactMemoryPool.SpawnImpact(hit, attakDirection);
         }
         Debug.DrawRay(bulletSpawnPoint.position, attakDirection*weaponSet.attackDistance, Color.blue);
 
