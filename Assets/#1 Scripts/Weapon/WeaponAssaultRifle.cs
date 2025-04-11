@@ -2,19 +2,19 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
+/*System.Serializable]
 public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> { }
 [System.Serializable]
-public class MagazineEvent : UnityEngine.Events.UnityEvent<int> { }
+public class MagazineEvent : UnityEngine.Events.UnityEvent<int> { }*/
 
 
 public class WeaponAssaultRifle : MonoBehaviour
 {
-    [HideInInspector]
+   /* [HideInInspector]
     public AmmoEvent onAmmoEvent = new AmmoEvent();
     [HideInInspector]
     public MagazineEvent onMagazineEvent = new MagazineEvent();
-    
+*/
     [Header("Fire Effects")]
     [SerializeField]
     private GameObject muzzleFlashEffect;   // 총기 이펙트 on / off
@@ -34,24 +34,24 @@ public class WeaponAssaultRifle : MonoBehaviour
     private AudioClip audioClipReload;   // 재장전 사운드
 
 
-    [Header("Weapon Setting")]
+    /*[Header("Weapon Setting")]
     [SerializeField]
-    private WeaponSet weaponSet; // 무기 설정
+    private WeaponSet weaponSet; // 무기 설정*/
 
     [Header("Aim UI")]
     [SerializeField]
     private Image imageAim;
 
-    private float lastAttackTime = 0; // 마지막 발사 시간 체크
+    /*private float lastAttackTime = 0; // 마지막 발사 시간 체크
     private bool isReload = false;
-    private bool isAttak = false;
+    private bool isAttak = false;*/
     private bool isModeChange = false;
     private float defaultModeFOV = 60;
     private float aimModeFOV = 30;
 
 
-    private AudioSource audioSource;
-    private PlayerAnimateController animator;
+    /*private AudioSource audioSource;
+    private PlayerAnimateController animator;*/
     private CasingMemoryPool casingMemoryPool;
     private ImpactMemoryPool impactMemoryPool; // 공격 효과 생성 후 활성/ 비활성 관리
     private Camera mainCamera;                 // 광선 발사
