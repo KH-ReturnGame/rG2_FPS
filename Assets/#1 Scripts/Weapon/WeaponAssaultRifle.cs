@@ -287,6 +287,11 @@ public class WeaponAssaultRifle : MonoBehaviour
         );
         Vector3 randomViewportPoint = new Vector3(0.5f, 0.5f, 0f) + random_Point_Adjusted;
         
+        if (animator.AimModeIs)
+        {
+            randomViewportPoint = new Vector3(0.5f, 0.5f, 0f);
+        }
+        
         if (pointPrefab != null && canvas != null)
         {
             // 뷰포트 좌표를 화면 좌표로 변환
@@ -320,7 +325,7 @@ public class WeaponAssaultRifle : MonoBehaviour
                 pointRect.pivot = new Vector2(0.5f, 0.5f);
                 pointRect.anchoredPosition = canvasPoint;
 
-                Destroy(point, 10f); // 5초 후 삭제
+                Destroy(point, 5f); // 5초 후 삭제
             }
             else
             {

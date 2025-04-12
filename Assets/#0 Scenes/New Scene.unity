@@ -11574,10 +11574,11 @@ MonoBehaviour:
     currentMagazine: 0
     maxMagazine: 8
     currentAmmo: 0
-    maxAmmo: 300
+    maxAmmo: 30
     attackRate: 0.1
     attackDistance: 500
     isAutomaticAttack: 1
+  imageAim: {fileID: 1376244422}
   spread_radius: 0.008
   pointPrefab: {fileID: 5888483103660176862, guid: 8a8f49940b3d86a408abf72e2012767b, type: 3}
   aimImage: {fileID: 1376244422}
