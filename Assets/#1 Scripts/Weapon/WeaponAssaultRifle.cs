@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Mathematics.Geometry;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> { }
@@ -40,9 +41,11 @@ public class WeaponAssaultRifle : MonoBehaviour
 
     private float lastAttackTime = 0; // 마지막 발사 시간 체크
     private bool isReload = false;
-
-    //private float spread_coefficient = 1f;
-    private float spread_radius = 0.025f;
+    public float spread_radius = 0.025f;
+    public GameObject pointPrefab;
+    public Image aimImage;
+    public Canvas canvas;
+    public float aimSize = 0.75f;
 
     private AudioSource audioSource;
     private PlayerAnimateController animator;
@@ -69,6 +72,12 @@ public class WeaponAssaultRifle : MonoBehaviour
         weaponSet.currentAmmo = weaponSet.maxAmmo;
     }
 
+    private void Start()
+    {
+        // 초기 에임 이미지 크기 설정
+        AdjustAimImageSize();
+    }
+    
     private void OnEnable()
     {
         // 무기 장착 사운드
@@ -233,7 +242,6 @@ public class WeaponAssaultRifle : MonoBehaviour
             impactMemoryPool.SpawnImpact(hit, attakDirection);
         }
         Debug.DrawRay(bulletSpawnPoint.position, attakDirection*weaponSet.attackDistance, Color.blue);
-
     }
 
     private Ray Spread_Ray()
@@ -245,11 +253,114 @@ public class WeaponAssaultRifle : MonoBehaviour
         
         //좌표로 만들기
         Vector3 random_Point = new Vector3(random_Radius * Mathf.Cos(random_AngleRad),random_Radius * Mathf.Sin(random_AngleRad),0f);
-        Vector3 random_Point_Normal = random_Point / Camera.main.aspect;
-        Vector3 randomViewportPoint = new Vector3(0.5f, 0.5f, 0f) + random_Point_Normal;
+        float aspect = mainCamera.aspect; // 가로/세로 비율
+        Vector3 random_Point_Adjusted = new Vector3(
+            random_Point.x, // x는 그대로
+            random_Point.y * aspect, // y를 화면비율로 나눠 원형 유지
+            0f
+        );
+        Vector3 randomViewportPoint = new Vector3(0.5f, 0.5f, 0f) + random_Point_Adjusted;
+        
+        if (pointPrefab != null && canvas != null)
+        {
+            // 뷰포트 좌표를 화면 좌표로 변환
+            Vector2 screenPoint = new Vector2(
+                randomViewportPoint.x * Screen.width,
+                randomViewportPoint.y * Screen.height
+            );
+            Debug.Log($"Screen Point: {screenPoint}");
+
+            // 화면 좌표를 캔버스 로컬 좌표로 변환
+            RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+            Vector2 canvasPoint;
+            bool converted = RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvasRect,
+                screenPoint,
+                canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : mainCamera,
+                out canvasPoint
+            );
+
+            if (converted)
+            {
+                Debug.Log($"Canvas Point: {canvasPoint}");
+
+                // UI 점 생성
+                GameObject point = Instantiate(pointPrefab, canvas.transform);
+                RectTransform pointRect = point.GetComponent<RectTransform>();
+                
+                // 앵커를 캔버스 중앙으로 설정하지 않고 직접 위치 지정
+                pointRect.anchorMin = new Vector2(0.5f, 0.5f);
+                pointRect.anchorMax = new Vector2(0.5f, 0.5f);
+                pointRect.pivot = new Vector2(0.5f, 0.5f);
+                pointRect.anchoredPosition = canvasPoint;
+
+                Destroy(point, 10f); // 5초 후 삭제
+            }
+            else
+            {
+                Debug.LogWarning("Failed to convert screen point to canvas point.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("pointPrefab or canvas is not assigned.");
+        }
         
         Ray ray = mainCamera.ViewportPointToRay(randomViewportPoint);
         
         return ray;
     } 
+    
+    // 에임 이미지 크기를 조절하는 메서드
+    private void AdjustAimImageSize()
+    {
+        if (aimImage == null || canvas == null) return;
+
+        // 최대 반지름(spread_radius)에 해당하는 뷰포트 좌표 생성 (x축 기준)
+        Vector3 maxRadiusViewportPoint = new Vector3(0.5f + spread_radius * mainCamera.aspect, 0.5f, 0f);
+        Vector3 centerViewportPoint = new Vector3(0.5f, 0.5f, 0f);
+
+        // 뷰포트 좌표를 화면 좌표로 변환
+        Vector2 maxRadiusScreenPoint = new Vector2(maxRadiusViewportPoint.x * Screen.width, maxRadiusViewportPoint.y * Screen.height);
+        Vector2 centerScreenPoint = new Vector2(centerViewportPoint.x * Screen.width, centerViewportPoint.y * Screen.height);
+
+        // 화면 좌표를 캔버스 로컬 좌표로 변환
+        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+        Vector2 maxRadiusCanvasPoint, centerCanvasPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvasRect,
+            maxRadiusScreenPoint,
+            canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : mainCamera,
+            out maxRadiusCanvasPoint
+        );
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvasRect,
+            centerScreenPoint,
+            canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : mainCamera,
+            out centerCanvasPoint
+        );
+
+        // 캔버스 스케일링 보정
+        CanvasScaler scaler = canvas.GetComponent<CanvasScaler>();
+        if (scaler != null && scaler.referenceResolution != Vector2.zero)
+        {
+            float scaleFactor = scaler.referenceResolution.y / Screen.height;
+            maxRadiusCanvasPoint *= scaleFactor;
+            centerCanvasPoint *= scaleFactor;
+        }
+
+        // 캔버스 상의 반지름 계산 (x축 기준)
+        float canvasRadius = Mathf.Abs(maxRadiusCanvasPoint.x - centerCanvasPoint.x);
+        Debug.Log($"Canvas Radius: {canvasRadius}");
+
+        // 에임 이미지 크기 조절 (원의 지름 = 반지름 * 2)
+        RectTransform aimRect = aimImage.GetComponent<RectTransform>();
+        aimRect.sizeDelta = new Vector2(canvasRadius * aimSize, canvasRadius * aimSize);
+    }
+
+    // 화면 크기 변경 시 호출 (옵션)
+    private void OnRectTransformDimensionsChange()
+    {
+        AdjustAimImageSize();
+    }
 }
