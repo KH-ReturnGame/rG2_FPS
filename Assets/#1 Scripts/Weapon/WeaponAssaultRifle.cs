@@ -45,9 +45,10 @@ public class WeaponAssaultRifle : MonoBehaviour
 
     private float lastAttackTime = 0; // 마지막 발사 시간 체크
     private bool isReload = false;
-    public float spread_radius = 0.025f;
+    private float spread_radius = 0.008f;
+    public float spread_Aimmod1_radius = 0.008f;
+    public float spread_Aimmod2_radius = 0.001f;
     public GameObject pointPrefab;
-    public Image aimImage;
     public Canvas canvas;
     public float aimSize = 0.75f;
     private bool isAttak = false;
@@ -153,7 +154,7 @@ public class WeaponAssaultRifle : MonoBehaviour
 
     public void StartReload()
     {
-        if(isReload || weaponSet.currentMagazine <= 0) return; //현재 재장전 중이면 꺼지셈
+        if(isReload || weaponSet.currentMagazine <= 0 || animator.AimModeIs) return; //현재 재장전 중이면 꺼지셈
         StopWeaponAction(); //무기 액션 도중 재장전 시도하면 무기 액션 종료하고 재장전
         StartCoroutine("OnReload");
     }
@@ -287,11 +288,6 @@ public class WeaponAssaultRifle : MonoBehaviour
         );
         Vector3 randomViewportPoint = new Vector3(0.5f, 0.5f, 0f) + random_Point_Adjusted;
         
-        if (animator.AimModeIs)
-        {
-            randomViewportPoint = new Vector3(0.5f, 0.5f, 0f);
-        }
-        
         if (pointPrefab != null && canvas != null)
         {
             // 뷰포트 좌표를 화면 좌표로 변환
@@ -325,7 +321,7 @@ public class WeaponAssaultRifle : MonoBehaviour
                 pointRect.pivot = new Vector2(0.5f, 0.5f);
                 pointRect.anchoredPosition = canvasPoint;
 
-                Destroy(point, 5f); // 5초 후 삭제
+                Destroy(point, 1f); // 5초 후 삭제
             }
             else
             {
@@ -345,7 +341,7 @@ public class WeaponAssaultRifle : MonoBehaviour
     // 에임 이미지 크기를 조절하는 메서드
     private void AdjustAimImageSize()
     {
-        if (aimImage == null || canvas == null) return;
+        if (imageAim == null || canvas == null) return;
 
         // 최대 반지름(spread_radius)에 해당하는 뷰포트 좌표 생성 (x축 기준)
         Vector3 maxRadiusViewportPoint = new Vector3(0.5f + spread_radius * mainCamera.aspect, 0.5f, 0f);
@@ -385,7 +381,7 @@ public class WeaponAssaultRifle : MonoBehaviour
         Debug.Log($"Canvas Radius: {canvasRadius}");
 
         // 에임 이미지 크기 조절 (원의 지름 = 반지름 * 2)
-        RectTransform aimRect = aimImage.GetComponent<RectTransform>();
+        RectTransform aimRect = imageAim.GetComponent<RectTransform>();
         aimRect.sizeDelta = new Vector2(canvasRadius * aimSize, canvasRadius * aimSize);
     }
 
@@ -399,10 +395,13 @@ public class WeaponAssaultRifle : MonoBehaviour
     {
         float current = 0;
         float percent = 0;
-        float time = 0.35f;
+        float time = 0.1f;
+        
+        spread_radius = animator.AimModeIs?spread_Aimmod1_radius : spread_Aimmod2_radius;
+        AdjustAimImageSize();
 
         animator.AimModeIs = !animator.AimModeIs;
-        imageAim.enabled = !imageAim.enabled;
+        //imageAim.enabled = !imageAim.enabled;
 
         float start = mainCamera.fieldOfView;
         float end = animator.AimModeIs == true ? aimModeFOV : defaultModeFOV;
@@ -419,7 +418,7 @@ public class WeaponAssaultRifle : MonoBehaviour
 
             yield return null;
         }
-
+        
         isModeChange = false;
     }
 

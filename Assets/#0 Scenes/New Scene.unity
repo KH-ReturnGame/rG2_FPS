@@ -11579,9 +11579,9 @@ MonoBehaviour:
     attackDistance: 500
     isAutomaticAttack: 1
   imageAim: {fileID: 1376244422}
-  spread_radius: 0.008
+  spread_Aimmod1_radius: 0.008
+  spread_Aimmod2_radius: 0.003
   pointPrefab: {fileID: 5888483103660176862, guid: 8a8f49940b3d86a408abf72e2012767b, type: 3}
-  aimImage: {fileID: 1376244422}
   canvas: {fileID: 197921755}
   aimSize: 1.3
 --- !u!114 &324797517
@@ -42025,7 +42025,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1376244421
 RectTransform:
   m_ObjectHideFlags: 0
@@ -56267,8 +56267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b3f62215cd04b044af79e1a5a3cfccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotCamXAxisSpeed: 5
-  rotCamYAxisSpeed: 3
+  rotCamXAxisSpeed: 1
+  rotCamYAxisSpeed: 1
 --- !u!114 &1681413248
 MonoBehaviour:
   m_ObjectHideFlags: 0
