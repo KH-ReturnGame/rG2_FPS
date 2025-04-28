@@ -55,6 +55,11 @@ public class WeaponAssaultRifle : MonoBehaviour
     private bool isModeChange = false;
     private float defaultModeFOV = 60;
     private float aimModeFOV = 30;
+    public float recoil_X = 10;
+    public float recoilReturnTime = 0.1f;
+    private float recoilOffset = 0f;
+    private float recoilVelocity = 0f;    // SmoothDamp용 내부 변수
+    Vector3 baseCamEuler;
     
     private AudioSource audioSource;
     private PlayerAnimateController animator;
@@ -193,12 +198,30 @@ public class WeaponAssaultRifle : MonoBehaviour
             // animator.Play("Fire", -1, 0); // 무기 애니메이션
             string animation = animator.AimModeIs == true ? "AimFire" : "Fire";
             animator.Play(animation, -1, 0);
+            
             if ( animator.AimModeIs == false) StartCoroutine("OnMuzzleFlashEffect");// 총구 이펙트
             PlaySound(audioClipFire); // 총기 발사음
             casingMemoryPool.SpawnCasing(casingSpawnPoint.position, transform.right); //탄피 생성
 
             TwoStepRaycast();//광선 발사해 원하는 위치 공격
+            //반동 구현
+            recoilOffset += recoil_X;
         }
+    }
+
+    private void LateUpdate()
+    {
+        // 1) recoilOffset → 0 으로 부드럽게 보간
+        recoilOffset = Mathf.SmoothDamp(
+            recoilOffset,           // 현재 반동량
+            0f,                     // 목표 반동량
+            ref recoilVelocity,     // 속도(내부)
+            recoilReturnTime        // 감쇠 시간
+        );
+        // 2) 카메라 회전에 반영
+        Vector3 e = baseCamEuler;
+        e.x -= recoilOffset;
+        mainCamera.transform.localEulerAngles = e;
     }
 
     public IEnumerator OnMuzzleFlashEffect()
