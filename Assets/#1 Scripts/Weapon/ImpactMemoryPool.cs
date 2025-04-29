@@ -16,15 +16,15 @@ public class ImpactMemoryPool : MonoBehaviour
         }
     }
 
-    public void SpawnImpact(RaycastHit hit)
+    public void SpawnImpact(RaycastHit hit, Vector3 rayDirection)
     {
         if (hit.transform.CompareTag("ImpactNormal"))
         {
-            OnSpawnImpact(ImpactType.Normal, hit.point, Quaternion.LookRotation(hit.normal));
+            OnSpawnImpact(ImpactType.Normal, hit.point, Quaternion.LookRotation(-rayDirection));
         }
         else if (hit.transform.CompareTag("ImpactObstacle"))
         {
-            OnSpawnImpact(ImpactType.Obstacle, hit.point, Quaternion.LookRotation(hit.normal));
+            OnSpawnImpact(ImpactType.Obstacle, hit.point, Quaternion.LookRotation(-rayDirection));
         }
     }
 

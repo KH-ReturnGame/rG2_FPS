@@ -116,7 +116,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0
   m_HasExitTime: 1
@@ -157,7 +157,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: aim_out@assault_rifle_01
-  m_Speed: 1
+  m_Speed: 3.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 763445727774047911}
@@ -237,7 +237,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0
   m_HasExitTime: 0
@@ -302,7 +302,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0.7877359
   m_HasExitTime: 0
@@ -324,7 +324,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0.31818187
   m_HasExitTime: 1
@@ -349,7 +349,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0.16666669
   m_HasExitTime: 0
@@ -492,7 +492,7 @@ AnimatorStateMachine:
     m_Position: {x: 580, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2729702430095179121}
-    m_Position: {x: 870, y: 0, z: 0}
+    m_Position: {x: 880, y: 0, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -511,7 +511,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: aim_in@assault_rifle_01
-  m_Speed: 1
+  m_Speed: 3.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -1093935156975540719}

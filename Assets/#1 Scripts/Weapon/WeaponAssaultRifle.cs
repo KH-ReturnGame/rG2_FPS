@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Mathematics.Geometry;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,7 +45,7 @@ public class WeaponAssaultRifle : MonoBehaviour
 
     /*private float lastAttackTime = 0; // 마지막 발사 시간 체크
     private bool isReload = false;
-    private bool isAttak = false;*/
+    private bool isAttak = false;
     private bool isModeChange = false;
     private float defaultModeFOV = 60;
     private float aimModeFOV = 30;
@@ -52,6 +53,25 @@ public class WeaponAssaultRifle : MonoBehaviour
 
     /*private AudioSource audioSource;
     private PlayerAnimateController animator;*/
+
+    private float spread_radius = 0.008f;
+    public float spread_Aimmod1_radius = 0.008f;
+    public float spread_Aimmod2_radius = 0.001f;
+    public GameObject pointPrefab;
+    public Canvas canvas;
+    public float aimSize = 0.75f;
+    private bool isAttak = false;
+    private bool isModeChange = false;
+    private float defaultModeFOV = 60;
+    private float aimModeFOV = 30;
+    public float recoil_X = 10;
+    public float recoilReturnTime = 0.1f;
+    private float recoilOffset = 0f;
+    private float recoilVelocity = 0f;    // SmoothDamp용 내부 변수
+    Vector3 baseCamEuler;
+    
+    private AudioSource audioSource;
+    private PlayerAnimateController animator;
     private CasingMemoryPool casingMemoryPool;
     private ImpactMemoryPool impactMemoryPool; // 공격 효과 생성 후 활성/ 비활성 관리
     private Camera mainCamera;                 // 광선 발사
@@ -75,6 +95,12 @@ public class WeaponAssaultRifle : MonoBehaviour
         weaponSet.currentAmmo = weaponSet.maxAmmo;
     }
 
+    private void Start()
+    {
+        // 초기 에임 이미지 크기 설정
+        AdjustAimImageSize();
+    }
+    
     private void OnEnable()
     {
         // 무기 장착 사운드
@@ -142,7 +168,7 @@ public class WeaponAssaultRifle : MonoBehaviour
 
     public void StartReload()
     {
-        if(isReload || weaponSet.currentMagazine <= 0) return; //현재 재장전 중이면 꺼지셈
+        if(isReload || weaponSet.currentMagazine <= 0 || animator.AimModeIs) return; //현재 재장전 중이면 꺼지셈
         StopWeaponAction(); //무기 액션 도중 재장전 시도하면 무기 액션 종료하고 재장전
         StartCoroutine("OnReload");
     }
@@ -181,12 +207,30 @@ public class WeaponAssaultRifle : MonoBehaviour
             // animator.Play("Fire", -1, 0); // 무기 애니메이션
             string animation = animator.AimModeIs == true ? "AimFire" : "Fire";
             animator.Play(animation, -1, 0);
+            
             if ( animator.AimModeIs == false) StartCoroutine("OnMuzzleFlashEffect");// 총구 이펙트
             PlaySound(audioClipFire); // 총기 발사음
             casingMemoryPool.SpawnCasing(casingSpawnPoint.position, transform.right); //탄피 생성
 
             TwoStepRaycast();//광선 발사해 원하는 위치 공격
+            //반동 구현
+            recoilOffset += recoil_X;
         }
+    }
+
+    private void LateUpdate()
+    {
+        // 1) recoilOffset → 0 으로 부드럽게 보간
+        recoilOffset = Mathf.SmoothDamp(
+            recoilOffset,           // 현재 반동량
+            0f,                     // 목표 반동량
+            ref recoilVelocity,     // 속도(내부)
+            recoilReturnTime        // 감쇠 시간
+        );
+        // 2) 카메라 회전에 반영
+        Vector3 e = baseCamEuler;
+        e.x -= recoilOffset;
+        mainCamera.transform.localEulerAngles = e;
     }
 
     public IEnumerator OnMuzzleFlashEffect()
@@ -235,7 +279,9 @@ public class WeaponAssaultRifle : MonoBehaviour
         Vector3 targetPoint = Vector3.zero;
 
         // 화면의 중앙 좌표
-        ray = mainCamera.ViewportPointToRay(Vector3.one * 0.5f);
+        ray = Spread_Ray();
+        
+        
         // 공격 사거리 안에 부딪히는 오브젝트 -> targetpoint는 ㅂ광선에 부딪힌 위치
         if (Physics.Raycast(ray,out hit, weaponSet.attackDistance))
         {
@@ -252,20 +298,142 @@ public class WeaponAssaultRifle : MonoBehaviour
         Vector3 attakDirection = (targetPoint - bulletSpawnPoint.position).normalized;
         if (Physics.Raycast(bulletSpawnPoint.position, attakDirection, out hit, weaponSet.attackDistance))
         {
-            impactMemoryPool.SpawnImpact(hit);
+            impactMemoryPool.SpawnImpact(hit, attakDirection);
         }
         Debug.DrawRay(bulletSpawnPoint.position, attakDirection*weaponSet.attackDistance, Color.blue);
+    }
 
+    private Ray Spread_Ray()
+    {
+        //랜덤 생성
+        float random_Radius = Random.Range(0, spread_radius);
+        float random_Angle = Random.Range(0, 359);
+        float random_AngleRad = random_Angle * Mathf.Deg2Rad;
+        
+        //좌표로 만들기
+        Vector3 random_Point = new Vector3(random_Radius * Mathf.Cos(random_AngleRad),random_Radius * Mathf.Sin(random_AngleRad),0f);
+        float aspect = mainCamera.aspect; // 가로/세로 비율
+        Vector3 random_Point_Adjusted = new Vector3(
+            random_Point.x, // x는 그대로
+            random_Point.y * aspect, // y를 화면비율로 나눠 원형 유지
+            0f
+        );
+        Vector3 randomViewportPoint = new Vector3(0.5f, 0.5f, 0f) + random_Point_Adjusted;
+        
+        if (pointPrefab != null && canvas != null)
+        {
+            // 뷰포트 좌표를 화면 좌표로 변환
+            Vector2 screenPoint = new Vector2(
+                randomViewportPoint.x * Screen.width,
+                randomViewportPoint.y * Screen.height
+            );
+            Debug.Log($"Screen Point: {screenPoint}");
+
+            // 화면 좌표를 캔버스 로컬 좌표로 변환
+            RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+            Vector2 canvasPoint;
+            bool converted = RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvasRect,
+                screenPoint,
+                canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : mainCamera,
+                out canvasPoint
+            );
+
+            if (converted)
+            {
+                Debug.Log($"Canvas Point: {canvasPoint}");
+
+                // UI 점 생성
+                GameObject point = Instantiate(pointPrefab, canvas.transform);
+                RectTransform pointRect = point.GetComponent<RectTransform>();
+                
+                // 앵커를 캔버스 중앙으로 설정하지 않고 직접 위치 지정
+                pointRect.anchorMin = new Vector2(0.5f, 0.5f);
+                pointRect.anchorMax = new Vector2(0.5f, 0.5f);
+                pointRect.pivot = new Vector2(0.5f, 0.5f);
+                pointRect.anchoredPosition = canvasPoint;
+
+                Destroy(point, 1f); // 5초 후 삭제
+            }
+            else
+            {
+                Debug.LogWarning("Failed to convert screen point to canvas point.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("pointPrefab or canvas is not assigned.");
+        }
+        
+        Ray ray = mainCamera.ViewportPointToRay(randomViewportPoint);
+        
+        return ray;
+    } 
+    
+    // 에임 이미지 크기를 조절하는 메서드
+    private void AdjustAimImageSize()
+    {
+        if (imageAim == null || canvas == null) return;
+
+        // 최대 반지름(spread_radius)에 해당하는 뷰포트 좌표 생성 (x축 기준)
+        Vector3 maxRadiusViewportPoint = new Vector3(0.5f + spread_radius * mainCamera.aspect, 0.5f, 0f);
+        Vector3 centerViewportPoint = new Vector3(0.5f, 0.5f, 0f);
+
+        // 뷰포트 좌표를 화면 좌표로 변환
+        Vector2 maxRadiusScreenPoint = new Vector2(maxRadiusViewportPoint.x * Screen.width, maxRadiusViewportPoint.y * Screen.height);
+        Vector2 centerScreenPoint = new Vector2(centerViewportPoint.x * Screen.width, centerViewportPoint.y * Screen.height);
+
+        // 화면 좌표를 캔버스 로컬 좌표로 변환
+        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+        Vector2 maxRadiusCanvasPoint, centerCanvasPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvasRect,
+            maxRadiusScreenPoint,
+            canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : mainCamera,
+            out maxRadiusCanvasPoint
+        );
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvasRect,
+            centerScreenPoint,
+            canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : mainCamera,
+            out centerCanvasPoint
+        );
+
+        // 캔버스 스케일링 보정
+        CanvasScaler scaler = canvas.GetComponent<CanvasScaler>();
+        if (scaler != null && scaler.referenceResolution != Vector2.zero)
+        {
+            float scaleFactor = scaler.referenceResolution.y / Screen.height;
+            maxRadiusCanvasPoint *= scaleFactor;
+            centerCanvasPoint *= scaleFactor;
+        }
+
+        // 캔버스 상의 반지름 계산 (x축 기준)
+        float canvasRadius = Mathf.Abs(maxRadiusCanvasPoint.x - centerCanvasPoint.x);
+        Debug.Log($"Canvas Radius: {canvasRadius}");
+
+        // 에임 이미지 크기 조절 (원의 지름 = 반지름 * 2)
+        RectTransform aimRect = imageAim.GetComponent<RectTransform>();
+        aimRect.sizeDelta = new Vector2(canvasRadius * aimSize, canvasRadius * aimSize);
+    }
+
+    // 화면 크기 변경 시 호출 (옵션)
+    private void OnRectTransformDimensionsChange()
+    {
+        AdjustAimImageSize();
     }
 
     private IEnumerator OnModeChange()
     {
         float current = 0;
         float percent = 0;
-        float time = 0.35f;
+        float time = 0.1f;
+        
+        spread_radius = animator.AimModeIs?spread_Aimmod1_radius : spread_Aimmod2_radius;
+        AdjustAimImageSize();
 
         animator.AimModeIs = !animator.AimModeIs;
-        imageAim.enabled = !imageAim.enabled;
+        //imageAim.enabled = !imageAim.enabled;
 
         float start = mainCamera.fieldOfView;
         float end = animator.AimModeIs == true ? aimModeFOV : defaultModeFOV;
@@ -282,7 +450,7 @@ public class WeaponAssaultRifle : MonoBehaviour
 
             yield return null;
         }
-
+        
         isModeChange = false;
     }
 
