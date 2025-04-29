@@ -8,46 +8,44 @@ public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> { }
 [System.Serializable]
 public class MagazineEvent : UnityEngine.Events.UnityEvent<int> { }
 
-public class WeaponBase : MonoBehaviour
+public abstract class WeaponBase : MonoBehaviour
 {
+    [Header("WeaponBase")]
+    [SerializeField]
+    protected WeaponType waeponType; // 무기 종류
+    [SerializeField] 
+    protected WeaponSet weaponSet;
+
+    protected float lastAttackTime = 0; // 마지막 발사 시간
+    protected bool isReload = false;
+    protected bool isAttack = false;
+    protected AudioSource audioSource;
+    protected PlayerAnimateController animator;
+
     [HideInInspector]
     public AmmoEvent onAmmoEvent = new AmmoEvent();
     [HideInInspector]
     public MagazineEvent onMagazineEvent = new MagazineEvent();
 
-    [Header("Weapon Setting")]
-    [SerializeField]
-    private WeaponSet weaponSet; // 무기 설정
+    public PlayerAnimateController Animator => animator;
+    public WeaponName WeaponName => weaponSet.weaponName;
+    public int CurrentMagazine => weaponSet.currentMagazine;
+    public int MaxMagazine => weaponSet.maxMagazine;
 
-    private float lastAttackTime = 0; // 마지막 발사 시간 체크
-    private bool isReload = false;
-    private bool isAttak = false;
-        private AudioSource audioSource;
-    private PlayerAnimateController animator;
-
+    public abstract void StartWeaponAction(int type = 0);
+    public abstract void StopWeaponAction(int type = 0);
+    public abstract void StartReload();
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected void PlaySound(AudioClip clip)
     {
-        
+        audioSource.Stop();
+        audioSource.clip = clip;
+        audioSource.Play();
     }
-
-    // Update is called once per frame
-    void Update()
+    protected void Setup()
     {
-        
+        audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<PlayerAnimateController>();
     }
 }

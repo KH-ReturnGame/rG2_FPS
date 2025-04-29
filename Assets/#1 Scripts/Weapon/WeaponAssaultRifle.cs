@@ -3,19 +3,9 @@ using Unity.Mathematics.Geometry;
 using UnityEngine;
 using UnityEngine.UI;
 
-/*System.Serializable]
-public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> { }
-[System.Serializable]
-public class MagazineEvent : UnityEngine.Events.UnityEvent<int> { }*/
 
-
-public class WeaponAssaultRifle : MonoBehaviour
+public class WeaponAssaultRifle : WeaponBase
 {
-   /* [HideInInspector]
-    public AmmoEvent onAmmoEvent = new AmmoEvent();
-    [HideInInspector]
-    public MagazineEvent onMagazineEvent = new MagazineEvent();
-*/
     [Header("Fire Effects")]
     [SerializeField]
     private GameObject muzzleFlashEffect;   // 총기 이펙트 on / off
@@ -34,25 +24,9 @@ public class WeaponAssaultRifle : MonoBehaviour
     [SerializeField]
     private AudioClip audioClipReload;   // 재장전 사운드
 
-
-    /*[Header("Weapon Setting")]
-    [SerializeField]
-    private WeaponSet weaponSet; // 무기 설정*/
-
     [Header("Aim UI")]
     [SerializeField]
     private Image imageAim;
-
-    /*private float lastAttackTime = 0; // 마지막 발사 시간 체크
-    private bool isReload = false;
-    private bool isAttak = false;
-    private bool isModeChange = false;
-    private float defaultModeFOV = 60;
-    private float aimModeFOV = 30;
-
-
-    /*private AudioSource audioSource;
-    private PlayerAnimateController animator;*/
 
     private float spread_radius = 0.008f;
     public float spread_Aimmod1_radius = 0.008f;
@@ -70,21 +44,15 @@ public class WeaponAssaultRifle : MonoBehaviour
     private float recoilVelocity = 0f;    // SmoothDamp용 내부 변수
     Vector3 baseCamEuler;
     
-    private AudioSource audioSource;
-    private PlayerAnimateController animator;
+
     private CasingMemoryPool casingMemoryPool;
     private ImpactMemoryPool impactMemoryPool; // 공격 효과 생성 후 활성/ 비활성 관리
     private Camera mainCamera;                 // 광선 발사
 
-    //외부에서 열람 가능한 Get 프로퍼티
-    public WeaponName WeaponName => weaponSet.weaponName;
-    public int CurrentMagazine => weaponSet.currentMagazine;
-    public int MaxMagazine => weaponSet.maxMagazine;
-    
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
-        animator = GetComponentInParent<PlayerAnimateController>();
+        base.Setup();
+
         casingMemoryPool = GetComponent<CasingMemoryPool>();
         impactMemoryPool = GetComponent<ImpactMemoryPool>();
         mainCamera = Camera.main;
@@ -116,14 +84,9 @@ public class WeaponAssaultRifle : MonoBehaviour
         ResetVariables();
     }
 
-    private void PlaySound(AudioClip clip) // 기존 사운드 정지 후, 사운드 clip 교체후 재생
-    {
-        audioSource.Stop();         // 
-        audioSource.clip = clip;
-        audioSource.Play();
-    }
+    
 
-    public void StartWeaponAction(int type = 0)
+    public override void StartWeaponAction(int type = 0)
     {
         //재장전 중일 때는 무기 액션 ㄴㄴ
         if(isReload) return;
@@ -157,7 +120,7 @@ public class WeaponAssaultRifle : MonoBehaviour
         
     }
 
-    public void StopWeaponAction(int type = 0)
+    public override void StopWeaponAction(int type = 0)
     {
         if(type == 0)
         {
@@ -166,7 +129,7 @@ public class WeaponAssaultRifle : MonoBehaviour
         }
     }
 
-    public void StartReload()
+    public override void StartReload()
     {
         if(isReload || weaponSet.currentMagazine <= 0 || animator.AimModeIs) return; //현재 재장전 중이면 꺼지셈
         StopWeaponAction(); //무기 액션 도중 재장전 시도하면 무기 액션 종료하고 재장전
