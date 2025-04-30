@@ -33,9 +33,9 @@ public class Player : MonoBehaviour
     private RotateToMouse rotateToMouse;    // 마우스 이동으로 카메라 회전
     private PlayerMovement movement;    // 키보드 입력으로 플레이어 이동, 점프
     private PlayerStatus status;        // 플레이어 정보
-    private PlayerAnimateController animator; // 애니메이션 재생 제어
     private AudioSource audioSource;
-    private WeaponAssaultRifle weapon;
+    private WeaponBase weapon;
+
 
 
 
@@ -59,9 +59,7 @@ public class Player : MonoBehaviour
         rotateToMouse = GetComponent<RotateToMouse>();
         movement = GetComponent<PlayerMovement>();
         status = GetComponent<PlayerStatus>();
-        animator = GetComponent<PlayerAnimateController>();
         audioSource = GetComponent<AudioSource>();
-        weapon = GetComponentInChildren<WeaponAssaultRifle>();
     }
     public void Update()
     {
@@ -117,7 +115,7 @@ public class Player : MonoBehaviour
             if (z > 0) isRun = Input.GetKey(keyCodeRun);
 
             movement.MoveSpeed = isRun == true ? status.RunSpeed : status.WalkSpeed;
-            animator.MoveSpeed = isRun == true ? 1 : 0.5f;
+            weapon.Animator.MoveSpeed = isRun == true ? 1 : 0.5f;
             audioSource.clip = isRun == true ? audioClipRun : audioClipWalk;
 
             // 오디오가 재생 중이 아닐 때만 재생
@@ -131,7 +129,7 @@ public class Player : MonoBehaviour
         else
         {
             movement.MoveSpeed = 0;
-            animator.MoveSpeed = 0;
+            weapon.Animator.MoveSpeed = 0;
 
             if (audioSource.isPlaying == true) // 사운드 재생 중이면 정지
             {
@@ -174,6 +172,11 @@ public class Player : MonoBehaviour
         {
             weapon.StartReload();
         }
+    }
+
+    public void SwitchingWeapon(WeaponBase newWeapon)
+    {
+        weapon = newWeapon;
     }
 }
 

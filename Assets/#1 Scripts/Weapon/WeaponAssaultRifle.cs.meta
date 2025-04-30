@@ -1,2 +1,20 @@
 fileFormatVersion: 2
 guid: ab5f65e7c2f2be242b680b20b371762c
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - muzzleFlashEffect: {instanceID: 0}
+  - casingSpawnPoint: {instanceID: 0}
+  - bulletSpawnPoint: {instanceID: 0}
+  - audioClipTakeOutWeapon: {instanceID: 0}
+  - audioClipFire: {instanceID: 0}
+  - audioClipReload: {instanceID: 0}
+  - imageAim: {instanceID: 0}
+  - pointPrefab: {instanceID: 0}
+  - canvas: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
