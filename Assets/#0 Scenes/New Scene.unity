@@ -3024,11 +3024,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 324797515}
+  status: {fileID: 0}
   textWeaponName: {fileID: 944746456}
-  imageWeapon: {fileID: 556847028}
+  imageWeaponIcon: {fileID: 0}
   spriteWeaponIcons:
   - {fileID: 21300044, guid: 5acb27b603af6d44ea6113c4b7b15385, type: 3}
   textAmmo: {fileID: 501664307}
+  textHP: {fileID: 336510239}
+  imageBloodScreen: {fileID: 33406026}
+  curveBloodScreen:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &1866892421
 Transform:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public class TransformMovement : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("?ASDDSASDAD");
+   
         transform.position += moveDirection * moveSpeed * Time.deltaTime;
     }
 

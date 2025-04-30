@@ -26,15 +26,18 @@ public class EnemyFSM : MonoBehaviour
     private float lastAttackTime = 0;
 
     private Transform target;
+    
+    private EnemyMemoryPool enemyMemoryPool;
 
     private PlayerStatus PlayerStatus;
     private NavMeshAgent navMeshAgent;
 
-    public void Setup(Transform target)
+    public void Setup(Transform target, EnemyMemoryPool enemyMemoryPool)
     {
         PlayerStatus = GetComponent<PlayerStatus>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         this.target = target;
+        this.enemyMemoryPool = enemyMemoryPool;
 
         navMeshAgent.updateRotation = false;
     }
@@ -216,5 +219,15 @@ public class EnemyFSM : MonoBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
+     public void TakeDamage(int damage)
+    {
+        bool isDead =  PlayerStatus.DecreaseHP(damage);
+
+        if ( isDead == true )
+        {
+            enemyMemoryPool.DeactivateEnemy(gameObject);
+        }
     }
 }

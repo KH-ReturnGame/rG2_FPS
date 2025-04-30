@@ -5,6 +5,7 @@ public class EnemyProjectile : MonoBehaviour
 {
     private TransformMovement movement;
     private float projectileDistance = 30;
+    private int damage = 5;
 
     public void Setup(Vector3 position)
     {
@@ -33,7 +34,8 @@ public class EnemyProjectile : MonoBehaviour
 {
     if (other.CompareTag("Player"))
     {
-        Debug.Log("크악 맞앗다니");
+        other.GetComponent<Player>().TakeDamage(damage);
+      
         Destroy(gameObject);
     }
 }

@@ -159,5 +159,15 @@ public class Player : MonoBehaviour
             weapon.StopWeaponAction();
         }
     }
+
+    public void TakeDamage(int damage)
+    {
+        bool isDead =  status.DecreaseHP(damage);
+
+        if ( isDead == true )
+        {
+            Debug.Log("GameOver");
+        }
+    }
 }
 
