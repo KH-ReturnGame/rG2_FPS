@@ -42,6 +42,7 @@ public class WeaponAssaultRifle : WeaponBase
     public float recoilReturnTime = 0.1f;
     private float recoilOffset = 0f;
     private float recoilVelocity = 0f;    // SmoothDamp용 내부 변수
+    public GameObject weapons;
     Vector3 baseCamEuler;
     
 
@@ -183,17 +184,21 @@ public class WeaponAssaultRifle : WeaponBase
 
     private void LateUpdate()
     {
-        // 1) recoilOffset → 0 으로 부드럽게 보간
-        recoilOffset = Mathf.SmoothDamp(
-            recoilOffset,           // 현재 반동량
-            0f,                     // 목표 반동량
-            ref recoilVelocity,     // 속도(내부)
-            recoilReturnTime        // 감쇠 시간
-        );
+        if (!isAttak || weaponSet.currentAmmo <= 0)
+        {
+            recoilOffset = Mathf.SmoothDamp(
+                recoilOffset,           // 현재 반동량
+                0f,                     // 목표 반동량
+                ref recoilVelocity,     // 속도(내부)
+                recoilReturnTime        // 속도(내부)
+            );
+        }
+
         // 2) 카메라 회전에 반영
         Vector3 e = baseCamEuler;
         e.x -= recoilOffset;
         mainCamera.transform.localEulerAngles = e;
+        weapons.transform.localEulerAngles = e;
     }
 
     public IEnumerator OnMuzzleFlashEffect()
