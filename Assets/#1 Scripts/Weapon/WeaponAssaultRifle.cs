@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Mathematics.Geometry;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,6 +42,8 @@ public class WeaponAssaultRifle : WeaponBase
     public float recoil_X = 10;
     public float recoilReturnTime = 0.1f;
     private float recoilOffset = 0f;
+    private float offset = 0;
+    private bool recoilbool = false;
     private float recoilVelocity = 0f;    // SmoothDamp용 내부 변수
     public GameObject weapons;
     Vector3 baseCamEuler;
@@ -184,19 +187,17 @@ public class WeaponAssaultRifle : WeaponBase
 
     private void LateUpdate()
     {
-        if (!isAttak || weaponSet.currentAmmo <= 0)
-        {
-            recoilOffset = Mathf.SmoothDamp(
-                recoilOffset,           // 현재 반동량
-                0f,                     // 목표 반동량
-                ref recoilVelocity,     // 속도(내부)
-                recoilReturnTime        // 속도(내부)
-            );
-        }
+        // Determine target recoil offset: full recoil when firing, 2/3 recoil when stopping
+        float targetOffset = (isAttak && weaponSet.currentAmmo > 0)
+            ? recoilOffset
+            : recoilOffset * 2f / 3f;
 
-        // 2) 카메라 회전에 반영
+        // Smoothly move current offset toward target
+        offset = Mathf.SmoothDamp(offset, targetOffset, ref recoilVelocity, recoilReturnTime);
+
+        // Apply recoil to camera and weapon rotation
         Vector3 e = baseCamEuler;
-        e.x -= recoilOffset;
+        e.x -= offset;
         mainCamera.transform.localEulerAngles = e;
         weapons.transform.localEulerAngles = e;
     }
@@ -295,7 +296,7 @@ public class WeaponAssaultRifle : WeaponBase
                 randomViewportPoint.x * Screen.width,
                 randomViewportPoint.y * Screen.height
             );
-            Debug.Log($"Screen Point: {screenPoint}");
+            //Debug.Log($"Screen Point: {screenPoint}");
 
             // 화면 좌표를 캔버스 로컬 좌표로 변환
             RectTransform canvasRect = canvas.GetComponent<RectTransform>();
@@ -309,7 +310,7 @@ public class WeaponAssaultRifle : WeaponBase
 
             if (converted)
             {
-                Debug.Log($"Canvas Point: {canvasPoint}");
+                //Debug.Log($"Canvas Point: {canvasPoint}");
 
                 // UI 점 생성
                 GameObject point = Instantiate(pointPrefab, canvas.transform);
