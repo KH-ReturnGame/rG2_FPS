@@ -187,19 +187,44 @@ public class WeaponAssaultRifle : WeaponBase
 
     private void LateUpdate()
     {
-        // Determine target recoil offset: full recoil when firing, 2/3 recoil when stopping
-        float targetOffset = (isAttak && weaponSet.currentAmmo > 0)
-            ? recoilOffset
-            : recoilOffset * 2f / 3f;
+        float targetOffset = 0f;
+        if ((!isAttak || weaponSet.currentAmmo <= 0))
+        {
+            if (!recoilbool)
+            {
+                targetOffset = 0;
+                recoilOffset = 0;
+                recoilbool = true;
+            }
+            
+            // Smoothly move current offset toward target
+            offset = Mathf.SmoothDamp(offset, targetOffset, ref recoilVelocity, recoilReturnTime);
 
-        // Smoothly move current offset toward target
-        offset = Mathf.SmoothDamp(offset, targetOffset, ref recoilVelocity, recoilReturnTime);
+            // Apply recoil to camera and weapon rotation
+            Vector3 e = baseCamEuler;
+            e.x -= offset;
+            mainCamera.transform.localEulerAngles = e;
+            weapons.transform.localEulerAngles = e;
+        }
+        
+        if ((isAttak && weaponSet.currentAmmo > 0))
+        {
+            if (recoilbool)
+            {
+                recoilbool = false;
+            }
+            
+            targetOffset = recoilOffset;
+            
+            // Smoothly move current offset toward target
+            offset = Mathf.SmoothDamp(offset, targetOffset, ref recoilVelocity, recoilReturnTime);
 
-        // Apply recoil to camera and weapon rotation
-        Vector3 e = baseCamEuler;
-        e.x -= offset;
-        mainCamera.transform.localEulerAngles = e;
-        weapons.transform.localEulerAngles = e;
+            // Apply recoil to camera and weapon rotation
+            Vector3 e = baseCamEuler;
+            e.x -= offset;
+            mainCamera.transform.localEulerAngles = e;
+            weapons.transform.localEulerAngles = e;
+        } 
     }
 
     public IEnumerator OnMuzzleFlashEffect()
