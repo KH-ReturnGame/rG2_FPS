@@ -43,7 +43,9 @@ public class WeaponAssaultRifle : WeaponBase
     public float recoilReturnTime = 0.1f;
     private float recoilOffset = 0f;
     private float offset = 0;
+    private float targetOffset = 0f;
     private bool recoilbool = false;
+    public RotateToMouse rtm; 
     private float recoilVelocity = 0f;    // SmoothDamp용 내부 변수
     public GameObject weapons;
     Vector3 baseCamEuler;
@@ -181,19 +183,23 @@ public class WeaponAssaultRifle : WeaponBase
 
             TwoStepRaycast();//광선 발사해 원하는 위치 공격
             //반동 구현
+            //Debug.Log(recoilOffset+"/"+targetOffset+"/"+offset);
             recoilOffset += recoil_X;
+            targetOffset += recoil_X;
         }
     }
 
     private void LateUpdate()
     {
-        float targetOffset = 0f;
+        //rtm.targetOffset = targetOffset;
         if ((!isAttak || weaponSet.currentAmmo <= 0))
         {
             if (!recoilbool)
             {
-                targetOffset = 0;
-                recoilOffset = 0;
+                // 되돌아갈 반동 위치를 전체의 3/4 지점으로 설정
+                targetOffset -= recoilOffset / 4f;
+                // 누적된 recoilOffset 초기화
+                recoilOffset = 0f;
                 recoilbool = true;
             }
             
@@ -214,10 +220,8 @@ public class WeaponAssaultRifle : WeaponBase
                 recoilbool = false;
             }
             
-            targetOffset = recoilOffset;
-            
             // Smoothly move current offset toward target
-            offset = Mathf.SmoothDamp(offset, targetOffset, ref recoilVelocity, recoilReturnTime);
+            offset = Mathf.SmoothDamp(offset, targetOffset, ref recoilVelocity, recoilReturnTime/2);
 
             // Apply recoil to camera and weapon rotation
             Vector3 e = baseCamEuler;
@@ -225,6 +229,7 @@ public class WeaponAssaultRifle : WeaponBase
             mainCamera.transform.localEulerAngles = e;
             weapons.transform.localEulerAngles = e;
         } 
+        rtm.targetOffset = targetOffset;
     }
 
     public IEnumerator OnMuzzleFlashEffect()

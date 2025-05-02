@@ -11833,8 +11833,9 @@ MonoBehaviour:
   pointPrefab: {fileID: 5888483103660176862, guid: 8a8f49940b3d86a408abf72e2012767b, type: 3}
   canvas: {fileID: 197921755}
   aimSize: 1.3
-  recoil_X: 1.3
-  recoilReturnTime: 0.2
+  recoil_X: 3
+  recoilReturnTime: 0.1
+  rtm: {fileID: 1681413254}
   weapons: {fileID: 1209255464}
 --- !u!114 &324797517
 MonoBehaviour:
@@ -37276,7 +37277,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1209255464}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -50279,7 +50280,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1482075077}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -56929,12 +56930,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1681413246}
   - component: {fileID: 1681413248}
-  - component: {fileID: 1681413247}
   - component: {fileID: 1681413250}
   - component: {fileID: 1681413249}
   - component: {fileID: 1681413251}
   - component: {fileID: 1681413252}
   - component: {fileID: 1681413253}
+  - component: {fileID: 1681413254}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -56959,20 +56960,6 @@ Transform:
   - {fileID: 1209255465}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1681413247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1681413245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b3f62215cd04b044af79e1a5a3cfccd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotCamXAxisSpeed: 2
-  rotCamYAxisSpeed: 2
 --- !u!114 &1681413248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57160,6 +57147,21 @@ MonoBehaviour:
   - {fileID: 1626704711}
   - {fileID: 1921122034}
   - {fileID: 927447363}
+--- !u!114 &1681413254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681413245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b3f62215cd04b044af79e1a5a3cfccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotCamXAxisSpeed: 2
+  rotCamYAxisSpeed: 2
+  targetOffset: 0
 --- !u!1001 &1688404673
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -43,11 +43,19 @@ public class PlayerMovement : MonoBehaviour
 
     public void MoveTo(Vector3 direction)
     {
-        // 이동방향 = 캐릭터 회전 * 방향 값
-        direction = transform.rotation * new Vector3(direction.x, 0, direction.z);
+        // Compute world-space forward and right ignoring pitch
+        Vector3 forward = transform.forward;
+        forward.y = 0f;
+        forward.Normalize();
+        Vector3 rightDir = Vector3.Cross(Vector3.up, forward);
+
+        // Determine flip based on camera pitch: flip when looking backward (up.y < 0)
+        float flip = (transform.up.y < 0f) ? -1f : 1f;
+
+        direction = forward * direction.z + rightDir * direction.x;
 
         // 이동 힘 = 이동방향 * 속도
-        moveForce = new Vector3(direction.x * moveSpeed, moveForce.y, direction.z * moveSpeed);
+        moveForce = new Vector3(direction.x * flip * moveSpeed, moveForce.y, direction.z * flip * moveSpeed);
     }
 
     public void Jump()
