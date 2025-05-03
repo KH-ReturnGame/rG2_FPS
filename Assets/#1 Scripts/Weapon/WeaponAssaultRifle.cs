@@ -409,7 +409,7 @@ public class WeaponAssaultRifle : WeaponBase
 
         // 캔버스 상의 반지름 계산 (x축 기준)
         float canvasRadius = Mathf.Abs(maxRadiusCanvasPoint.x - centerCanvasPoint.x);
-        Debug.Log($"Canvas Radius: {canvasRadius}");
+        //Debug.Log($"Canvas Radius: {canvasRadius}");
 
         // 에임 이미지 크기 조절 (원의 지름 = 반지름 * 2)
         RectTransform aimRect = imageAim.GetComponent<RectTransform>();
