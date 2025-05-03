@@ -57361,6 +57361,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotCamXAxisSpeed: 2
   rotCamYAxisSpeed: 2
+  leanAngle: 15
+  leanSpeed: 5
+  cameraHolder: {fileID: 0}
+  weaponHolder: {fileID: 0}
   targetOffset: 0
 --- !u!1001 &1688404673
 PrefabInstance:

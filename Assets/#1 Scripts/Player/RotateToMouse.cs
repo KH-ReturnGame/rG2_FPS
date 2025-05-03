@@ -7,6 +7,14 @@ public class RotateToMouse : MonoBehaviour
 
     [SerializeField]
     private float rotCamYAxisSpeed = 3; // 카메라 y회전 감도
+    
+    [SerializeField]
+    private float leanAngle = 15f; // 최대 기울이기 각도
+    [SerializeField]
+    private float leanSpeed = 5f; // 기울이기 속도
+    
+    private float currentLean = 0f; // 현재 기울임 상태
+    private float leanVelocity = 0f;
 
     private float limitMinX = -90; // 카메라 x 회전범위
     private float limitMaxX = 80; // 카메라y  회전범위
@@ -23,9 +31,11 @@ public class RotateToMouse : MonoBehaviour
 
         // 카메라 x회전 범위 제한
         eulerAngleX = ClampAngle(eulerAngleX, limitMinX+targetOffset, limitMaxX+targetOffset);
-
+        
+        UpdateLean(); // 기울기 업데이트
+        
         // 회전 적용
-        transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+        transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, currentLean);
     }
 
     // 특정 범위 내로 회전 값을 제한하는 함수
@@ -34,4 +44,23 @@ public class RotateToMouse : MonoBehaviour
         // Directly clamp without wrapping to avoid sudden jumps at zero crossing
         return Mathf.Clamp(angle, min, max);
     }
+    
+    private void UpdateLean()
+    {
+        Debug.Log("currentLean : " + currentLean);
+        float targetLean = 0f;
+        // Q 왼쪽, E 오른쪽
+        if (Input.GetKey(KeyCode.E))
+        {
+            targetLean = -leanAngle;
+        }
+        else if (Input.GetKey(KeyCode.Q))
+        {
+            targetLean = leanAngle;
+        }
+        
+        // 부드럽게 현재 기울기 보간
+        currentLean = Mathf.SmoothDamp(currentLean, targetLean, ref leanVelocity, 0.05f);
+    }
+    
 }
