@@ -178,5 +178,15 @@ public class Player : MonoBehaviour
     {
         weapon = newWeapon;
     }
+
+    public void TakeDamage(int damage)
+    {
+        bool isDie = status.DecreaseHp(damage);
+
+        if (isDie == true)
+        {
+            Debug.Log("GameOver!");
+        }
+    }
 }
 
