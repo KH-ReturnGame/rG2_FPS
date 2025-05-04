@@ -57349,6 +57349,7 @@ GameObject:
   - component: {fileID: 1681413252}
   - component: {fileID: 1681413253}
   - component: {fileID: 1681413254}
+  - component: {fileID: 1681413255}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -57405,6 +57406,11 @@ MonoBehaviour:
   moveSpeed: 3
   jumpForce: 7.5
   gravity: -20
+  crouchHeight: 1
+  standHeight: 2
+  crouchSpeed: 2
+  crouchTransitionSpeed: 10
+  crouchKey: 99
 --- !u!143 &1681413250
 CharacterController:
   m_ObjectHideFlags: 0
@@ -57581,6 +57587,22 @@ MonoBehaviour:
   leanAngle: 15
   leanSpeed: 5
   targetOffset: 0
+--- !u!114 &1681413255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681413245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2ec06a5968d8a24d8f7a180a55bb7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraHolder: {fileID: 1482075080}
+  bobFrequency: 6
+  bobAmplitude: 0.025
+  movement: {fileID: 1681413249}
 --- !u!1001 &1688404673
 PrefabInstance:
   m_ObjectHideFlags: 0
