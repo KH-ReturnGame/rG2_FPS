@@ -657,8 +657,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 10.572367, y: 3.2822797, z: 0.59313536}
-  m_Center: {x: 0.0011808872, y: 1.6469625, z: -0.20343232}
+  m_Size: {x: 10.572367, y: 3.3646076, z: 0.59313536}
+  m_Center: {x: 0.0011806488, y: 1.6881264, z: -0.20343232}
 --- !u!65 &3037718963474314854
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -678,8 +678,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.39545918, y: 3.242414, z: 1.0524803}
-  m_Center: {x: -4.92936, y: 1.6428194, z: -0.4420703}
+  m_Size: {x: 0.39545918, y: 2.344622, z: 1.0524803}
+  m_Center: {x: -4.92936, y: 1.193923, z: -0.4420703}
 --- !u!65 &7713247151416471807
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -699,8 +699,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.406451, y: 3.242414, z: 1.0524803}
-  m_Center: {x: -2.4465604, y: 1.6428194, z: -0.4420703}
+  m_Size: {x: 0.406451, y: 2.344622, z: 1.0524803}
+  m_Center: {x: -2.4465604, y: 1.193923, z: -0.4420703}
 --- !u!65 &1397098051228247567
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -720,8 +720,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.3723762, y: 3.242414, z: 1.0524803}
-  m_Center: {x: 0.013701081, y: 1.6428194, z: -0.4420703}
+  m_Size: {x: 0.3723762, y: 2.344622, z: 1.0524803}
+  m_Center: {x: 0.013701081, y: 1.193923, z: -0.4420703}
 --- !u!65 &6193177989149912960
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -741,8 +741,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.35816884, y: 3.242414, z: 1.0524803}
-  m_Center: {x: 2.4843893, y: 1.6428194, z: -0.4420703}
+  m_Size: {x: 0.3581686, y: 2.344622, z: 1.0524803}
+  m_Center: {x: 2.4843893, y: 1.1939234, z: -0.4420703}
 --- !u!65 &5594839579446840720
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -762,8 +762,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.35183048, y: 3.242414, z: 1.0524803}
-  m_Center: {x: 4.958381, y: 1.6428194, z: -0.4420703}
+  m_Size: {x: 0.35183048, y: 2.344622, z: 1.0524803}
+  m_Center: {x: 4.958381, y: 1.193923, z: -0.4420703}
 --- !u!1 &6553749238747746972
 GameObject:
   m_ObjectHideFlags: 0
