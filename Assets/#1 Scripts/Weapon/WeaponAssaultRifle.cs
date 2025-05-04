@@ -49,6 +49,7 @@ public class WeaponAssaultRifle : WeaponBase
     private float recoilVelocity = 0f;    // SmoothDamp용 내부 변수
     public GameObject weapons;
     Vector3 baseCamEuler;
+    public LayerMask rayLayerMask;
     
 
     private CasingMemoryPool casingMemoryPool;
@@ -282,7 +283,7 @@ public class WeaponAssaultRifle : WeaponBase
         
         
         // 공격 사거리 안에 부딪히는 오브젝트 -> targetpoint는 ㅂ광선에 부딪힌 위치
-        if (Physics.Raycast(ray,out hit, weaponSet.attackDistance))
+        if (Physics.Raycast(ray,out hit, weaponSet.attackDistance, rayLayerMask))
         {
             targetPoint = hit.point;
         }
@@ -295,9 +296,10 @@ public class WeaponAssaultRifle : WeaponBase
 
         // 첫번쨰 Raycast 연산으로 얻어진 targetpont를 목표 지점으로 설정, 총구 시작점으로 해 Raycast 연산
         Vector3 attakDirection = (targetPoint - bulletSpawnPoint.position).normalized;
-        if (Physics.Raycast(bulletSpawnPoint.position, attakDirection, out hit, weaponSet.attackDistance))
+        if (Physics.Raycast(bulletSpawnPoint.position, attakDirection, out hit, weaponSet.attackDistance,rayLayerMask))
         {
             impactMemoryPool.SpawnImpact(hit, attakDirection);
+            MakeHole(ray,hit);
         }
         Debug.DrawRay(bulletSpawnPoint.position, attakDirection*weaponSet.attackDistance, Color.blue);
     }
