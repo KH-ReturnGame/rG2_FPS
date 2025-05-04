@@ -112,9 +112,16 @@ public class Player : MonoBehaviour
             bool isRun = false;
 
             // 옆, 뒤 이동할 때 달리기 제한
-            if (z > 0) isRun = Input.GetKey(keyCodeRun);
+            if (z > 0 && !movement.IsCrouching) isRun = Input.GetKey(keyCodeRun);
 
-            movement.MoveSpeed = isRun == true ? status.RunSpeed : status.WalkSpeed;
+            if (!movement.IsCrouching)
+            {
+                movement.MoveSpeed = isRun ? status.RunSpeed : status.WalkSpeed;
+            }
+            else
+            {
+                movement.MoveSpeed = movement.CrouchSpeed;
+            }
             weapon.Animator.MoveSpeed = isRun == true ? 1 : 0.5f;
             audioSource.clip = isRun == true ? audioClipRun : audioClipWalk;
 

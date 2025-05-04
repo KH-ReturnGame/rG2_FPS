@@ -11,22 +11,37 @@ public class PlayerMovement : MonoBehaviour
     private float jumpForce;
     [SerializeField]
     private float gravity; 
+    
+    [Header("Crouch Settings")]
+    [SerializeField]
+    private float crouchHeight = 1.0f;
+    [SerializeField]
+    private float standHeight = 2.0f;
+    [SerializeField]
+    private float crouchSpeed = 2.0f;
+    [SerializeField]
+    private float crouchTransitionSpeed = 10f;
 
+    [SerializeField]
+    private KeyCode crouchKey = KeyCode.C;
+
+    private bool isCrouching = false;
+    private bool crouchToggleState = false;
+    
+    private PlayerStatus status;
     public float MoveSpeed
     {
         set => moveSpeed = Mathf.Max(0, value);
         get => moveSpeed;
     }
-
+    
+    public float CrouchSpeed => crouchSpeed;
+    public bool IsCrouching => isCrouching;
     private CharacterController characterController;
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
-    }
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame
@@ -39,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
         {
             moveForce.y += gravity * Time.deltaTime;
         }
+        
+        HandleCrouch(); //안기 상태 처리
     }
 
     public void MoveTo(Vector3 direction)
@@ -64,5 +81,24 @@ public class PlayerMovement : MonoBehaviour
         {
             moveForce.y = jumpForce;
         }
+        
+        // 점프하면 앉기 해제
+        isCrouching = false;
+        crouchToggleState = false;
+
+    }
+    
+    private void HandleCrouch()
+    {
+        //C 키 누르면 상태 변경
+        if (Input.GetKeyDown(crouchKey))
+        {
+            crouchToggleState = !crouchToggleState;
+            isCrouching = crouchToggleState;
+        }
+
+        // 높이 전환
+        float targetHeight = isCrouching ? crouchHeight : standHeight;
+        characterController.height = Mathf.Lerp(characterController.height, targetHeight, Time.deltaTime * crouchTransitionSpeed);
     }
 }
