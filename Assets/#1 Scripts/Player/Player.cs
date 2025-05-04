@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip audioClipRun; // 걷기 사운드
 
-    private RotateToMouse rotateToMouse;    // 마우스 이동으로 카메라 회전
+    public RotateToMouse rotateToMouse;    // 마우스 이동으로 카메라 회전
     private PlayerMovement movement;    // 키보드 입력으로 플레이어 이동, 점프
     private PlayerStatus status;        // 플레이어 정보
     private AudioSource audioSource;
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        rotateToMouse = GetComponent<RotateToMouse>();
+        //rotateToMouse = GetComponent<RotateToMouse>();
         movement = GetComponent<PlayerMovement>();
         status = GetComponent<PlayerStatus>();
         audioSource = GetComponent<AudioSource>();

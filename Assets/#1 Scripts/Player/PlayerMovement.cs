@@ -10,7 +10,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float jumpForce;
     [SerializeField]
-    private float gravity; 
+    private float gravity;
+
+    public GameObject player;
 
     public float MoveSpeed
     {
@@ -44,13 +46,13 @@ public class PlayerMovement : MonoBehaviour
     public void MoveTo(Vector3 direction)
     {
         // Compute world-space forward and right ignoring pitch
-        Vector3 forward = transform.forward;
+        Vector3 forward = player.transform.forward;
         forward.y = 0f;
         forward.Normalize();
         Vector3 rightDir = Vector3.Cross(Vector3.up, forward);
 
         // Determine flip based on camera pitch: flip when looking backward (up.y < 0)
-        float flip = (transform.up.y < 0f) ? -1f : 1f;
+        float flip = (player.transform.up.y < 0f) ? -1f : 1f;
 
         direction = forward * direction.z + rightDir * direction.x;
 
