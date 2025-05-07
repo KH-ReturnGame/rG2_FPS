@@ -10,8 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1030978878}
   - component: {fileID: 1030978879}
-  - component: {fileID: 1030978880}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Prop_Red_Wall_X4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +102,7 @@ GameObject:
   - component: {fileID: 1030978882}
   - component: {fileID: 1030978883}
   - component: {fileID: 1030978884}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Prop_Red_Wall_X4_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142,7 +141,10 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 513
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: abc00000000015612691643389598126, type: 2}
@@ -187,7 +189,7 @@ GameObject:
   - component: {fileID: 1030978886}
   - component: {fileID: 1030978887}
   - component: {fileID: 1030978888}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Prop_Red_Wall_X4_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,7 +228,10 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 513
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: abc00000000015612691643389598126, type: 2}
@@ -271,7 +276,7 @@ GameObject:
   - component: {fileID: 1030978890}
   - component: {fileID: 1030978891}
   - component: {fileID: 1030978892}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Prop_Red_Wall_X4_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,7 +315,10 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 513
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: abc00000000015612691643389598126, type: 2}
@@ -355,7 +363,7 @@ GameObject:
   - component: {fileID: 1030978894}
   - component: {fileID: 1030978895}
   - component: {fileID: 1030978896}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Prop_Red_Wall_X4_LOD3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -394,7 +402,10 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 513
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: abc00000000015612691643389598126, type: 2}
@@ -439,7 +450,7 @@ GameObject:
   - component: {fileID: 1030978898}
   - component: {fileID: 1030978899}
   - component: {fileID: 1030978900}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Prop_Red_Wall_X4_LOD4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -478,7 +489,10 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 513
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: abc00000000015612691643389598126, type: 2}
@@ -523,7 +537,7 @@ GameObject:
   - component: {fileID: 1030978902}
   - component: {fileID: 1030978903}
   - component: {fileID: 1030978904}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Prop_Red_Wall_X4_LOD5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -562,7 +576,10 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 513
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: abc00000000015612691643389598126, type: 2}
@@ -596,3 +613,154 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030978901}
   m_Mesh: {fileID: 4300010, guid: abc00000000013548743988130444499, type: 3}
+--- !u!1 &999571011600991032
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8277685995956701542}
+  - component: {fileID: 822870586287659293}
+  m_Layer: 10
+  m_Name: SM_Prop_Red_Wall_X4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8277685995956701542
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999571011600991032}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1030978878}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &822870586287659293
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999571011600991032}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: abc00000000013548743988130444499, type: 3}
+--- !u!1 &7731670133601022234
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1336526637103998319}
+  - component: {fileID: 334886640200539804}
+  - component: {fileID: 1283421781527338204}
+  - component: {fileID: 2394819918083301662}
+  m_Layer: 9
+  m_Name: SM_Prop_Red_Wall_X4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1336526637103998319
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7731670133601022234}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1030978878}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &334886640200539804
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7731670133601022234}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.7170377, y: 3.3346875, z: 0.5884824}
+  m_Center: {x: -0.032280922, y: 1.6872991, z: -0.17247874}
+--- !u!65 &1283421781527338204
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7731670133601022234}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3883016, y: 2.2588568, z: 1.0585358}
+  m_Center: {x: -1.1378324, y: 1.1444571, z: 0.029267907}
+--- !u!65 &2394819918083301662
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7731670133601022234}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3883016, y: 2.2588568, z: 1.0585358}
+  m_Center: {x: 1.14, y: 1.1444571, z: 0.029267907}
