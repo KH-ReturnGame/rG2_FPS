@@ -11,7 +11,10 @@ public class WeaponGrenade : WeaponBase
     private GameObject grenadePrefab;
     [SerializeField]
     private Transform grenadeSpawnPoint;
-
+    
+    /// <summary>
+    /// 무기가 활성화될 때 탄창/탄약 정보 UI 갱신
+    /// </summary>
     private void OnEnable()
     {
         // 무기가 활성화 될 때 해당 무기의 탄창 정보 갱심
@@ -22,11 +25,10 @@ public class WeaponGrenade : WeaponBase
     
     private void Awake()
     {
-        base.Setup();
+        base.Setup(); // WeaponBase 초기화
         
-        //처음 탄창수 최대
+        //처음 탄창수, 탄수 최대
         weaponSet.currentMagazine = weaponSet.maxMagazine;
-        //처음 탄 수 최대
         weaponSet.currentAmmo = weaponSet.maxAmmo;
     }
 
@@ -40,10 +42,12 @@ public class WeaponGrenade : WeaponBase
 
     public override void StopWeaponAction(int type = 0)
     {
+        // 수류탄에 구현 필요x
     }
 
     public override void StartReload()
-    {
+    { 
+        // 수류탄에 구현 필요x
     }
     
     private IEnumerator OnAttack()
@@ -57,7 +61,7 @@ public class WeaponGrenade : WeaponBase
 
         while (true)
         {
-            if (animator.CurrentAnimationIs("Movement"))
+            if (animator.CurrentAnimationIs("Movement")) //발사 후 이동 애니메이션으로 전환되면 공격 상태 해제
             {
                 isAttack =  false;
                 
@@ -67,6 +71,9 @@ public class WeaponGrenade : WeaponBase
         }
     }
     
+    /// <summary>
+    /// 수류탄 투척 
+    /// </summary>
     public void SpawnGrenadeProjectile()
     {
         GameObject granadeClone = Instantiate(grenadePrefab, grenadeSpawnPoint.position, Random.rotation); //random.ROtation

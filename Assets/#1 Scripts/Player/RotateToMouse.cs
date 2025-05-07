@@ -32,7 +32,7 @@ public class RotateToMouse : MonoBehaviour
         // 카메라 x회전 범위 제한
         eulerAngleX = ClampAngle(eulerAngleX, limitMinX+targetOffset, limitMaxX+targetOffset);
         
-        UpdateLean(); // 기울기 업데이트
+         // UpdateLean(); // 기울기 업데이트
         
         // 회전 적용
         transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, currentLean);
@@ -41,10 +41,10 @@ public class RotateToMouse : MonoBehaviour
     // 특정 범위 내로 회전 값을 제한하는 함수
     private float ClampAngle(float angle, float min, float max)
     {
-        // Directly clamp without wrapping to avoid sudden jumps at zero crossing
         return Mathf.Clamp(angle, min, max);
     }
     
+    /*
     private void UpdateLean()
     {
         Debug.Log("currentLean : " + currentLean);
@@ -62,5 +62,6 @@ public class RotateToMouse : MonoBehaviour
         // 부드럽게 현재 기울기 보간
         currentLean = Mathf.SmoothDamp(currentLean, targetLean, ref leanVelocity, 0.05f);
     }
+    */
     
 }

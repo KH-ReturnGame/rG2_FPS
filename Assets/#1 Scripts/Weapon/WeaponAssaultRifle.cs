@@ -326,7 +326,6 @@ public class WeaponAssaultRifle : WeaponBase
                 randomViewportPoint.x * Screen.width,
                 randomViewportPoint.y * Screen.height
             );
-            //Debug.Log($"Screen Point: {screenPoint}");
 
             // 화면 좌표를 캔버스 로컬 좌표로 변환
             RectTransform canvasRect = canvas.GetComponent<RectTransform>();
@@ -340,8 +339,6 @@ public class WeaponAssaultRifle : WeaponBase
 
             if (converted)
             {
-                //Debug.Log($"Canvas Point: {canvasPoint}");
-
                 // UI 점 생성
                 GameObject point = Instantiate(pointPrefab, canvas.transform);
                 RectTransform pointRect = point.GetComponent<RectTransform>();
@@ -416,7 +413,7 @@ public class WeaponAssaultRifle : WeaponBase
         aimRect.sizeDelta = new Vector2(canvasRadius * aimSize, canvasRadius * aimSize);
     }
 
-    // 화면 크기 변경 시 호출 (옵션)
+    // 화면 크기 변경 시 호출 
     private void OnRectTransformDimensionsChange()
     {
         AdjustAimImageSize();
@@ -432,7 +429,6 @@ public class WeaponAssaultRifle : WeaponBase
         AdjustAimImageSize();
 
         animator.AimModeIs = !animator.AimModeIs;
-        //imageAim.enabled = !imageAim.enabled;
 
         float start = mainCamera.fieldOfView;
         float end = animator.AimModeIs == true ? aimModeFOV : defaultModeFOV;

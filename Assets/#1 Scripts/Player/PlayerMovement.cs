@@ -12,21 +12,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float gravity; 
     
-    [Header("Crouch Settings")]
+    [Header("앉은 상태 변수")]
     [SerializeField]
-    private float crouchHeight = 1.0f;
+    private float crouchHeight = 1.0f; // 앉은 상태 높이
     [SerializeField]
-    private float standHeight = 2.0f;
+    private float standHeight = 2.0f; // 일반 상태 높이
     [SerializeField]
-    private float crouchSpeed = 2.0f;
+    private float crouchSpeed = 2.0f; // 앉은 상태 속도
     [SerializeField]
-    private float crouchTransitionSpeed = 10f;
+    private float crouchTransitionSpeed = 10f; // 앉기 전환 속도
 
     [SerializeField]
     private KeyCode crouchKey = KeyCode.C;
 
     private bool isCrouching = false;
-    private bool crouchToggleState = false;
+    private bool crouchToggleState = false; // 토글 상태 변수
     
     private PlayerStatus status;
     public float MoveSpeed
@@ -44,7 +44,6 @@ public class PlayerMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         //1초당 moveForve 속력으로 이동
@@ -55,20 +54,21 @@ public class PlayerMovement : MonoBehaviour
             moveForce.y += gravity * Time.deltaTime;
         }
         
-        HandleCrouch(); //안기 상태 처리
+        HandleCrouch(); //앉기 상태 처리
     }
 
     public void MoveTo(Vector3 direction)
     {
-        // Compute world-space forward and right ignoring pitch
+        // 카메라의 pitch(상하 기울기)를 무시한 전방 벡터와 우측 벡터 계산
         Vector3 forward = transform.forward;
         forward.y = 0f;
         forward.Normalize();
         Vector3 rightDir = Vector3.Cross(Vector3.up, forward);
 
-        // Determine flip based on camera pitch: flip when looking backward (up.y < 0)
+        // 카메라가 뒤집혔을 때 좌우 반전
         float flip = (transform.up.y < 0f) ? -1f : 1f;
-
+        
+        // 입력 방향을 월드 방향으로 변환
         direction = forward * direction.z + rightDir * direction.x;
 
         // 이동 힘 = 이동방향 * 속도
@@ -97,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
             isCrouching = crouchToggleState;
         }
 
-        // 높이 전환
+        // 캐릭터 높이 부드럽게 변경
         float targetHeight = isCrouching ? crouchHeight : standHeight;
         characterController.height = Mathf.Lerp(characterController.height, targetHeight, Time.deltaTime * crouchTransitionSpeed);
     }

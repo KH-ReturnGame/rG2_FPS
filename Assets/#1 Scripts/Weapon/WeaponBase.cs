@@ -17,8 +17,8 @@ public abstract class WeaponBase : MonoBehaviour
     protected WeaponSet weaponSet;
 
     protected float lastAttackTime = 0; // 마지막 발사 시간
-    protected bool isReload = false;
-    protected bool isAttack = false;
+    protected bool isReload = false; // 현재 장전 상태
+    protected bool isAttack = false; // 현재 공격 상태
     protected AudioSource audioSource;
     protected PlayerAnimateController animator;
 
@@ -37,6 +37,7 @@ public abstract class WeaponBase : MonoBehaviour
     public abstract void StartReload();
 
 
+    // 시작 사운드 재생
     protected void PlaySound(AudioClip clip)
     {
         audioSource.Stop();
