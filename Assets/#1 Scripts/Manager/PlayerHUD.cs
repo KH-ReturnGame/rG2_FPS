@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
@@ -6,8 +7,12 @@ using TMPro;
 
 public class WeaponHUD : MonoBehaviour
 {
-    private WeaponBase weapon;    // 현재 정보가 주어지는 무기
     [Header("Components")]
+    [SerializeField]
+    private WeaponBase weapon;    // 현재 정보가 주어지는 무기
+    [SerializeField]
+    private PlayerStatus status;
+    
     
 
     [Header("Weapon Base")]
@@ -23,6 +28,14 @@ public class WeaponHUD : MonoBehaviour
     [Header("Ammo")]
     [SerializeField]
     private TextMeshProUGUI textAmmo;         // 현재 장전된 탄 수를 표시할 Text
+    
+    [Header("HP & BloodScreen UI")]
+    [SerializeField]
+    private TextMeshProUGUI textHP;
+    [SerializeField]
+    private Image imageBloodScreen;
+    [SerializeField]
+    private AnimationCurve curveBloodScreen;
 
     [Header("Magazine")] 
     [SerializeField] 
@@ -37,7 +50,10 @@ public class WeaponHUD : MonoBehaviour
 
     private void Awake()
     {
-        // OnHPEvent 추가 필요
+        SetupWeapon();
+            
+        weapon.onAmmoEvent.AddListener(UpdateAmmoHUD);
+        status.onHPEvent.AddListener(UpdateHPHUD);
     }
 
 
@@ -95,6 +111,33 @@ public class WeaponHUD : MonoBehaviour
         for (int i = 0; i < currentMagazine; ++i)
         {
             magazineList[i].SetActive(true);
+        }
+    }
+
+    private void UpdateHPHUD(int previous, int current)
+    {
+        textHP.text = "HP : "+ current;
+
+        if (previous - current > 0)
+        {
+            StopCoroutine("OnBloodScreen");
+            StartCoroutine("OnBloodScreen");
+        }
+    }
+
+    private IEnumerator OnBloodScreen()
+    {
+        float percent = 0;
+
+        while (percent < 1)
+        {
+            percent += Time.deltaTime;
+            
+            Color color = imageBloodScreen.color;
+            color.a = Mathf.Lerp(1,0, curveBloodScreen.Evaluate(percent));
+            imageBloodScreen.color = color;
+            
+            yield return null;
         }
     }
 }
