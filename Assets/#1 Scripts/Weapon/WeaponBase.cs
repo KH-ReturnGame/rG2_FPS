@@ -15,15 +15,10 @@ public abstract class WeaponBase : MonoBehaviour
     protected WeaponType waeponType; // 무기 종류
     [SerializeField] 
     protected WeaponSet weaponSet;
-    [SerializeField]
-    protected GameObject bulletHolePrefab;
-    [SerializeField]
-    protected GameObject bulletHoleContainer;
-    
 
     protected float lastAttackTime = 0; // 마지막 발사 시간
-    protected bool isReload = false;
-    protected bool isAttack = false;
+    protected bool isReload = false; // 현재 장전 상태
+    protected bool isAttack = false; // 현재 공격 상태
     protected AudioSource audioSource;
     protected PlayerAnimateController animator;
 
@@ -42,6 +37,7 @@ public abstract class WeaponBase : MonoBehaviour
     public abstract void StartReload();
 
 
+    // 시작 사운드 재생
     protected void PlaySound(AudioClip clip)
     {
         audioSource.Stop();
@@ -52,21 +48,5 @@ public abstract class WeaponBase : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<PlayerAnimateController>();
-    }
-
-    protected void MakeHole(Ray ray, RaycastHit hit)
-    {
-        float positionMultiplier = 0.1f;
-        float spawnX = hit.point.x - ray.direction.x * positionMultiplier;
-        float spawnY = hit.point.y - ray.direction.y * positionMultiplier;
-        float spawnZ = hit.point.z - ray.direction.z * positionMultiplier;
-        Vector3 spawnPos = new Vector3(spawnX, spawnY, spawnZ);
-        
-        GameObject spawnedObj = Instantiate(bulletHolePrefab, hit.point, Quaternion.identity);
-        Quaternion targetRotation = Quaternion.LookRotation(ray.direction);
-
-        spawnedObj.transform.rotation = targetRotation;
-        spawnedObj.transform.SetParent(bulletHoleContainer.transform);
-        Destroy(spawnedObj,10);
     }
 }

@@ -28,6 +28,27 @@ public class ImpactMemoryPool : MonoBehaviour
         }
     }
 
+    public void SpawnImpact(Collider other, Transform knifeTransform)
+    {
+        // 부딪힌 오브젝트의 Tag 정보 따라 다르게 처리
+        if (other.CompareTag("ImpactNormal"))
+        {
+            OnSpawnImpact(ImpactType.Normal, knifeTransform.position, Quaternion.Inverse(knifeTransform.rotation));
+        }
+        else if (other.CompareTag("ImpactObstacle"))
+        {
+            OnSpawnImpact(ImpactType.Obstacle, knifeTransform.position, Quaternion.Inverse(knifeTransform.rotation));
+        }
+        /*
+        적 태그 생성 후 추가 (# 18번 영상)
+        else if (other.CompareTag("ImpactEnemy"))
+        {
+            OnSpawnImpact(ImpactType.Enemy, knifeTransform.position, Quaternion.Inverse(knifeTransform.rotation));
+        }
+        */
+        
+    }
+
     public void OnSpawnImpact(ImpactType type, Vector3 position, Quaternion rotation)
     {
         GameObject item = memoryPool[(int)type].ActivatePoolItem();

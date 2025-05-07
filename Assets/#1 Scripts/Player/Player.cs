@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip audioClipRun; // 걷기 사운드
 
-    public RotateToMouse rotateToMouse;    // 마우스 이동으로 카메라 회전
+    private RotateToMouse rotateToMouse;    // 마우스 이동으로 카메라 회전
     private PlayerMovement movement;    // 키보드 입력으로 플레이어 이동, 점프
     private PlayerStatus status;        // 플레이어 정보
     private AudioSource audioSource;
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        //rotateToMouse = GetComponent<RotateToMouse>();
+        rotateToMouse = GetComponent<RotateToMouse>();
         movement = GetComponent<PlayerMovement>();
         status = GetComponent<PlayerStatus>();
         audioSource = GetComponent<AudioSource>();
@@ -112,9 +112,16 @@ public class Player : MonoBehaviour
             bool isRun = false;
 
             // 옆, 뒤 이동할 때 달리기 제한
-            if (z > 0) isRun = Input.GetKey(keyCodeRun);
+            if (z > 0 && !movement.IsCrouching) isRun = Input.GetKey(keyCodeRun);
 
-            movement.MoveSpeed = isRun == true ? status.RunSpeed : status.WalkSpeed;
+            if (!movement.IsCrouching)
+            {
+                movement.MoveSpeed = isRun ? status.RunSpeed : status.WalkSpeed;
+            }
+            else
+            {
+                movement.MoveSpeed = movement.CrouchSpeed;
+            }
             weapon.Animator.MoveSpeed = isRun == true ? 1 : 0.5f;
             audioSource.clip = isRun == true ? audioClipRun : audioClipWalk;
 
@@ -177,6 +184,16 @@ public class Player : MonoBehaviour
     public void SwitchingWeapon(WeaponBase newWeapon)
     {
         weapon = newWeapon;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        bool isDie = status.DecreaseHp(damage);
+
+        if (isDie == true)
+        {
+            Debug.Log("GameOver!");
+        }
     }
 }
 
