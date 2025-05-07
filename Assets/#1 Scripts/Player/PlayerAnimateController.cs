@@ -38,4 +38,9 @@ public class PlayerAnimateController : MonoBehaviour
         set => animator.SetBool("isAimMode", value);
         get => animator.GetBool("isAimMode");
     }
+
+    public void SetFloat(string paramName, float value)
+    {
+        animator.SetFloat(paramName, value);
+    }
 }
