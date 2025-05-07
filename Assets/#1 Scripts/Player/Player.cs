@@ -143,7 +143,15 @@ public class Player : MonoBehaviour
                 audioSource.Stop();
             }
         }
+        
+        float actualSpeed = new Vector3(movement.GetVelocity().x, 0, movement.GetVelocity().z).magnitude;
+        float speedPercent = actualSpeed / status.RunSpeed;
+        speedPercent = Mathf.Clamp01(speedPercent);
 
+// 볼륨, 속도 조정
+        audioSource.volume = Mathf.Lerp(0.02f, 1.15f, speedPercent*0.5f);
+        audioSource.pitch = Mathf.Lerp(0.5f, 1.15f, speedPercent);
+        
         movement.MoveTo(new Vector3(x, 0, z));
     }
 
