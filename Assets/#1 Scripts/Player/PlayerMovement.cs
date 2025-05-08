@@ -4,10 +4,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
-    private float moveSpeed; // ÀÌµ¿¼Óµµ
+    private float moveSpeed; // ï¿½Ìµï¿½ï¿½Óµï¿½
 
-    private float slowMoveValue = 1.2f; // ¹ß¼Ò¸® ÁÙÀÌ°í °È±â
-    private Vector3 moveForce; // ÀÌµ¿ Èû
+    private float slowMoveValue = 1.2f; // ï¿½ß¼Ò¸ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½È±ï¿½
+    private Vector3 moveForce; // ï¿½Ìµï¿½ ï¿½ï¿½
 
     [SerializeField]
     private float jumpForce;
@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //1ÃÊ´ç moveForve ¼Ó·ÂÀ¸·Î ÀÌµ¿
+        //1ï¿½Ê´ï¿½ moveForve ï¿½Ó·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
         characterController.Move(moveForce * 1.15f * Time.deltaTime);
 
         if(!characterController.isGrounded)
@@ -61,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
             moveForce.y += gravity * Time.deltaTime;
         }
         
-        HandleCrouch(); //¾È±â »óÅÂ Ã³¸®
+        HandleCrouch(); //ï¿½È±ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
         
         float actualSpeed = new Vector3(characterController.velocity.x, 0, characterController.velocity.z).magnitude;
     }
@@ -79,10 +79,10 @@ public class PlayerMovement : MonoBehaviour
 
         direction = forward * direction.z + rightDir * direction.x;
 
-        // ÀÌ¼Ó °áÁ¤
+        // ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
         float currentSpeed = moveSpeed;
         
-        if (Input.GetKey(slowMoveKey)) //¶Û¶§ °¨¼Óx
+        if (Input.GetKey(slowMoveKey)) //ï¿½Û¶ï¿½ ï¿½ï¿½ï¿½ï¿½x
         {   
             currentSpeed -= slowMoveValue;
             currentSpeed = Mathf.Max(0.5f, currentSpeed); 
@@ -98,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
             moveForce.y = jumpForce;
         }
         
-        // Á¡ÇÁÇÏ¸é ¾É±â ÇØÁ¦
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½É±ï¿½ ï¿½ï¿½ï¿½ï¿½
         isCrouching = false;
         crouchToggleState = false;
 
@@ -106,14 +106,14 @@ public class PlayerMovement : MonoBehaviour
     
     private void HandleCrouch()
     {
-        //C Å° ´©¸£¸é »óÅÂ º¯°æ
+        //C Å° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (Input.GetKeyDown(crouchKey))
         {
             crouchToggleState = !crouchToggleState;
             isCrouching = crouchToggleState;
         }
 
-        // ³ôÀÌ ÀüÈ¯
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
         float targetHeight = isCrouching ? crouchHeight : standHeight;
         characterController.height = Mathf.Lerp(characterController.height, targetHeight, Time.deltaTime * crouchTransitionSpeed);
     }

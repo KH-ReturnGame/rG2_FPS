@@ -3,43 +3,43 @@ using UnityEngine;
 public class RotateToMouse : MonoBehaviour
 {
     [SerializeField]
-    private float rotCamXAxisSpeed = 5; // Ä«¸Þ¶ó xÈ¸Àü °¨µµ
+    private float rotCamXAxisSpeed = 5; // Ä«ï¿½Þ¶ï¿½ xÈ¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     [SerializeField]
-    private float rotCamYAxisSpeed = 3; // Ä«¸Þ¶ó yÈ¸Àü °¨µµ
+    private float rotCamYAxisSpeed = 3; // Ä«ï¿½Þ¶ï¿½ yÈ¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     
     [SerializeField]
-    private float leanAngle = 15f; // ÃÖ´ë ±â¿ïÀÌ±â °¢µµ
+    private float leanAngle = 15f; // ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½Ì±ï¿½ ï¿½ï¿½ï¿½ï¿½
     [SerializeField]
-    private float leanSpeed = 5f; // ±â¿ïÀÌ±â ¼Óµµ
+    private float leanSpeed = 5f; // ï¿½ï¿½ï¿½ï¿½Ì±ï¿½ ï¿½Óµï¿½
     
-    private float currentLean = 0f; // ÇöÀç ±â¿ïÀÓ »óÅÂ
+    private float currentLean = 0f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private float leanVelocity = 0f;
 
-    private float limitMinX = -90; // Ä«¸Þ¶ó x È¸Àü¹üÀ§
-    private float limitMaxX = 80; // Ä«¸Þ¶óy  È¸Àü¹üÀ§
+    private float limitMinX = -90; // Ä«ï¿½Þ¶ï¿½ x È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private float limitMaxX = 80; // Ä«ï¿½Þ¶ï¿½y  È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private float eulerAngleX;
     private float eulerAngleY;
 
     public float targetOffset = 10;
     //public GameObject Player;
 
-    // ¸¶¿ì½º ¿òÁ÷ÀÓ¿¡ µû¶ó È¸Àü Ã³¸®
+    // ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ Ã³ï¿½ï¿½
     public void UpdateRotate(float mouseX,float mouseY)
     {
-        eulerAngleY += mouseX * rotCamXAxisSpeed; // ¸¶¿ì½º ÁÂ/¿ì ÀÌµ¿À¸·Î yÈ¸Àü
-        eulerAngleX -= mouseY * rotCamXAxisSpeed; // ¸¶¿ì½º »ó/ÇÏ ÀÌµ¿À¸·Î xÈ¸Àü
+        eulerAngleY += mouseX * rotCamXAxisSpeed; // ï¿½ï¿½ï¿½ì½º ï¿½ï¿½/ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ yÈ¸ï¿½ï¿½
+        eulerAngleX -= mouseY * rotCamXAxisSpeed; // ï¿½ï¿½ï¿½ì½º ï¿½ï¿½/ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ xÈ¸ï¿½ï¿½
 
-        // Ä«¸Þ¶ó xÈ¸Àü ¹üÀ§ Á¦ÇÑ
+        // Ä«ï¿½Þ¶ï¿½ xÈ¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         eulerAngleX = ClampAngle(eulerAngleX, limitMinX+targetOffset, limitMaxX+targetOffset);
         
-        UpdateLean(); // ±â¿ï±â ¾÷µ¥ÀÌÆ®
+        UpdateLean(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         
-        // È¸Àü Àû¿ë
+        // È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, currentLean);
     }
 
-    // Æ¯Á¤ ¹üÀ§ ³»·Î È¸Àü °ªÀ» Á¦ÇÑÇÏ´Â ÇÔ¼ö
+    // Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
     private float ClampAngle(float angle, float min, float max)
     {
         // Directly clamp without wrapping to avoid sudden jumps at zero crossing
@@ -48,9 +48,9 @@ public class RotateToMouse : MonoBehaviour
     
     private void UpdateLean()
     {
-        Debug.Log("currentLean : " + currentLean);
+        //Debug.Log("currentLean : " + currentLean);
         float targetLean = 0f;
-        // Q ¿ÞÂÊ, E ¿À¸¥ÂÊ
+        // Q ï¿½ï¿½ï¿½ï¿½, E ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (Input.GetKey(KeyCode.E))
         {
             targetLean = -leanAngle;
@@ -60,7 +60,7 @@ public class RotateToMouse : MonoBehaviour
             targetLean = leanAngle;
         }
         
-        // ºÎµå·´°Ô ÇöÀç ±â¿ï±â º¸°£
+        // ï¿½Îµå·´ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         currentLean = Mathf.SmoothDamp(currentLean, targetLean, ref leanVelocity, 0.05f);
     }
     
