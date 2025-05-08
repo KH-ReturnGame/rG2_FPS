@@ -10,8 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1030979838}
   - component: {fileID: 1030979839}
-  - component: {fileID: 1030979840}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Kit_Colon_Metal_X1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,11 +24,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030979837}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 9073540822340847132}
+  - {fileID: 1001958987414509203}
   - {fileID: 1030979842}
   - {fileID: 1030979846}
   - {fileID: 1030979850}
@@ -37,7 +39,6 @@ Transform:
   - {fileID: 1030979858}
   - {fileID: 1030979862}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!205 &1030979839
 LODGroup:
@@ -78,20 +79,6 @@ LODGroup:
     renderers:
     - renderer: {fileID: 1030979863}
   m_Enabled: 1
---- !u!64 &1030979840
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1030979837}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300012, guid: abc00000000016056113079504750262, type: 3}
 --- !u!1 &1030979841
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,7 +90,7 @@ GameObject:
   - component: {fileID: 1030979842}
   - component: {fileID: 1030979843}
   - component: {fileID: 1030979844}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Kit_Colon_Metal_X1_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,13 +104,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030979841}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1030979838}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1030979843
 MeshRenderer:
@@ -142,7 +129,10 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 513
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: abc00000000015060876918957764199, type: 2}
@@ -186,7 +176,7 @@ GameObject:
   - component: {fileID: 1030979846}
   - component: {fileID: 1030979847}
   - component: {fileID: 1030979848}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Kit_Colon_Metal_X1_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,13 +190,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030979845}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1030979838}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1030979847
 MeshRenderer:
@@ -225,7 +215,10 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 513
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: abc00000000015060876918957764199, type: 2}
@@ -269,7 +262,7 @@ GameObject:
   - component: {fileID: 1030979850}
   - component: {fileID: 1030979851}
   - component: {fileID: 1030979852}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Kit_Colon_Metal_X1_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,13 +276,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030979849}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1030979838}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1030979851
 MeshRenderer:
@@ -308,7 +301,10 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 513
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: abc00000000015060876918957764199, type: 2}
@@ -352,7 +348,7 @@ GameObject:
   - component: {fileID: 1030979854}
   - component: {fileID: 1030979855}
   - component: {fileID: 1030979856}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Kit_Colon_Metal_X1_LOD3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -366,13 +362,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030979853}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1030979838}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1030979855
 MeshRenderer:
@@ -391,7 +387,10 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 513
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: abc00000000015060876918957764199, type: 2}
@@ -435,7 +434,7 @@ GameObject:
   - component: {fileID: 1030979858}
   - component: {fileID: 1030979859}
   - component: {fileID: 1030979860}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Kit_Colon_Metal_X1_LOD4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -449,13 +448,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030979857}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1030979838}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1030979859
 MeshRenderer:
@@ -474,7 +473,10 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 513
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: abc00000000015060876918957764199, type: 2}
@@ -518,7 +520,7 @@ GameObject:
   - component: {fileID: 1030979862}
   - component: {fileID: 1030979863}
   - component: {fileID: 1030979864}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Kit_Colon_Metal_X1_LOD5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -532,13 +534,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030979861}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1030979838}
-  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1030979863
 MeshRenderer:
@@ -557,7 +559,10 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 513
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: abc00000000015060876918957764199, type: 2}
@@ -590,3 +595,88 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030979861}
   m_Mesh: {fileID: 4300010, guid: abc00000000016056113079504750262, type: 3}
+--- !u!1 &3327940333351050070
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9073540822340847132}
+  m_Layer: 9
+  m_Name: SM_Kit_Colon_Metal_X1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9073540822340847132
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3327940333351050070}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1030979838}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5595838393487886549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1001958987414509203}
+  - component: {fileID: 4044644574454391145}
+  m_Layer: 10
+  m_Name: SM_Kit_Colon_Metal_X1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1001958987414509203
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5595838393487886549}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1030979838}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &4044644574454391145
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5595838393487886549}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: abc00000000016056113079504750262, type: 3}

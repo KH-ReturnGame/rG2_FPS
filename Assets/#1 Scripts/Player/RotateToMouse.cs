@@ -22,6 +22,7 @@ public class RotateToMouse : MonoBehaviour
     private float eulerAngleY;
 
     public float targetOffset = 10;
+    //public GameObject Player;
 
     // 마우스 움직임에 따라 회전 처리
     public void UpdateRotate(float mouseX,float mouseY)

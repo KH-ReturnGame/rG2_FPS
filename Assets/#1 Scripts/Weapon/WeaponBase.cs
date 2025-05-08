@@ -15,6 +15,11 @@ public abstract class WeaponBase : MonoBehaviour
     protected WeaponType waeponType; // 무기 종류
     [SerializeField] 
     protected WeaponSet weaponSet;
+    [SerializeField]
+    protected GameObject bulletHolePrefab;
+    [SerializeField]
+    protected GameObject bulletHoleContainer;
+    
 
     protected float lastAttackTime = 0; // 마지막 발사 시간
     protected bool isReload = false;
@@ -47,5 +52,21 @@ public abstract class WeaponBase : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<PlayerAnimateController>();
+    }
+
+    protected void MakeHole(Ray ray, RaycastHit hit)
+    {
+        float positionMultiplier = 0.1f;
+        float spawnX = hit.point.x - ray.direction.x * positionMultiplier;
+        float spawnY = hit.point.y - ray.direction.y * positionMultiplier;
+        float spawnZ = hit.point.z - ray.direction.z * positionMultiplier;
+        Vector3 spawnPos = new Vector3(spawnX, spawnY, spawnZ);
+        
+        GameObject spawnedObj = Instantiate(bulletHolePrefab, hit.point, Quaternion.identity);
+        Quaternion targetRotation = Quaternion.LookRotation(ray.direction);
+
+        spawnedObj.transform.rotation = targetRotation;
+        spawnedObj.transform.SetParent(bulletHoleContainer.transform);
+        Destroy(spawnedObj,10);
     }
 }

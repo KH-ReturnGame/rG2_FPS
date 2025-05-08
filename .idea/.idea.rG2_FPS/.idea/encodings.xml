@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$/Assets/#1 Scripts/Player/PlayerMovement.cs" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/Assets/#1 Scripts/Player/RotateToMouse.cs" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/Assets/#1 Scripts/Weapon/WeaponAssaultRifle.cs" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/Assets/#1 Scripts/Weapon/WeaponBase.cs" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/Assets/#1 Scripts/Weapon/WeaponSet.cs" charset="x-windows-949" />
   </component>
 </project>
