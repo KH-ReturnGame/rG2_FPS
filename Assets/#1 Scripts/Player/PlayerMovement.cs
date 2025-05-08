@@ -5,6 +5,8 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
     private float moveSpeed; // 이동속도
+
+    private float slowMoveValue = 1.2f; // 발소리 줄이고 걷기
     private Vector3 moveForce; // 이동 힘
 
     [SerializeField]
@@ -21,9 +23,10 @@ public class PlayerMovement : MonoBehaviour
     private float crouchSpeed = 2.0f;
     [SerializeField]
     private float crouchTransitionSpeed = 10f;
-
+    
     [SerializeField]
     private KeyCode crouchKey = KeyCode.C;
+    private KeyCode slowMoveKey = KeyCode.LeftControl;
 
     private bool isCrouching = false;
     private bool crouchToggleState = false;
@@ -51,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         //1초당 moveForve 속력으로 이동
-        characterController.Move(moveForce * Time.deltaTime);
+        characterController.Move(moveForce * 1.15f * Time.deltaTime);
 
         if(!characterController.isGrounded)
         {
@@ -59,6 +62,8 @@ public class PlayerMovement : MonoBehaviour
         }
         
         HandleCrouch(); //안기 상태 처리
+        
+        float actualSpeed = new Vector3(characterController.velocity.x, 0, characterController.velocity.z).magnitude;
     }
 
     public void MoveTo(Vector3 direction)
@@ -74,8 +79,16 @@ public class PlayerMovement : MonoBehaviour
 
         direction = forward * direction.z + rightDir * direction.x;
 
-        // 이동 힘 = 이동방향 * 속도
-        moveForce = new Vector3(direction.x * flip * moveSpeed, moveForce.y, direction.z * flip * moveSpeed);
+        // 이속 결정
+        float currentSpeed = moveSpeed;
+        
+        if (Input.GetKey(slowMoveKey)) //뛸때 감속x
+        {   
+            currentSpeed -= slowMoveValue;
+            currentSpeed = Mathf.Max(0.5f, currentSpeed); 
+        }
+
+        moveForce = new Vector3(direction.x * flip * currentSpeed, moveForce.y, direction.z * flip * currentSpeed);
     }
 
     public void Jump()
@@ -103,5 +116,10 @@ public class PlayerMovement : MonoBehaviour
         // 높이 전환
         float targetHeight = isCrouching ? crouchHeight : standHeight;
         characterController.height = Mathf.Lerp(characterController.height, targetHeight, Time.deltaTime * crouchTransitionSpeed);
+    }
+    
+    public Vector3 GetVelocity()
+    {
+        return characterController.velocity;
     }
 }

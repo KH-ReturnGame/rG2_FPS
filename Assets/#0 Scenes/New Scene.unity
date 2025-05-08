@@ -11953,6 +11953,8 @@ MonoBehaviour:
     attackRate: 0.07
     attackDistance: 500
     isAutomaticAttack: 1
+  bulletHolePrefab: {fileID: 0}
+  bulletHoleContainer: {fileID: 0}
   onAmmoEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -11975,6 +11977,9 @@ MonoBehaviour:
   recoilReturnTime: 0.1
   rtm: {fileID: 1681413254}
   weapons: {fileID: 1209255464}
+  rayLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &324797517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28226,6 +28231,8 @@ MonoBehaviour:
     attackRate: 0
     attackDistance: 0
     isAutomaticAttack: 0
+  bulletHolePrefab: {fileID: 0}
+  bulletHoleContainer: {fileID: 0}
   onAmmoEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -55957,6 +55964,8 @@ MonoBehaviour:
     attackRate: 0.5
     attackDistance: 20
     isAutomaticAttack: 0
+  bulletHolePrefab: {fileID: 0}
+  bulletHoleContainer: {fileID: 0}
   onAmmoEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -57344,7 +57353,6 @@ GameObject:
   - component: {fileID: 1681413246}
   - component: {fileID: 1681413248}
   - component: {fileID: 1681413250}
-  - component: {fileID: 1681413249}
   - component: {fileID: 1681413251}
   - component: {fileID: 1681413252}
   - component: {fileID: 1681413253}
@@ -57390,21 +57398,7 @@ MonoBehaviour:
   keyCodeReload: 114
   audioClipWalk: {fileID: 8300000, guid: 6597a368cd74a924eaedb0171d5b28d3, type: 3}
   audioClipRun: {fileID: 8300000, guid: 0c58744c3b6fdd844b8348066c3f703e, type: 3}
---- !u!114 &1681413249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1681413245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0dbbb252969db24ba838aac5e5b2ae5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  jumpForce: 7.5
-  gravity: -20
+  rotateToMouse: {fileID: 0}
 --- !u!143 &1681413250
 CharacterController:
   m_ObjectHideFlags: 0
@@ -63064,6 +63058,8 @@ MonoBehaviour:
     attackRate: 0
     attackDistance: 0
     isAutomaticAttack: 1
+  bulletHolePrefab: {fileID: 0}
+  bulletHoleContainer: {fileID: 0}
   onAmmoEvent:
     m_PersistentCalls:
       m_Calls: []
