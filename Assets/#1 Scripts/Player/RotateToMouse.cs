@@ -1,67 +1,86 @@
 using UnityEngine;
+using UnityEngine.UI; // UI.Image, RectTransform 사용을 위해 필요
 
 public class RotateToMouse : MonoBehaviour
 {
-    [SerializeField]
-    private float rotCamXAxisSpeed = 5; // ī�޶� xȸ�� ����
+    [Header("Camera Rotation")]
+    [SerializeField] private float rotCamXAxisSpeed = 5f;
+    [SerializeField] private float rotCamYAxisSpeed = 3f;
+    [SerializeField] private float limitMinX = -90f;
+    [SerializeField] private float limitMaxX = 80f;
 
-    [SerializeField]
-    private float rotCamYAxisSpeed = 3; // ī�޶� yȸ�� ����
-    
-    [SerializeField]
-    private float leanAngle = 15f; // �ִ� ����̱� ����
-    [SerializeField]
-    private float leanSpeed = 5f; // ����̱� �ӵ�
-    
-    private float currentLean = 0f; // ���� ����� ����
-    private float leanVelocity = 0f;
+    [Header("Lean Movement Settings")]
+    [SerializeField] private float leanRadius = 0.2f;
+    [SerializeField] private float leanDuration = 0.15f;
 
-    private float limitMinX = -90; // ī�޶� x ȸ������
-    private float limitMaxX = 80; // ī�޶�y  ȸ������
+    [Header("UI Aim Offset")]
+    [SerializeField] private RectTransform aimUI;
+    [SerializeField] private float maxAimOffsetX = 30f;
+    [SerializeField] private float maxAimOffsetY = 20f;
+
+    public float targetOffset = 10f;
+
     private float eulerAngleX;
     private float eulerAngleY;
 
-    public float targetOffset = 10;
-    //public GameObject Player;
+    private float leanTimer = 0f;
+    private int leanDirection = 0;
 
-    // ���콺 �����ӿ� ���� ȸ�� ó��
-    public void UpdateRotate(float mouseX,float mouseY)
+    private Vector3 defaultLocalPos;
+    private Vector3 currentOffset = Vector3.zero;
+    private Vector3 leanVelocity = Vector3.zero;
+    private Vector2 baseAimPos;
+
+    private void Start()
     {
-        eulerAngleY += mouseX * rotCamXAxisSpeed; // ���콺 ��/�� �̵����� yȸ��
-        eulerAngleX -= mouseY * rotCamXAxisSpeed; // ���콺 ��/�� �̵����� xȸ��
-
-        // ī�޶� xȸ�� ���� ����
-        eulerAngleX = ClampAngle(eulerAngleX, limitMinX+targetOffset, limitMaxX+targetOffset);
-        
-        UpdateLean(); // ���� ������Ʈ
-        
-        // ȸ�� ����
-        transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, currentLean);
+        defaultLocalPos = transform.localPosition;
+        if (aimUI != null)
+            baseAimPos = aimUI.anchoredPosition;
     }
 
-    // Ư�� ���� ���� ȸ�� ���� �����ϴ� �Լ�
+    public void UpdateRotate(float mouseX, float mouseY)
+    {
+        eulerAngleY += mouseX * rotCamXAxisSpeed;
+        eulerAngleX -= mouseY * rotCamYAxisSpeed;
+        eulerAngleX = ClampAngle(eulerAngleX, limitMinX + targetOffset, limitMaxX + targetOffset);
+
+        transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0f);
+
+        UpdateLeanPosition();
+    }
+
     private float ClampAngle(float angle, float min, float max)
     {
-        // Directly clamp without wrapping to avoid sudden jumps at zero crossing
         return Mathf.Clamp(angle, min, max);
     }
-    
-    private void UpdateLean()
+
+    private void UpdateLeanPosition()
     {
-        //Debug.Log("currentLean : " + currentLean);
-        float targetLean = 0f;
-        // Q ����, E ������
-        if (Input.GetKey(KeyCode.E))
-        {
-            targetLean = -leanAngle;
-        }
-        else if (Input.GetKey(KeyCode.Q))
-        {
-            targetLean = leanAngle;
-        }
-        
-        // �ε巴�� ���� ���� ����
-        currentLean = Mathf.SmoothDamp(currentLean, targetLean, ref leanVelocity, 0.05f);
+        if (Input.GetKey(KeyCode.E)) leanDirection = 1;
+        else if (Input.GetKey(KeyCode.Q)) leanDirection = -1;
+        else leanDirection = 0;
+
+        if (leanDirection != 0)
+            leanTimer = Mathf.Clamp01(leanTimer + Time.deltaTime / leanDuration);
+        else
+            leanTimer = Mathf.Clamp01(leanTimer - Time.deltaTime / leanDuration);
+
+        float angle = Mathf.Lerp(0, Mathf.PI / 2, leanTimer);
+        float xOffset = leanRadius * Mathf.Sin(angle) * leanDirection;
+        float yOffset = -leanRadius * Mathf.Sin(angle);
+
+        currentOffset = new Vector3(xOffset, yOffset, 0f);
+        transform.localPosition = defaultLocalPos + currentOffset;
+
+        UpdateAimUI(angle); // ← 이 줄 추가!
     }
-    
+
+    private void UpdateAimUI(float angle)
+    {
+        if (aimUI == null) return;
+
+        float offsetX = Mathf.Sin(angle) * maxAimOffsetX * leanDirection;
+        float offsetY = -Mathf.Sin(angle) * maxAimOffsetY;
+        aimUI.anchoredPosition = baseAimPos + new Vector2(offsetX, offsetY);
+    }
 }
