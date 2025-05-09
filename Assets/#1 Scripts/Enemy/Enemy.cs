@@ -95,36 +95,32 @@ public class Enemy : MonoBehaviour
                         return true;
                     }
                    
-/*
-                     Ray ray = new Ray(transform.position, targetDirection.normalized);
-                    RaycastHit hit;
 
-                    // obstacleMask에 있는 오브젝트에 먼저 부딪히는지 확인
-                    if (Physics.Raycast(ray, out hit, sightDistance, obstacleMask) || Physics.Raycast(ray, out hit, sightDistance, obstacleMask2))
-                    {
-                        Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.yellow); // 장애물에 막힌 광선 (노란색)
-                        return false;
-                    }
-                    // 장애물에 부딪히지 않았다면 플레이어가 보이는지 확인
-                    else
-                    {
-                        // 플레이어 레이어만 필터링하여 광선 발사
-                        if (Physics.Raycast(ray, out hit, sightDistance, playerMask))
-                        {
-                            if ((hit.collider.gameObject == player) || (hit.collider.gameObject.name == "PlayerDetection"))
-                            {
-                                Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green); // 플레이어를 감지한 광선 (초록색)
-                                return true;
-                            }
-                        }
-                        Debug.DrawRay(ray.origin, ray.direction * sightDistance, Color.red); // 플레이어가 시야 내에 있지만 감지되지 않음 (빨간색)
-                        return false;
-                    }
-
-                    ///////
-                }\
-
-                 */
+                    //  Ray ray = new Ray(transform.position, targetDirection.normalized);
+                    // RaycastHit hit;
+                    //
+                    // // obstacleMask에 있는 오브젝트에 먼저 부딪히는지 확인
+                    // if (Physics.Raycast(ray, out hit, sightDistance, obstacleMask) || Physics.Raycast(ray, out hit, sightDistance, obstacleMask2))
+                    // {
+                    //     Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.yellow); // 장애물에 막힌 광선 (노란색)
+                    //     return false;
+                    // }
+                    // // 장애물에 부딪히지 않았다면 플레이어가 보이는지 확인
+                    // else
+                    // {
+                    //     // 플레이어 레이어만 필터링하여 광선 발사
+                    //     if (Physics.Raycast(ray, out hit, sightDistance, playerMask))
+                    //     {
+                    //         if ((hit.collider.gameObject == player) || (hit.collider.gameObject.name == "PlayerDetection"))
+                    //         {
+                    //             Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green); // 플레이어를 감지한 광선 (초록색)
+                    //             return true;
+                    //         }
+                    //     }
+                    //     Debug.DrawRay(ray.origin, ray.direction * sightDistance, Color.red); // 플레이어가 시야 내에 있지만 감지되지 않음 (빨간색)
+                    //     return false;
+                    // }
+                }
                 else
                 {
                     Debug.DrawRay(transform.position , targetDirection.normalized * sightDistance, Color.red); // 시야 각도 밖 (빨간색)

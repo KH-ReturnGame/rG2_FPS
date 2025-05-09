@@ -11,7 +11,6 @@ public class EnemyProjectile : MonoBehaviour
     {
         movement = GetComponent<MovementTransform>();
         StartCoroutine("OnMove", position);
-        
     }
 
     private IEnumerator OnMove(Vector3 targetPosition)
