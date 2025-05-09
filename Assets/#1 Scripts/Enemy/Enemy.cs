@@ -48,7 +48,15 @@ public class Enemy : MonoBehaviour
     public bool DecreaseHp(float damage)
     {
         float previousHP = currentHP;
-        currentHP =currentHP - damage > 0? currentHP - damage : 0;
+        if (currentHP - damage > 0)
+        {
+            currentHP -= damage;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         onHPEvent.Invoke(previousHP, currentHP);
         
         Debug.Log("에너미 체력감소 ㅠㅠ : "+previousHP+"->"+currentHP);
