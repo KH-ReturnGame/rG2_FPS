@@ -5,20 +5,32 @@ public class Enemy : MonoBehaviour
 {
     private StateMachine stateMachine;
     private NavMeshAgent agent;
+    private GameObject player;
 
     public NavMeshAgent Agent { get => agent; }
-    // 디버그용
-    [SerializeField]
-    private string currentState;
-    public Path path;
-    private GameObject player;
-    public float sightDistance = 50f;
-    public float fieldOfView = 85f;
+    public GameObject Player { get => player; }
 
     public LayerMask playerMask;
 
     public LayerMask obstacleMask;
     public LayerMask obstacleMask2;
+
+    // 디버그용
+    public Path path;
+
+    [Header("Sight values")]
+    public float sightDistance = 50f;
+    public float fieldOfView = 85f;
+    [Header("Weapon values")]
+    public Transform gunBarrel;
+    public int damage = 15;
+    [Range(0.1f,10f)]
+    public float fireRate;
+    // 디버그용
+    [SerializeField]
+    private string currentState;
+
+  
     
     [Header("HP")]
     [SerializeField]
@@ -27,6 +39,7 @@ public class Enemy : MonoBehaviour
     
     public float CurrentHP => currentHP;
     public float MaxHP => maxHP;
+    
     
     [HideInInspector]
     public HPEvent onHPEvent = new HPEvent();
@@ -71,12 +84,13 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CanSeePlayer();
+         CanSeePlayer();
+        currentState = stateMachine.activeState.ToString();
     }
 
     public bool CanSeePlayer()
     {
-        /*
+       
         if(player != null)
         {
             // player close
@@ -93,9 +107,9 @@ public class Enemy : MonoBehaviour
         }
         return true;
     }
-    */
-
-     if (player != null)
+    
+  /*     
+  if (player != null)
         {
             Vector3 targetDirection = player.transform.position - transform.position;
             float distanceToPlayer = targetDirection.magnitude;
@@ -173,4 +187,5 @@ public class Enemy : MonoBehaviour
         }
         return false; // 플레이어 오브젝트가 없음
     }
+    */
 }
