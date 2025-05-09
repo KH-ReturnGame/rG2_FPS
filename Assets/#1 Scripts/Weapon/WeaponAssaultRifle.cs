@@ -439,7 +439,7 @@ public class WeaponAssaultRifle : WeaponBase
         AdjustAimImageSize();
     }
 
-    private IEnumerator OnModeChange()
+    public IEnumerator OnModeChange()
     {
         float current = 0;
         float percent = 0;

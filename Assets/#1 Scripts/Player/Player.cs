@@ -35,9 +35,10 @@ public class Player : MonoBehaviour
     private PlayerStatus status;        // 플레이어 정보
     private AudioSource audioSource;
     private WeaponBase weapon;
-
-
-
+    
+    // Track button states to handle rapid clicks
+    private bool leftMouseWasDown = false;
+    private bool rightMouseWasDown = false;
 
     public void Start()
     {
@@ -61,6 +62,7 @@ public class Player : MonoBehaviour
         status = GetComponent<PlayerStatus>();
         audioSource = GetComponent<AudioSource>();
     }
+    
     public void Update()
     {
         //상태 매니저의 Execute실행
@@ -86,12 +88,12 @@ public class Player : MonoBehaviour
         State<Player> remState = _states[(int)ps];
         _stateManager.RemoveState(remState);
     }
+    
     //상태 있는지 체크
     public bool IsContainState(PlayerStats ps)
     {
         return _stateManager._currentState.Contains(_states[(int)ps]);
     }
-
 
     private void UpdateRotate()
     {
@@ -148,7 +150,7 @@ public class Player : MonoBehaviour
         float speedPercent = actualSpeed / status.RunSpeed;
         speedPercent = Mathf.Clamp01(speedPercent);
 
-// 볼륨, 속도 조정
+        // 볼륨, 속도 조정
         audioSource.volume = Mathf.Lerp(0.02f, 1.15f, speedPercent*0.5f);
         audioSource.pitch = Mathf.Lerp(0.5f, 1.15f, speedPercent);
         
@@ -165,24 +167,37 @@ public class Player : MonoBehaviour
 
     private void UpdateWeaponAction()
     {
-        if (Input.GetMouseButtonDown(0))
+        // Left mouse button (Fire)
+        bool leftMouseDown = Input.GetMouseButton(0); // Changed to GetMouseButton for better detection
+        
+        if (leftMouseDown && !leftMouseWasDown)
         {
+            // Mouse button was just pressed
             weapon.StartWeaponAction();
         }
-        else if (Input.GetMouseButtonUp(0))
+        else if (!leftMouseDown && leftMouseWasDown)
         {
+            // Mouse button was just released
             weapon.StopWeaponAction();
-        } 
-
-        if (Input.GetMouseButtonDown(1))
+        }
+        leftMouseWasDown = leftMouseDown;
+        
+        // Right mouse button (Aim)
+        bool rightMouseDown = Input.GetMouseButton(1); // Changed to GetMouseButton for better detection
+        
+        if (rightMouseDown && !rightMouseWasDown)
         {
+            // Mouse button was just pressed
             weapon.StartWeaponAction(1);
         }
-        else if (Input.GetMouseButtonUp(1))
+        else if (!rightMouseDown && rightMouseWasDown)
         {
-            weapon.StartWeaponAction(1);
+            // Mouse button was just released
+            weapon.StopWeaponAction(1); // Fixed: Changed to StopWeaponAction instead of StartWeaponAction
         }
+        rightMouseWasDown = rightMouseDown;
 
+        // Reload
         if (Input.GetKeyDown(keyCodeReload))
         {
             weapon.StartReload();
@@ -204,4 +219,3 @@ public class Player : MonoBehaviour
         }
     }
 }
-
