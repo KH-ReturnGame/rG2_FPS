@@ -114,7 +114,7 @@ public class WeaponHUD : MonoBehaviour
         }
     }
 
-    private void UpdateHPHUD(int previous, int current)
+    private void UpdateHPHUD(float previous, float current)
     {
         textHP.text = "HP : "+ current;
 

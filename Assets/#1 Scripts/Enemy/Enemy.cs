@@ -22,11 +22,11 @@ public class Enemy : MonoBehaviour
     
     [Header("HP")]
     [SerializeField]
-    private int maxHP = 100;
-    private int currentHP;
+    private float maxHP = 100f;
+    private float currentHP;
     
-    public int CurrentHP => currentHP;
-    public int MaxHP => maxHP;
+    public float CurrentHP => currentHP;
+    public float MaxHP => maxHP;
     
     [HideInInspector]
     public HPEvent onHPEvent = new HPEvent();
@@ -45,9 +45,9 @@ public class Enemy : MonoBehaviour
         currentHP = maxHP;
     }
 
-    public bool DecreaseHp(int damage)
+    public bool DecreaseHp(float damage)
     {
-        int previousHP = currentHP;
+        float previousHP = currentHP;
         currentHP =currentHP - damage > 0? currentHP - damage : 0;
         onHPEvent.Invoke(previousHP, currentHP);
         

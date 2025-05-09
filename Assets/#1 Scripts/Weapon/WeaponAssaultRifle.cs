@@ -286,9 +286,20 @@ public class WeaponAssaultRifle : WeaponBase
         if (Physics.Raycast(ray,out hit, weaponSet.attackDistance, rayLayerMask))
         {
             targetPoint = hit.point;
-            if (hit.transform.tag == "Enemy")
+            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                hit.transform.GetComponent<Enemy>().DecreaseHp(weaponSet.AttackDamage);
+                switch (hit.transform.tag)
+                {
+                    case "Enemy_Body":
+                        hit.transform.GetComponent<Enemy>().DecreaseHp(weaponSet.AttackDamage);
+                        break;
+                    case "Enemy_Limbs":
+                        hit.collider.gameObject.GetComponentInParent<Enemy>().DecreaseHp(weaponSet.AttackDamage*0.5f);
+                        break;
+                    case "Enemy_Head":
+                        hit.collider.gameObject.GetComponentInParent<Enemy>().DecreaseHp(weaponSet.AttackDamage*2);
+                        break;
+                }
             }
         }
         // 공격 사거리 안에 부딪히는 오브젝트 X  -> targetpoint는 최대 사거리 위치
