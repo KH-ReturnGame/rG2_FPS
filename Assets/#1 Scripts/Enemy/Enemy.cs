@@ -19,6 +19,17 @@ public class Enemy : MonoBehaviour
 
     public LayerMask obstacleMask;
     public LayerMask obstacleMask2;
+    
+    [Header("HP")]
+    [SerializeField]
+    private int maxHP = 100;
+    private int currentHP;
+    
+    public int CurrentHP => currentHP;
+    public int MaxHP => maxHP;
+    
+    [HideInInspector]
+    public HPEvent onHPEvent = new HPEvent();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,6 +38,26 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         stateMachine.Initialize();
         player = GameObject.FindGameObjectWithTag("Player");
+    }
+
+    private void Awake()
+    {
+        currentHP = maxHP;
+    }
+
+    public bool DecreaseHp(int damage)
+    {
+        int previousHP = currentHP;
+        currentHP =currentHP - damage > 0? currentHP - damage : 0;
+        onHPEvent.Invoke(previousHP, currentHP);
+        
+        Debug.Log("에너미 체력감소 ㅠㅠ : "+previousHP+"->"+currentHP);
+        
+        if (currentHP == 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     // Update is called once per frame

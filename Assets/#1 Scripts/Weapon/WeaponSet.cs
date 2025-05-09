@@ -14,4 +14,5 @@ public struct WeaponSet // (2) 구조체 정의 (클래스랑 비슷하지만 가벼움)
     public float attackRate; // 공격 속도
     public float attackDistance; // 공격 사거리
     public bool isAutomaticAttack; // 연속 공격 여부
+    public int AttackDamage;
 }

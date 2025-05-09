@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 1465762875089348961}
   - component: {fileID: 7825088242025755513}
   - component: {fileID: 2667043916518668143}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Capsule
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,6 +127,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 
   path: {fileID: 0}
+  sightDistance: 50
+  fieldOfView: 85
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  obstacleMask2:
+    serializedVersion: 2
+    m_Bits: 0
+  maxHP: 100
+  onHPEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7825088242025755513
 MonoBehaviour:
   m_ObjectHideFlags: 0
