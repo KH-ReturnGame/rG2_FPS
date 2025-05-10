@@ -57,7 +57,8 @@ public class WeaponAssaultRifle : WeaponBase
     private CasingMemoryPool casingMemoryPool;
     private ImpactMemoryPool impactMemoryPool; // 공격 효과 생성 후 활성/ 비활성 관리
     private Camera mainCamera;                 // 광선 발사
-
+    
+    
     private void Awake()
     {
         base.Setup();
@@ -65,12 +66,13 @@ public class WeaponAssaultRifle : WeaponBase
         casingMemoryPool = GetComponent<CasingMemoryPool>();
         impactMemoryPool = GetComponent<ImpactMemoryPool>();
         mainCamera = Camera.main;
-
+        
         // 처음 탄창 수는 최대로 설정
         weaponSet.currentMagazine = weaponSet.maxMagazine;
         // 처음 탄 수는 최대로 설정
         weaponSet.currentAmmo = weaponSet.maxAmmo;
     }
+    
 
     private void Start()
     {
@@ -84,12 +86,12 @@ public class WeaponAssaultRifle : WeaponBase
         {
             audioSource.Stop();
         }
-        
+
         // 무기 장착 사운드
         PlaySound(audioClipTakeOutWeapon);
         // 총구 이펙트 오브젝트 비활성화
         muzzleFlashEffect.SetActive(false);
-        
+
         // 무기가 활성화될 때 해당 무기의 탄창 정보 갱신
         onMagazineEvent.Invoke(weaponSet.currentMagazine);
         // 무기가 활성화될 때 탄 수 갱신
@@ -97,12 +99,16 @@ public class WeaponAssaultRifle : WeaponBase
 
         ResetVariables();
         AdjustAimImageSize();
+
+        baseCamEuler = mainCamera.transform.localEulerAngles; // ? 수정됨
     }
+
 
     
 
     public override void StartWeaponAction(int type = 0)
     {
+        if (!WeaponBase.isWeaponInputEnabled) return;
         //재장전 중일 때는 무기 액션 ㄴㄴ
         if(isReload) return;
 
@@ -201,46 +207,52 @@ public class WeaponAssaultRifle : WeaponBase
 
     private void LateUpdate()
     {
-        //rtm.targetOffset = targetOffset;
+        // ? NaN 방지 처리
+        if (float.IsNaN(offset) || float.IsNaN(targetOffset))
+        {
+            offset = 0f;
+            targetOffset = 0f;
+            recoilVelocity = 0f;
+            return;
+        }
+
         if ((!isAttak || weaponSet.currentAmmo <= 0))
         {
             if (!recoilbool)
             {
-                // 되돌아갈 반동 위치를 전체의 3/4 지점으로 설정
                 targetOffset -= recoilOffset / 4f;
-                // 누적된 recoilOffset 초기화
                 recoilOffset = 0f;
                 recoilbool = true;
             }
-            
-            // Smoothly move current offset toward target
+
             offset = Mathf.SmoothDamp(offset, targetOffset, ref recoilVelocity, recoilReturnTime);
 
-            // Apply recoil to camera and weapon rotation
+            if (float.IsNaN(offset)) offset = 0f; // ? 추가
             Vector3 e = baseCamEuler;
             e.x -= offset;
             mainCamera.transform.localEulerAngles = e;
             weapons.transform.localEulerAngles = e;
         }
-        
+
         if ((isAttak && weaponSet.currentAmmo > 0))
         {
             if (recoilbool)
             {
                 recoilbool = false;
             }
-            
-            // Smoothly move current offset toward target
-            offset = Mathf.SmoothDamp(offset, targetOffset, ref recoilVelocity, recoilReturnTime/2);
 
-            // Apply recoil to camera and weapon rotation
+            offset = Mathf.SmoothDamp(offset, targetOffset, ref recoilVelocity, recoilReturnTime / 2);
+
+            if (float.IsNaN(offset)) offset = 0f; // ? 추가
             Vector3 e = baseCamEuler;
             e.x -= offset;
             mainCamera.transform.localEulerAngles = e;
             weapons.transform.localEulerAngles = e;
-        } 
+        }
+
         rtm.targetOffset = targetOffset;
     }
+
 
     public IEnumerator OnMuzzleFlashEffect()
     {

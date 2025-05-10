@@ -97,8 +97,13 @@ public class Player : MonoBehaviour
 
     private void UpdateRotate()
     {
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
+        if (Cursor.lockState != CursorLockMode.Locked)
+            return;
+
+        float sensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 1.0f); // 🔧 감도 불러오기
+
+        float mouseX = Input.GetAxis("Mouse X") * sensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * sensitivity;
 
         rotateToMouse.UpdateRotate(mouseX, mouseY);
     }

@@ -28,6 +28,8 @@ public class WeaponKnife : WeaponBase
 
     public override void StartWeaponAction(int type = 0)
     {
+        if (!WeaponBase.isWeaponInputEnabled) return;
+        
         if(isAttack == true) return;
         
         //연속 공격

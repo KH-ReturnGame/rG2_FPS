@@ -32,6 +32,8 @@ public class WeaponGrenade : WeaponBase
 
     public override void StartWeaponAction(int type = 0)
     {
+        if (!WeaponBase.isWeaponInputEnabled) return;
+        
         if (type == 0 && isAttack == false && weaponSet.currentAmmo > 0)
         {
             StartCoroutine("OnAttack");

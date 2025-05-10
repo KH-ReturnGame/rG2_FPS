@@ -20,7 +20,7 @@ public abstract class WeaponBase : MonoBehaviour
     [SerializeField]
     protected GameObject bulletHoleContainer;
     
-
+    public static bool isWeaponInputEnabled = true; // 모든 무기에서 공통으로 체크할 입력 여부
     protected float lastAttackTime = 0; // 마지막 발사 시간
     protected bool isReload = false;
     protected bool isAttack = false;
