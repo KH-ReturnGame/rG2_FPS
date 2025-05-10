@@ -80,6 +80,11 @@ public class WeaponAssaultRifle : WeaponBase
     
     private void OnEnable()
     {
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+        }
+        
         // 무기 장착 사운드
         PlaySound(audioClipTakeOutWeapon);
         // 총구 이펙트 오브젝트 비활성화
@@ -91,6 +96,7 @@ public class WeaponAssaultRifle : WeaponBase
         onAmmoEvent.Invoke(weaponSet.currentAmmo, weaponSet.maxAmmo);
 
         ResetVariables();
+        AdjustAimImageSize();
     }
 
     
