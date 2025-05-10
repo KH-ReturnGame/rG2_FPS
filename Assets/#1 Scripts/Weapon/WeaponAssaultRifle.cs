@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Mathematics.Geometry;
+using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
@@ -50,6 +51,7 @@ public class WeaponAssaultRifle : WeaponBase
     public GameObject weapons;
     Vector3 baseCamEuler;
     public LayerMask rayLayerMask;
+    public bool RifleMode = false;
     
 
     private CasingMemoryPool casingMemoryPool;
@@ -78,6 +80,11 @@ public class WeaponAssaultRifle : WeaponBase
     
     private void OnEnable()
     {
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+        }
+        
         // π´±‚ ¿Â¬¯ ªÁøÓµÂ
         PlaySound(audioClipTakeOutWeapon);
         // √—±∏ ¿Ã∆Â∆Æ ø¿∫Í¡ß∆Æ ∫Ò»∞º∫»≠
@@ -89,6 +96,7 @@ public class WeaponAssaultRifle : WeaponBase
         onAmmoEvent.Invoke(weaponSet.currentAmmo, weaponSet.maxAmmo);
 
         ResetVariables();
+        AdjustAimImageSize();
     }
 
     
@@ -179,6 +187,7 @@ public class WeaponAssaultRifle : WeaponBase
             animator.Play(animation, -1, 0);
             
             if ( animator.AimModeIs == false) StartCoroutine("OnMuzzleFlashEffect");// √—±∏ ¿Ã∆Â∆Æ
+            Debug.Log("sdf");
             PlaySound(audioClipFire); // √—±‚ πﬂªÁ¿Ω
             casingMemoryPool.SpawnCasing(casingSpawnPoint.position, transform.right); //≈∫«« ª˝º∫
 
@@ -439,11 +448,12 @@ public class WeaponAssaultRifle : WeaponBase
         AdjustAimImageSize();
     }
 
-    private IEnumerator OnModeChange()
+    public IEnumerator OnModeChange()
     {
         float current = 0;
         float percent = 0;
         float time = 0.1f;
+        RifleMode = !RifleMode;
         
         spread_radius = animator.AimModeIs?spread_Aimmod1_radius : spread_Aimmod2_radius;
         AdjustAimImageSize();

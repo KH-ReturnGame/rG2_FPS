@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class WeaponRevolver : WeaponBase
 {
@@ -14,6 +15,8 @@ public class WeaponRevolver : WeaponBase
 
     [Header("Audio Clips")]
     [SerializeField]
+    private Image imageAim;
+    [SerializeField]
     private AudioClip audioClipFire;
     [SerializeField]
     private AudioClip audioClipReload;
@@ -21,8 +24,8 @@ public class WeaponRevolver : WeaponBase
     private ImpactMemoryPool impactMemoryPool;
     private Camera mainCamera;
 
-    private float spread_radius = 0.008f;
-    public float spread_Aimmod1_radius = 0.008f;
+    private float spread_radius = 0.002f;
+    public float spread_Aimmod1_radius = 0.002f;
     public float spread_Aimmod2_radius = 0.001f;
     public GameObject pointPrefab;
     public Canvas canvas;
@@ -39,6 +42,11 @@ public class WeaponRevolver : WeaponBase
 
     private void OnEnable()
     {
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+        }
+        
         // 총구 이펙트 오브젝트 비활성화
         muzzleFlashEffect.SetActive(false);
 
@@ -48,6 +56,7 @@ public class WeaponRevolver : WeaponBase
         onAmmoEvent.Invoke(weaponSet.currentAmmo, weaponSet.maxAmmo);
 
         ResetVariables();
+        AdjustAimImageSize();
     }
 
     private void Awake()
@@ -111,6 +120,7 @@ public class WeaponRevolver : WeaponBase
             StartCoroutine("OnMuzzleFlashEffect");// 총구 이펙트
 
             TwoStepRaycast();//광선 발사해 원하는 위치 공격
+            Debug.Log("asdfsdf");
             PlaySound(audioClipFire);
             //반동 구현
             recoilOffset += recoil_X;
@@ -275,5 +285,56 @@ public class WeaponRevolver : WeaponBase
     {
         isReload = false;
         isAttack = false;
+    }
+    private void AdjustAimImageSize()
+    {
+        if (imageAim == null || canvas == null) return;
+
+        // 최대 반지름(spread_radius)에 해당하는 뷰포트 좌표 생성 (x축 기준)
+        Vector3 maxRadiusViewportPoint = new Vector3(0.5f + spread_radius * mainCamera.aspect, 0.5f, 0f);
+        Vector3 centerViewportPoint = new Vector3(0.5f, 0.5f, 0f);
+
+        // 뷰포트 좌표를 화면 좌표로 변환
+        Vector2 maxRadiusScreenPoint = new Vector2(maxRadiusViewportPoint.x * Screen.width, maxRadiusViewportPoint.y * Screen.height);
+        Vector2 centerScreenPoint = new Vector2(centerViewportPoint.x * Screen.width, centerViewportPoint.y * Screen.height);
+
+        // 화면 좌표를 캔버스 로컬 좌표로 변환
+        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+        Vector2 maxRadiusCanvasPoint, centerCanvasPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvasRect,
+            maxRadiusScreenPoint,
+            canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : mainCamera,
+            out maxRadiusCanvasPoint
+        );
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvasRect,
+            centerScreenPoint,
+            canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : mainCamera,
+            out centerCanvasPoint
+        );
+
+        // 캔버스 스케일링 보정
+        CanvasScaler scaler = canvas.GetComponent<CanvasScaler>();
+        if (scaler != null && scaler.referenceResolution != Vector2.zero)
+        {
+            float scaleFactor = scaler.referenceResolution.y / Screen.height;
+            maxRadiusCanvasPoint *= scaleFactor;
+            centerCanvasPoint *= scaleFactor;
+        }
+
+        // 캔버스 상의 반지름 계산 (x축 기준)
+        float canvasRadius = Mathf.Abs(maxRadiusCanvasPoint.x - centerCanvasPoint.x);
+        //Debug.Log($"Canvas Radius: {canvasRadius}");
+
+        // 에임 이미지 크기 조절 (원의 지름 = 반지름 * 2)
+        RectTransform aimRect = imageAim.GetComponent<RectTransform>();
+        aimRect.sizeDelta = new Vector2(canvasRadius * aimSize, canvasRadius * aimSize);
+    }
+
+    // 화면 크기 변경 시 호출 (옵션)
+    private void OnRectTransformDimensionsChange()
+    {
+        AdjustAimImageSize();
     }
 }

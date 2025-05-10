@@ -14,6 +14,9 @@ public class WeaponSwitchSystem : MonoBehaviour
     private WeaponBase currentWeapon;
     private WeaponBase previousaWeapon;
 
+    private int prev;
+    private int curr =0;
+
     private void Awake()
     {
         playerHUD.SetupAllWeapons(weapons);
@@ -41,6 +44,16 @@ public class WeaponSwitchSystem : MonoBehaviour
         int inputIndex = 0;
         if(int.TryParse(Input.inputString,out inputIndex)&& (inputIndex > 0 && inputIndex < 5))
         {
+            if(curr == 0) // 현재 무기가 AssaultRifle일 때
+            {
+                // WeaponBase를 WeaponAssaultRifle로 형변환
+                WeaponAssaultRifle assaultRifle = currentWeapon as WeaponAssaultRifle;
+                if(assaultRifle.RifleMode)
+                {
+                    // OnModeChange 함수 실행
+                    StartCoroutine(assaultRifle.OnModeChange());
+                }
+            }
             SwitchingWeapon((WeaponType)(inputIndex - 1));
         }
     }
@@ -56,10 +69,12 @@ public class WeaponSwitchSystem : MonoBehaviour
         if(currentWeapon != null)
         {
             previousaWeapon = currentWeapon;
+            prev = curr;
         }
 
         //무기 교체
         currentWeapon = weapons[(int)weaponType];
+        curr = (int)weaponType;
 
         // 현재 무기로 교체 시 종료
         if (currentWeapon == previousaWeapon)

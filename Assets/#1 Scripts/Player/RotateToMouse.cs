@@ -2,66 +2,40 @@ using UnityEngine;
 
 public class RotateToMouse : MonoBehaviour
 {
-    [SerializeField]
-    private float rotCamXAxisSpeed = 5; // ī�޶� xȸ�� ����
+    [Header("Camera Rotation")]
+    [SerializeField] private float rotCamXAxisSpeed = 5f;
+    [SerializeField] private float rotCamYAxisSpeed = 3f;
+    [SerializeField] private float limitMinX = -90f;
+    [SerializeField] private float limitMaxX = 80f;
 
-    [SerializeField]
-    private float rotCamYAxisSpeed = 3; // ī�޶� yȸ�� ����
-    
-    [SerializeField]
-    private float leanAngle = 15f; // �ִ� ����̱� ����
-    [SerializeField]
-    private float leanSpeed = 5f; // ����̱� �ӵ�
-    
-    private float currentLean = 0f; // ���� ����� ����
-    private float leanVelocity = 0f;
+    public float targetOffset = 10f;
 
-    private float limitMinX = -90; // ī�޶� x ȸ������
-    private float limitMaxX = 80; // ī�޶�y  ȸ������
-    private float eulerAngleX;
-    private float eulerAngleY;
+    private float eulerAngleX; // pitch
+    private float eulerAngleY; // yaw
 
-    public float targetOffset = 10;
-    //public GameObject Player;
-
-    // ���콺 �����ӿ� ���� ȸ�� ó��
-    public void UpdateRotate(float mouseX,float mouseY)
+    private void Update()
     {
-        eulerAngleY += mouseX * rotCamXAxisSpeed; // ���콺 ��/�� �̵����� yȸ��
-        eulerAngleX -= mouseY * rotCamXAxisSpeed; // ���콺 ��/�� �̵����� xȸ��
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
 
-        // ī�޶� xȸ�� ���� ����
-        eulerAngleX = ClampAngle(eulerAngleX, limitMinX+targetOffset, limitMaxX+targetOffset);
-        
-        UpdateLean(); // ���� ������Ʈ
-        
-        // ȸ�� ����
-        transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, currentLean);
+        UpdateRotate(mouseX, mouseY);
     }
 
-    // Ư�� ���� ���� ȸ�� ���� �����ϴ� �Լ�
+    public void UpdateRotate(float mouseX, float mouseY)
+    {
+        eulerAngleY += mouseX * rotCamXAxisSpeed;
+        eulerAngleX -= mouseY * rotCamYAxisSpeed;
+
+        eulerAngleX = ClampAngle(eulerAngleX, limitMinX + targetOffset, limitMaxX + targetOffset);
+
+        // ✅ 반전 문제 없이 회전 적용 (Yaw * Pitch 순으로)
+        Quaternion yawRotation = Quaternion.AngleAxis(eulerAngleY, Vector3.up);
+        Quaternion pitchRotation = Quaternion.AngleAxis(eulerAngleX, Vector3.right);
+        transform.rotation = yawRotation * pitchRotation;
+    }
+
     private float ClampAngle(float angle, float min, float max)
     {
-        // Directly clamp without wrapping to avoid sudden jumps at zero crossing
         return Mathf.Clamp(angle, min, max);
     }
-    
-    private void UpdateLean()
-    {
-        //Debug.Log("currentLean : " + currentLean);
-        float targetLean = 0f;
-        // Q ����, E ������
-        if (Input.GetKey(KeyCode.E))
-        {
-            targetLean = -leanAngle;
-        }
-        else if (Input.GetKey(KeyCode.Q))
-        {
-            targetLean = leanAngle;
-        }
-        
-        // �ε巴�� ���� ���� ����
-        currentLean = Mathf.SmoothDamp(currentLean, targetLean, ref leanVelocity, 0.05f);
-    }
-    
 }
