@@ -50,6 +50,7 @@ public abstract class WeaponBase : MonoBehaviour
     }
     protected void Setup()
     {
+        WeaponBase.isWeaponInputEnabled = true; 
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<PlayerAnimateController>();
     }
