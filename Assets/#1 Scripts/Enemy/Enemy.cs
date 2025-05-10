@@ -5,20 +5,32 @@ public class Enemy : MonoBehaviour
 {
     private StateMachine stateMachine;
     private NavMeshAgent agent;
+    private GameObject player;
 
     public NavMeshAgent Agent { get => agent; }
-    // 디버그용
-    [SerializeField]
-    private string currentState;
-    public Path path;
-    private GameObject player;
-    public float sightDistance = 50f;
-    public float fieldOfView = 85f;
+    public GameObject Player { get => player; }
 
     public LayerMask playerMask;
 
     public LayerMask obstacleMask;
     public LayerMask obstacleMask2;
+
+    // 디버그용
+    public Path path;
+
+    [Header("Sight values")]
+    public float sightDistance = 50f;
+    public float fieldOfView = 85f;
+    [Header("Weapon values")]
+    public Transform gunBarrel;
+    public int damage = 15;
+    [Range(0.1f,10f)]
+    public float fireRate;
+    // 디버그용
+    [SerializeField]
+    private string currentState;
+
+  
     
     [Header("HP")]
     [SerializeField]
@@ -27,6 +39,7 @@ public class Enemy : MonoBehaviour
     
     public float CurrentHP => currentHP;
     public float MaxHP => maxHP;
+    
     
     [HideInInspector]
     public HPEvent onHPEvent = new HPEvent();
@@ -71,12 +84,13 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CanSeePlayer();
+         CanSeePlayer();
+        currentState = stateMachine.activeState.ToString();
     }
 
     public bool CanSeePlayer()
     {
-        /*
+       
         if(player != null)
         {
             // player close
@@ -86,16 +100,34 @@ public class Enemy : MonoBehaviour
                 float angleToPlayer = Vector3.Angle(targetDirection, transform.forward);
                 if(angleToPlayer >= -fieldOfView && angleToPlayer <= fieldOfView)
                 {
-                   Ray ray = new Ray(transform.position, targetDirection);
-                   Debug.DrawRay(ray.origin, ray.direction * sightDistance);
+                    // 시야각 확보 이후 장애물 확인
+                   Ray ray = new Ray(transform.position, targetDirection.normalized); // 적의 눈높이에서 광선 발사
+                   RaycastHit hit;
+
+                    // 광선을 발사하여 장애물이 있는지 확인
+                    if (Physics.Raycast(ray, out hit, sightDistance))
+                    {
+                        if (hit.collider.gameObject != player)
+                        {
+                            Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.yellow); // 장애물에 막힌 광선 (노란색)
+                            Debug.Log("씨발 벽이잖아!!!");
+                            return false;
+                        }
+                        else
+                        {
+                            Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green); // 플레이어를 감지한 광선 (초록색)
+                            Debug.Log("인간 ㅎㅇ!"); 
+                            return true;
+                        }
+                    }
                 }
             }
         }
-        return true;
+        return false;
     }
-    */
-
-     if (player != null)
+    
+  /*     
+  if (player != null)
         {
             Vector3 targetDirection = player.transform.position - transform.position;
             float distanceToPlayer = targetDirection.magnitude;
@@ -173,4 +205,5 @@ public class Enemy : MonoBehaviour
         }
         return false; // 플레이어 오브젝트가 없음
     }
+    */
 }
