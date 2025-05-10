@@ -436,11 +436,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   path: {fileID: 903502510482378566}
-  sightDistance: 3
-  fieldOfView: 30
+  sightDistance: 30
+  fieldOfView: 85
   gunBarrel: {fileID: 7811396641149635514}
-  damage: 15
-  fireRate: 0.1
+  damage: 4
+  fireRate: 0.31
   currentState: 
   maxHP: 100
   onHPEvent:
