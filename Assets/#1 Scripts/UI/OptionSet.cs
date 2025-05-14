@@ -188,7 +188,11 @@ public class OptionManager : MonoBehaviour
     {
         optionsPanel.SetActive(false);
     }
-    
+    // ---------------------- 게임 종료 ----------------------
+    private void SetBtn(int index)
+    {
+        optionsPanel.SetActive(true);
+    }
     // ---------------------- 게임 종료 ----------------------
     public void QuitGame()
     {
