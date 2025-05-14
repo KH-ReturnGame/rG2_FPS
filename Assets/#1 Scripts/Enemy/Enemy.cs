@@ -6,9 +6,12 @@ public class Enemy : MonoBehaviour
     private StateMachine stateMachine;
     private NavMeshAgent agent;
     private GameObject player;
+    private Vector3 lastKnownPos;
 
     public NavMeshAgent Agent { get => agent; }
     public GameObject Player { get => player; }
+    public Vector3 LastKnownPos { get => lastKnownPos; set => lastKnownPos = value; }
+    
 
     public LayerMask playerMask;
 
@@ -64,11 +67,17 @@ public class Enemy : MonoBehaviour
         if (currentHP - damage > 0)
         {
             currentHP -= damage;
+            //
+            stateMachine.ChangeState(new SearchState());
+            lastKnownPos = player.transform.position;
+            //
         }
         else
         {
             Destroy(gameObject);
         }
+
+
 
         onHPEvent.Invoke(previousHP, currentHP);
         
