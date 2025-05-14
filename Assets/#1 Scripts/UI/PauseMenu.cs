@@ -69,7 +69,7 @@ public class PauseMenu : MonoBehaviour
     public void OnClickMainMenu() // 시작 화면
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Lobby");
+        LoadingSceneManager.LoadScene("Lobby");
     }
 
     public void OnClickRestart() // 재시작
