@@ -1,16 +1,11 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    //플레이어가 들어가면 발동되는 체크포인트
+    public GameObject[] CheckPoints;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //체크포인트 내부로 들어갔을 때 발동되는 이벤트
+    public event EventHandler OnTrrigerCP;
 }
