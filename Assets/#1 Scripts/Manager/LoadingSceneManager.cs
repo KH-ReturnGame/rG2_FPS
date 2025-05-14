@@ -8,7 +8,7 @@ public class LoadingSceneManager : MonoBehaviour
 {
     public static string nextScene;
 
-    [Header("🔄 로딩 UI")]
+    [Header("Loading Scene")]
     public Slider progressBar;
     public TMP_Text progressText;
 
@@ -27,7 +27,7 @@ public class LoadingSceneManager : MonoBehaviour
 
     IEnumerator LoadSceneProcess()
     {
-        AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
+        AsyncOperation op = SceneManager.LoadSceneAsync(SceneLoader.nextScene);
         op.allowSceneActivation = false;
 
         while (!op.isDone)
@@ -35,7 +35,7 @@ public class LoadingSceneManager : MonoBehaviour
             // 실제 진행률
             float targetProgress = Mathf.Clamp01(op.progress / 0.9f);
 
-            // Lerp로 부드럽게 보간
+            // 부드럽게 설정
             currentProgress = Mathf.Lerp(currentProgress, targetProgress, Time.deltaTime * 5f);
 
             // UI 반영
@@ -49,8 +49,8 @@ public class LoadingSceneManager : MonoBehaviour
             if (currentProgress >= 0.995f)
             {
                 progressBar.value = 1f;
-                progressText.text = "100%";
                 yield return new WaitForSeconds(0.3f);
+                progressText.text = "100%";
                 op.allowSceneActivation = true;
             }
 

@@ -5,6 +5,6 @@ public class Lobby : MonoBehaviour
 {
     public void Tutorial()
     {
-        LoadingSceneManager.LoadScene("Main");
+        SceneLoader.LoadScene("Main");
     }
 }
