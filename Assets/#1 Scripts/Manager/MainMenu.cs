@@ -5,6 +5,6 @@ public class MainMenu : MonoBehaviour
 {
     public void GameStart()
     {
-        SceneManager.LoadScene("Main");
+        LoadingSceneManager.LoadScene("Lobby");
     }
 }

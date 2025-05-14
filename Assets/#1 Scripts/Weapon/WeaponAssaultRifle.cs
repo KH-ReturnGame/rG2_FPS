@@ -100,7 +100,7 @@ public class WeaponAssaultRifle : WeaponBase
         ResetVariables();
         AdjustAimImageSize();
 
-        baseCamEuler = mainCamera.transform.localEulerAngles; // ? 수정됨
+        //baseCamEuler = mainCamera.transform.localEulerAngles; // ? 수정됨
     }
 
 
@@ -207,15 +207,6 @@ public class WeaponAssaultRifle : WeaponBase
 
     private void LateUpdate()
     {
-        // ? NaN 방지 처리
-        if (float.IsNaN(offset) || float.IsNaN(targetOffset))
-        {
-            offset = 0f;
-            targetOffset = 0f;
-            recoilVelocity = 0f;
-            return;
-        }
-
         if ((!isAttak || weaponSet.currentAmmo <= 0))
         {
             if (!recoilbool)
@@ -226,8 +217,7 @@ public class WeaponAssaultRifle : WeaponBase
             }
 
             offset = Mathf.SmoothDamp(offset, targetOffset, ref recoilVelocity, recoilReturnTime);
-
-            if (float.IsNaN(offset)) offset = 0f; // ? 추가
+            
             Vector3 e = baseCamEuler;
             e.x -= offset;
             mainCamera.transform.localEulerAngles = e;
@@ -242,8 +232,7 @@ public class WeaponAssaultRifle : WeaponBase
             }
 
             offset = Mathf.SmoothDamp(offset, targetOffset, ref recoilVelocity, recoilReturnTime / 2);
-
-            if (float.IsNaN(offset)) offset = 0f; // ? 추가
+            
             Vector3 e = baseCamEuler;
             e.x -= offset;
             mainCamera.transform.localEulerAngles = e;

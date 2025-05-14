@@ -30,10 +30,7 @@ public class RotateToMouse : MonoBehaviour
 
         eulerAngleX = ClampAngle(eulerAngleX, limitMinX + targetOffset, limitMaxX + targetOffset);
 
-        // ✅ 반전 문제 없이 회전 적용 (Yaw * Pitch 순으로)
-        Quaternion yawRotation = Quaternion.AngleAxis(eulerAngleY, Vector3.up);
-        Quaternion pitchRotation = Quaternion.AngleAxis(eulerAngleX, Vector3.right);
-        transform.rotation = yawRotation * pitchRotation;
+        transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
     }
 
     private float ClampAngle(float angle, float min, float max)

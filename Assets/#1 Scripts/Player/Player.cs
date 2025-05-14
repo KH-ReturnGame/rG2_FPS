@@ -29,6 +29,13 @@ public class Player : MonoBehaviour
     private AudioClip audioClipWalk; // 걷기 사운드
     [SerializeField]
     private AudioClip audioClipRun; // 걷기 사운드
+    [SerializeField] private AudioClip deathVoiceClip; // 🪦 사망 음성
+    
+    
+    [SerializeField]
+    private AudioClip[] hitVoiceClips; // 피격 보이스들
+    [SerializeField]
+    private AudioSource voiceSource; // 별도의 보이스용 AudioSource
 
     public RotateToMouse rotateToMouse;    // 마우스 이동으로 카메라 회전
     private PlayerMovement movement;    // 키보드 입력으로 플레이어 이동, 점프
@@ -39,6 +46,10 @@ public class Player : MonoBehaviour
     // Track button states to handle rapid clicks
     private bool leftMouseWasDown = false;
     private bool rightMouseWasDown = false;
+    
+    private float lastHitVoiceTime = 0f;  // 마지막 피격음 재생 시각
+    private float hitVoiceCooldown = 0.5f; // 최소 재생 간격 
+    private bool hasPlayedDeathVoice = false; // 중복 방지
 
     public void Start()
     {
@@ -61,6 +72,9 @@ public class Player : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         status = GetComponent<PlayerStatus>();
         audioSource = GetComponent<AudioSource>();
+        
+        voiceSource = gameObject.AddComponent<AudioSource>();
+        voiceSource.playOnAwake = false;
     }
     
     public void Update()
@@ -218,9 +232,33 @@ public class Player : MonoBehaviour
     {
         bool isDie = status.DecreaseHp(damage);
 
-        if (isDie == true)
+        if (isDie)
         {
+            // 사망 음성 재생
+            if (hasPlayedDeathVoice == false && deathVoiceClip != null)
+            {
+                voiceSource.PlayOneShot(deathVoiceClip);
+                hasPlayedDeathVoice = true;
+            }
+
             Debug.Log("GameOver!");
         }
+        else
+        {
+            PlayRandomHitVoice(); // 일반 피격음
+        }
+    }
+    private void PlayRandomHitVoice()
+    {
+        // 쿨타임 검사
+        if (Time.time - lastHitVoiceTime < hitVoiceCooldown)
+            return;
+
+        lastHitVoiceTime = Time.time;
+
+        if (hitVoiceClips == null || hitVoiceClips.Length == 0) return;
+
+        int index = UnityEngine.Random.Range(0, hitVoiceClips.Length);
+        voiceSource.PlayOneShot(hitVoiceClips[index]);
     }
 }
