@@ -38,7 +38,7 @@ public class TutorialManager : MonoBehaviour
     
     // UI References (optional)
     [SerializeField] private GameObject tutorialUI;
-    [SerializeField] private TMPro.TextMeshProUGUI instructionText;
+    [SerializeField] public TMPro.TextMeshProUGUI instructionText;
     
     private void Awake()
     {
@@ -215,5 +215,7 @@ public class TutorialManager : MonoBehaviour
         {
             tutorialUI.SetActive(false);
         }
+
+        instructionText.text = "Tutorial completed!";
     }
 }

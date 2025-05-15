@@ -28,6 +28,7 @@ public abstract class Task
     {
         isRunning = false;
         isDone = true;
+        TutorialManager.Instance.instructionText.text = "";
         Debug.Log($"Completed task: {GetType().Name}");
     }
 }
