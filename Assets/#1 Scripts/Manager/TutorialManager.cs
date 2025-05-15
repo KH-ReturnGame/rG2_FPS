@@ -61,8 +61,15 @@ public class TutorialManager : MonoBehaviour
         public string description;
         public int requiredCheckpoint;
         public GameObject targetObject;
-        public string taskType; // "move", "interact", "wait", "dialog"
-        public float taskParameter; // distance for move, seconds for wait
+        
+        // Add KeyPressTask support
+        [Tooltip("move, interact, wait, dialog, key-press, multi-key-press")]
+        public string taskType; 
+        public float taskParameter; // distance for move, seconds for wait, duration for key press
+        
+        // For key press tasks
+        public KeyCode primaryKey = KeyCode.None;
+        public KeyCode[] multiKeys = new KeyCode[0];
         
         // Dialog Settings
         public DialogSettings dialogSettings = new DialogSettings();
@@ -70,9 +77,10 @@ public class TutorialManager : MonoBehaviour
     
     [SerializeField] private List<TutorialStep> tutorialSteps = new List<TutorialStep>();
     
-    // UI References (optional)
+    // UI References
     [SerializeField] private GameObject tutorialUI;
     [SerializeField] public TMPro.TextMeshProUGUI instructionText;
+    //[SerializeField] public ProgressBar progressBar;
     
     private void Awake()
     {
@@ -214,6 +222,32 @@ public class TutorialManager : MonoBehaviour
                 else
                 {
                     Debug.LogError($"TutorialManager: Dialog task type specified but no dialog configured in step {stepIndex}");
+                }
+                break;
+                
+            case "key-press":
+                if (step.primaryKey != KeyCode.None)
+                {
+                    // Create a key press task
+                    KeyPressTask keyTask = new KeyPressTask(step.primaryKey, step.taskParameter, step.description);
+                    AddTask(keyTask);
+                }
+                else
+                {
+                    Debug.LogError($"TutorialManager: Key-press task with no key specified in step {stepIndex}");
+                }
+                break;
+                
+            case "multi-key-press":
+                if (step.multiKeys != null && step.multiKeys.Length > 0)
+                {
+                    // Create a multi-key press task
+                    MultiKeyPressTask multiKeyTask = new MultiKeyPressTask(step.multiKeys, step.taskParameter, step.description);
+                    AddTask(multiKeyTask);
+                }
+                else
+                {
+                    Debug.LogError($"TutorialManager: Multi-key-press task with no keys specified in step {stepIndex}");
                 }
                 break;
                 

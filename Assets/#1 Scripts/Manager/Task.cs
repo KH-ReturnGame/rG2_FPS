@@ -392,3 +392,218 @@ public class WaitForSecondsWithDialogTask : WaitForSecondsTask
         }
     }
 }
+
+public class KeyPressTask : Task
+{
+    private KeyCode requiredKey;
+    private float requiredPressTime;
+    private float currentPressTime = 0f;
+    private bool keyWasPressed = false;
+    private string instructionText;
+    
+    // Constructor for single key
+    public KeyPressTask(KeyCode key, float pressTimeRequired, string instruction)
+    {
+        requiredKey = key;
+        requiredPressTime = pressTimeRequired;
+        instructionText = instruction;
+    }
+    
+    public override void StartTask()
+    {
+        base.StartTask();
+        currentPressTime = 0f;
+        keyWasPressed = false;
+        
+        // Display instruction
+        if (TutorialManager.Instance != null && TutorialManager.Instance.instructionText != null)
+        {
+            TutorialManager.Instance.instructionText.text = instructionText;
+        }
+    }
+    
+    public override bool CheckCondition()
+    {
+        if (!isRunning || isDone)
+        {
+            return isDone;
+        }
+        
+        // Check for key press
+        if (Input.GetKey(requiredKey))
+        {
+            keyWasPressed = true;
+            currentPressTime += Time.deltaTime;
+            
+            // Debug log (occasionally)
+            if (Time.frameCount % 30 == 0)
+            {
+                Debug.Log($"KeyPressTask: Pressing {requiredKey} for {currentPressTime:F1}s / {requiredPressTime:F1}s");
+            }
+            
+            // Check if completed
+            if (currentPressTime >= requiredPressTime)
+            {
+                Debug.Log($"KeyPressTask: Successfully pressed {requiredKey} for {requiredPressTime} seconds!");
+                
+                // Unlock the key in the control manager
+                if (ControlManager.Instance != null)
+                {
+                    ControlManager.Instance.UnlockControl(requiredKey);
+                }
+                
+                EndTask();
+                return true;
+            }
+        }
+        else if (keyWasPressed)
+        {
+            // Key was released before completion - reset timer but don't reset completely
+            currentPressTime = Mathf.Max(0, currentPressTime - (Time.deltaTime * 2));
+        }
+        
+        return false;
+    }
+    
+    public override void EndTask()
+    {
+        base.EndTask();
+    }
+}
+
+public class MultiKeyPressTask : Task
+{
+    private KeyCode[] requiredKeys;
+    private float requiredPressTime;
+    private float[] currentPressTimes;
+    private bool[] keysPressed;
+    private string instructionText;
+    
+    // Constructor for multiple keys that need to be pressed sequentially
+    public MultiKeyPressTask(KeyCode[] keys, float pressTimeRequired, string instruction)
+    {
+        requiredKeys = keys;
+        requiredPressTime = pressTimeRequired;
+        instructionText = instruction;
+        
+        currentPressTimes = new float[keys.Length];
+        keysPressed = new bool[keys.Length];
+    }
+    
+    public override void StartTask()
+    {
+        base.StartTask();
+        
+        for (int i = 0; i < currentPressTimes.Length; i++)
+        {
+            currentPressTimes[i] = 0f;
+            keysPressed[i] = false;
+        }
+        
+        // Display instruction
+        if (TutorialManager.Instance != null && TutorialManager.Instance.instructionText != null)
+        {
+            TutorialManager.Instance.instructionText.text = instructionText;
+        }
+    }
+    
+    public override bool CheckCondition()
+    {
+        if (!isRunning || isDone)
+        {
+            return isDone;
+        }
+        
+        bool allKeysCompleted = true;
+        int activeKeyIndex = -1;
+        
+        // Find the first incomplete key
+        for (int i = 0; i < requiredKeys.Length; i++)
+        {
+            if (currentPressTimes[i] < requiredPressTime)
+            {
+                allKeysCompleted = false;
+                if (activeKeyIndex == -1)
+                {
+                    activeKeyIndex = i;
+                }
+                break;
+            }
+        }
+        
+        // If all keys completed, end task
+        if (allKeysCompleted)
+        {
+            Debug.Log("MultiKeyPressTask: All keys completed!");
+            
+            // Unlock all keys
+            if (ControlManager.Instance != null)
+            {
+                foreach (KeyCode key in requiredKeys)
+                {
+                    ControlManager.Instance.UnlockControl(key);
+                }
+            }
+            
+            EndTask();
+            return true;
+        }
+        
+        // Process active key
+        if (activeKeyIndex >= 0)
+        {
+            KeyCode activeKey = requiredKeys[activeKeyIndex];
+            
+            // Check for key press
+            if (Input.GetKey(activeKey))
+            {
+                keysPressed[activeKeyIndex] = true;
+                currentPressTimes[activeKeyIndex] += Time.deltaTime;
+                
+                // Debug log (occasionally)
+                if (Time.frameCount % 30 == 0)
+                {
+                    Debug.Log($"MultiKeyPressTask: Pressing {activeKey} for {currentPressTimes[activeKeyIndex]:F1}s / {requiredPressTime:F1}s");
+                }
+                
+                // Check if current key completed
+                if (currentPressTimes[activeKeyIndex] >= requiredPressTime)
+                {
+                    Debug.Log($"MultiKeyPressTask: Successfully pressed {activeKey} for {requiredPressTime} seconds!");
+                    
+                    // Unlock the key in the control manager
+                    if (ControlManager.Instance != null)
+                    {
+                        ControlManager.Instance.UnlockControl(activeKey);
+                    }
+                    
+                    // If we're on the last key, end task
+                    if (activeKeyIndex == requiredKeys.Length - 1)
+                    {
+                        EndTask();
+                        return true;
+                    }
+                    
+                    // Update instruction text for next key
+                    if (TutorialManager.Instance != null && TutorialManager.Instance.instructionText != null)
+                    {
+                        string nextKeyName = requiredKeys[activeKeyIndex + 1].ToString();
+                        TutorialManager.Instance.instructionText.text = $"[{nextKeyName} 키를 눌러 주세요.]";
+                    }
+                }
+            }
+            else if (keysPressed[activeKeyIndex])
+            {
+                // Key was released before completion - reset timer but don't reset completely
+                currentPressTimes[activeKeyIndex] = Mathf.Max(0, currentPressTimes[activeKeyIndex] - (Time.deltaTime * 2));
+            }
+        }
+        
+        return false;
+    }
+    
+    public override void EndTask()
+    {
+        base.EndTask();
+    }
+}
