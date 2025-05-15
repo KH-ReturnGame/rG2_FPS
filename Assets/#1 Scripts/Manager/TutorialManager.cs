@@ -8,6 +8,20 @@ public class CheckPointEvent : UnityEngine.Events.UnityEvent<GameObject, int> { 
 public class DialogSettings
 {
     public bool includeDialog = false;
+    
+    // Changed from single dialog to list of dialogs
+    [SerializeField]
+    public List<DialogEntry> dialogEntries = new List<DialogEntry>();
+
+    // Default typewriter settings for all dialogs (can be overridden per entry)
+    public bool useTypewriterEffect = true;
+    public float typewriterSpeed = 0.05f;
+}
+
+// New class to represent individual dialog entries
+[Serializable]
+public class DialogEntry
+{
     [TextArea(2, 5)]
     public string speakerName;
     [TextArea(3, 10)]
@@ -15,7 +29,7 @@ public class DialogSettings
     public AudioClip dialogVoiceClip;
     public float dialogDuration = 3.0f;
     
-    // 타이핑 효과 관련 설정
+    // Per-dialog typewriter settings
     public bool overrideTypewriterSettings = false;
     public bool useTypewriterEffect = true;
     public float typewriterSpeed = 0.05f;
@@ -131,21 +145,33 @@ public class TutorialManager : MonoBehaviour
         
         // Create dialog data if this step has dialog
         DialogData[] stepDialogs = null;
-        if (step.dialogSettings.includeDialog)
+        if (step.dialogSettings.includeDialog && step.dialogSettings.dialogEntries.Count > 0)
         {
-            DialogData dialog = new DialogData
+            // Convert DialogEntry list to DialogData array
+            stepDialogs = new DialogData[step.dialogSettings.dialogEntries.Count];
+            
+            for (int i = 0; i < step.dialogSettings.dialogEntries.Count; i++)
             {
-                speakerName = step.dialogSettings.speakerName,
-                dialogText = step.dialogSettings.dialogText,
-                displayDuration = step.dialogSettings.dialogDuration,
-                voiceClip = step.dialogSettings.dialogVoiceClip,
+                DialogEntry entry = step.dialogSettings.dialogEntries[i];
                 
-                // 타이핑 효과 설정 추가
-                overrideTypewriterSettings = step.dialogSettings.overrideTypewriterSettings,
-                useTypewriterEffect = step.dialogSettings.useTypewriterEffect,
-                typewriterSpeed = step.dialogSettings.typewriterSpeed
-            };
-            stepDialogs = new DialogData[] { dialog };
+                stepDialogs[i] = new DialogData
+                {
+                    speakerName = entry.speakerName,
+                    dialogText = entry.dialogText,
+                    displayDuration = entry.dialogDuration,
+                    voiceClip = entry.dialogVoiceClip,
+                    
+                    // Use per-dialog override settings if specified,
+                    // otherwise use the settings from dialogSettings
+                    overrideTypewriterSettings = entry.overrideTypewriterSettings,
+                    useTypewriterEffect = entry.overrideTypewriterSettings ? 
+                                          entry.useTypewriterEffect : 
+                                          step.dialogSettings.useTypewriterEffect,
+                    typewriterSpeed = entry.overrideTypewriterSettings ? 
+                                      entry.typewriterSpeed : 
+                                      step.dialogSettings.typewriterSpeed
+                };
+            }
         }
         
         // Create appropriate task based on step type
@@ -154,7 +180,7 @@ public class TutorialManager : MonoBehaviour
             case "move":
                 if (step.targetObject != null)
                 {
-                    if (step.dialogSettings.includeDialog)
+                    if (step.dialogSettings.includeDialog && stepDialogs != null && stepDialogs.Length > 0)
                     {
                         AddTask(new MovePlayerWithDialogTask(playerTransform, step.targetObject.transform, stepDialogs, step.taskParameter));
                     }
@@ -170,7 +196,7 @@ public class TutorialManager : MonoBehaviour
                 break;
                 
             case "wait":
-                if (step.dialogSettings.includeDialog)
+                if (step.dialogSettings.includeDialog && stepDialogs != null && stepDialogs.Length > 0)
                 {
                     AddTask(new WaitForSecondsWithDialogTask(step.taskParameter, stepDialogs));
                 }
@@ -181,7 +207,7 @@ public class TutorialManager : MonoBehaviour
                 break;
                 
             case "dialog":
-                if (step.dialogSettings.includeDialog)
+                if (step.dialogSettings.includeDialog && stepDialogs != null && stepDialogs.Length > 0)
                 {
                     AddTask(new ListenToDialogTask(stepDialogs));
                 }
@@ -316,7 +342,35 @@ public class TutorialManager : MonoBehaviour
         instructionText.text = "Tutorial completed!";
     }
     
-    // 대화를 시작하는 도우미 메서드
+    // Helper method to create a DialogData from a DialogEntry
+    public DialogData CreateDialogData(DialogEntry entry, DialogSettings settings = null)
+    {
+        DialogData dialog = new DialogData
+        {
+            speakerName = entry.speakerName,
+            dialogText = entry.dialogText,
+            displayDuration = entry.dialogDuration,
+            voiceClip = entry.dialogVoiceClip
+        };
+        
+        // Apply typewriter settings
+        if (entry.overrideTypewriterSettings)
+        {
+            dialog.overrideTypewriterSettings = true;
+            dialog.useTypewriterEffect = entry.useTypewriterEffect;
+            dialog.typewriterSpeed = entry.typewriterSpeed;
+        }
+        else if (settings != null)
+        {
+            dialog.overrideTypewriterSettings = true;
+            dialog.useTypewriterEffect = settings.useTypewriterEffect;
+            dialog.typewriterSpeed = settings.typewriterSpeed;
+        }
+        
+        return dialog;
+    }
+    
+    // Start a single dialog (helper method)
     public void StartDialog(DialogData dialog)
     {
         if (DialogManager.Instance != null)
@@ -329,7 +383,7 @@ public class TutorialManager : MonoBehaviour
         }
     }
     
-    // 여러 대화를 시작하는 도우미 메서드
+    // Start multiple dialogs (helper method)
     public void StartDialogs(DialogData[] dialogs)
     {
         if (DialogManager.Instance != null)
@@ -342,7 +396,31 @@ public class TutorialManager : MonoBehaviour
         }
     }
     
-    // 현재 실행 중인 대화를 건너뛰는 메서드
+    // Start dialogs from DialogEntry list
+    public void StartDialogsFromEntries(List<DialogEntry> entries, DialogSettings settings = null)
+    {
+        if (DialogManager.Instance != null && entries != null && entries.Count > 0)
+        {
+            DialogData[] dialogs = new DialogData[entries.Count];
+            
+            for (int i = 0; i < entries.Count; i++)
+            {
+                dialogs[i] = CreateDialogData(entries[i], settings);
+            }
+            
+            DialogManager.Instance.EnqueueDialogs(dialogs);
+        }
+        else if (entries == null || entries.Count == 0)
+        {
+            Debug.LogError("TutorialManager: Cannot start dialogs from empty entries!");
+        }
+        else
+        {
+            Debug.LogError("TutorialManager: DialogManager instance not found!");
+        }
+    }
+    
+    // Skip current dialog
     public void SkipCurrentDialog()
     {
         if (DialogManager.Instance != null)
@@ -351,7 +429,7 @@ public class TutorialManager : MonoBehaviour
         }
     }
     
-    // 모든 대화를 취소하는 메서드
+    // Clear all dialogs
     public void ClearAllDialogs()
     {
         if (DialogManager.Instance != null)

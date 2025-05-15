@@ -244,7 +244,7 @@ public class ListenToDialogTask : Task
         // Enqueue dialogs
         DialogManager.Instance.EnqueueDialogs(dialogs);
         dialogsEnqueued = true;
-        Debug.Log("ListenToDialogTask: Enqueued dialogs");
+        Debug.Log($"ListenToDialogTask: Enqueued {dialogs.Length} dialogs");
     }
     
     public override bool CheckCondition()
@@ -309,6 +309,12 @@ public class MovePlayerWithDialogTask : MovePlayerTask
         dialogs = dialogsToShow;
     }
     
+    public MovePlayerWithDialogTask(Transform player, Transform target, DialogData singleDialog, float distance = 1.5f)
+        : base(player, target, distance)
+    {
+        dialogs = new DialogData[] { singleDialog };
+    }
+    
     public override void StartTask()
     {
         base.StartTask();
@@ -318,7 +324,7 @@ public class MovePlayerWithDialogTask : MovePlayerTask
         {
             DialogManager.Instance.EnqueueDialogs(dialogs);
             dialogsStarted = true;
-            Debug.Log("MovePlayerWithDialogTask: Started dialogs");
+            Debug.Log($"MovePlayerWithDialogTask: Started {dialogs.Length} dialogs");
         }
     }
     
@@ -355,6 +361,12 @@ public class WaitForSecondsWithDialogTask : WaitForSecondsTask
         dialogs = dialogsToShow;
     }
     
+    public WaitForSecondsWithDialogTask(float seconds, DialogData singleDialog)
+        : base(seconds)
+    {
+        dialogs = new DialogData[] { singleDialog };
+    }
+    
     public override void StartTask()
     {
         base.StartTask();
@@ -364,7 +376,7 @@ public class WaitForSecondsWithDialogTask : WaitForSecondsTask
         {
             DialogManager.Instance.EnqueueDialogs(dialogs);
             dialogsStarted = true;
-            Debug.Log("WaitForSecondsWithDialogTask: Started dialogs");
+            Debug.Log($"WaitForSecondsWithDialogTask: Started {dialogs.Length} dialogs");
         }
     }
     
