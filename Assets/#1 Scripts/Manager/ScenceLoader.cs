@@ -8,6 +8,6 @@ public static class SceneLoader
     public static void LoadScene(string sceneName)
     {
         nextScene = sceneName;
-        SceneManager.LoadScene("LoadingScene"); // 먼저 로딩씬으로 전환
+        SceneManager.LoadScene("LoadingScene");
     }
 }

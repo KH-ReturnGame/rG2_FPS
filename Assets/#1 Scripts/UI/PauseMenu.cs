@@ -62,20 +62,21 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        Input.ResetInputAxes(); // 👈 클릭 입력 상태 완전 초기화
+        Input.ResetInputAxes(); // 클릭 초기화
         WeaponBase.isWeaponInputEnabled = true;
     }
 
     public void OnClickMainMenu() // 시작 화면
     {
         Time.timeScale = 1f;
-        LoadingSceneManager.LoadScene("Lobby");
+        SceneLoader.LoadScene("Lobby");
     }
 
     public void OnClickRestart() // 재시작
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Main");
+        SceneLoader.LoadScene("Main");
+        //SceneManager.LoadScene("Main");
     }
     
     public void OnClickOption()
