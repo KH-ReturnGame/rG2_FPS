@@ -164,3 +164,144 @@ public class InteractionTask : Task
         }
     }
 }
+
+public class ListenToDialogTask : Task
+{
+    private DialogData[] dialogs;
+    private bool dialogsEnqueued = false;
+    
+    public ListenToDialogTask(DialogData[] dialogsToListen)
+    {
+        dialogs = dialogsToListen;
+    }
+    
+    public ListenToDialogTask(DialogData singleDialog)
+    {
+        dialogs = new DialogData[] { singleDialog };
+    }
+    
+    public override void StartTask()
+    {
+        base.StartTask();
+        
+        // Subscribe to dialog state changes
+        DialogManager.Instance.onDialogStateChanged.AddListener(OnDialogStateChanged);
+        
+        // Enqueue dialogs
+        DialogManager.Instance.EnqueueDialogs(dialogs);
+        dialogsEnqueued = true;
+    }
+    
+    public override bool CheckCondition()
+    {
+        if (!isRunning || isDone) return isDone;
+        
+        // Task completes when all dialogs are finished
+        // The actual completion is handled via the event callback
+        return isDone;
+    }
+    
+    private void OnDialogStateChanged(bool isActive)
+    {
+        // When dialog finishes and we've previously enqueued dialogs, complete task
+        if (!isActive && dialogsEnqueued)
+        {
+            DialogManager.Instance.onDialogStateChanged.RemoveListener(OnDialogStateChanged);
+            EndTask();
+        }
+    }
+    
+    public override void EndTask()
+    {
+        base.EndTask();
+        // Ensure we're unsubscribed
+        DialogManager.Instance.onDialogStateChanged.RemoveListener(OnDialogStateChanged);
+    }
+    
+    public override void InterruptTask()
+    {
+        base.InterruptTask();
+        // Clear all dialogs
+        DialogManager.Instance.ClearAllDialogs();
+        DialogManager.Instance.onDialogStateChanged.RemoveListener(OnDialogStateChanged);
+    }
+}
+
+public class MovePlayerWithDialogTask : MovePlayerTask
+{
+    private DialogData[] dialogs;
+    private bool dialogsStarted = false;
+    
+    public MovePlayerWithDialogTask(Transform player, Transform target, DialogData[] dialogsToShow, float distance = 1.5f) 
+        : base(player, target, distance)
+    {
+        dialogs = dialogsToShow;
+    }
+    
+    public override void StartTask()
+    {
+        base.StartTask();
+        
+        // Start dialogs if there are any
+        if (dialogs != null && dialogs.Length > 0)
+        {
+            DialogManager.Instance.EnqueueDialogs(dialogs);
+            dialogsStarted = true;
+        }
+    }
+    
+    public override void EndTask()
+    {
+        base.EndTask();
+        
+        // Optionally clear dialogs when task ends
+        // This depends on your design choice - you might want dialogs to continue
+        // For now, we'll let dialogs continue playing
+    }
+    
+    public override void InterruptTask()
+    {
+        base.InterruptTask();
+        
+        // If this task started dialogs, clear them
+        if (dialogsStarted)
+        {
+            DialogManager.Instance.ClearAllDialogs();
+        }
+    }
+}
+
+public class WaitForSecondsWithDialogTask : WaitForSecondsTask
+{
+    private DialogData[] dialogs;
+    private bool dialogsStarted = false;
+    
+    public WaitForSecondsWithDialogTask(float seconds, DialogData[] dialogsToShow) 
+        : base(seconds)
+    {
+        dialogs = dialogsToShow;
+    }
+    
+    public override void StartTask()
+    {
+        base.StartTask();
+        
+        // Start dialogs if there are any
+        if (dialogs != null && dialogs.Length > 0)
+        {
+            DialogManager.Instance.EnqueueDialogs(dialogs);
+            dialogsStarted = true;
+        }
+    }
+    
+    public override void InterruptTask()
+    {
+        base.InterruptTask();
+        
+        // If this task started dialogs, clear them
+        if (dialogsStarted)
+        {
+            DialogManager.Instance.ClearAllDialogs();
+        }
+    }
+}

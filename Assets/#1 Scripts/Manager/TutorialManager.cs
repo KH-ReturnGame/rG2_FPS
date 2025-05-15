@@ -4,6 +4,23 @@ using UnityEngine;
 
 public class CheckPointEvent : UnityEngine.Events.UnityEvent<GameObject, int> { }
 
+[Serializable]
+public class DialogSettings
+{
+    public bool includeDialog = false;
+    [TextArea(2, 5)]
+    public string speakerName;
+    [TextArea(3, 10)]
+    public string dialogText;
+    public AudioClip dialogVoiceClip;
+    public float dialogDuration = 3.0f;
+    
+    // 타이핑 효과 관련 설정
+    public bool overrideTypewriterSettings = false;
+    public bool useTypewriterEffect = true;
+    public float typewriterSpeed = 0.05f;
+}
+
 public class TutorialManager : MonoBehaviour
 {
     // Singleton pattern
@@ -30,8 +47,11 @@ public class TutorialManager : MonoBehaviour
         public string description;
         public int requiredCheckpoint;
         public GameObject targetObject;
-        public string taskType; // "move", "interact", "wait"
+        public string taskType; // "move", "interact", "wait", "dialog"
         public float taskParameter; // distance for move, seconds for wait
+        
+        // Dialog Settings
+        public DialogSettings dialogSettings = new DialogSettings();
     }
     
     [SerializeField] private List<TutorialStep> tutorialSteps = new List<TutorialStep>();
@@ -105,13 +125,39 @@ public class TutorialManager : MonoBehaviour
             instructionText.text = step.description;
         }
         
+        // Create dialog data if this step has dialog
+        DialogData[] stepDialogs = null;
+        if (step.dialogSettings.includeDialog)
+        {
+            DialogData dialog = new DialogData
+            {
+                speakerName = step.dialogSettings.speakerName,
+                dialogText = step.dialogSettings.dialogText,
+                displayDuration = step.dialogSettings.dialogDuration,
+                voiceClip = step.dialogSettings.dialogVoiceClip,
+                
+                // 타이핑 효과 설정 추가
+                overrideTypewriterSettings = step.dialogSettings.overrideTypewriterSettings,
+                useTypewriterEffect = step.dialogSettings.useTypewriterEffect,
+                typewriterSpeed = step.dialogSettings.typewriterSpeed
+            };
+            stepDialogs = new DialogData[] { dialog };
+        }
+        
         // Create appropriate task based on step type
         switch (step.taskType.ToLower())
         {
             case "move":
                 if (step.targetObject != null)
                 {
-                    AddTask(new MovePlayerTask(playerTransform, step.targetObject.transform, step.taskParameter));
+                    if (step.dialogSettings.includeDialog)
+                    {
+                        AddTask(new MovePlayerWithDialogTask(playerTransform, step.targetObject.transform, stepDialogs, step.taskParameter));
+                    }
+                    else
+                    {
+                        AddTask(new MovePlayerTask(playerTransform, step.targetObject.transform, step.taskParameter));
+                    }
                 }
                 else
                 {
@@ -120,11 +166,25 @@ public class TutorialManager : MonoBehaviour
                 break;
                 
             case "wait":
-                AddTask(new WaitForSecondsTask(step.taskParameter));
+                if (step.dialogSettings.includeDialog)
+                {
+                    AddTask(new WaitForSecondsWithDialogTask(step.taskParameter, stepDialogs));
+                }
+                else
+                {
+                    AddTask(new WaitForSecondsTask(step.taskParameter));
+                }
                 break;
                 
-            case "interact":
-                AddTask(new InteractionTask(step.targetObject ? step.targetObject.tag : "Interactable"));
+            case "dialog":
+                if (step.dialogSettings.includeDialog)
+                {
+                    AddTask(new ListenToDialogTask(stepDialogs));
+                }
+                else
+                {
+                    Debug.LogError($"TutorialManager: Dialog task type specified but no dialog configured in step {stepIndex}");
+                }
                 break;
                 
             default:
@@ -217,5 +277,49 @@ public class TutorialManager : MonoBehaviour
         }
 
         instructionText.text = "Tutorial completed!";
+    }
+    
+    // 대화를 시작하는 도우미 메서드
+    public void StartDialog(DialogData dialog)
+    {
+        if (DialogManager.Instance != null)
+        {
+            DialogManager.Instance.EnqueueDialog(dialog);
+        }
+        else
+        {
+            Debug.LogError("TutorialManager: DialogManager instance not found!");
+        }
+    }
+    
+    // 여러 대화를 시작하는 도우미 메서드
+    public void StartDialogs(DialogData[] dialogs)
+    {
+        if (DialogManager.Instance != null)
+        {
+            DialogManager.Instance.EnqueueDialogs(dialogs);
+        }
+        else
+        {
+            Debug.LogError("TutorialManager: DialogManager instance not found!");
+        }
+    }
+    
+    // 현재 실행 중인 대화를 건너뛰는 메서드
+    public void SkipCurrentDialog()
+    {
+        if (DialogManager.Instance != null)
+        {
+            DialogManager.Instance.SkipCurrentDialog();
+        }
+    }
+    
+    // 모든 대화를 취소하는 메서드
+    public void ClearAllDialogs()
+    {
+        if (DialogManager.Instance != null)
+        {
+            DialogManager.Instance.ClearAllDialogs();
+        }
     }
 }
