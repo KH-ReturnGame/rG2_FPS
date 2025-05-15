@@ -1,8 +1,16 @@
+using System;
 using UnityEngine;
 
 public class PlayerAnimateController : MonoBehaviour
 {
+    
     private Animator animator;// 애니메이터 컴포넌트
+
+    public void Update()
+    {
+        if (Time.timeScale == 0f || !WeaponBase.isWeaponInputEnabled)
+            return;
+    }
 
     private void Awake()
     {

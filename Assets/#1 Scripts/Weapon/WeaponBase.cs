@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum WeaponType { Main=0, Sub, Melee, Throw }
@@ -48,6 +49,13 @@ public abstract class WeaponBase : MonoBehaviour
         audioSource.clip = clip;
         audioSource.Play();
     }
+
+    public void Update()
+    {
+        if (Time.timeScale == 0f || !WeaponBase.isWeaponInputEnabled)
+            return;
+    }
+
     protected void Setup()
     {
         WeaponBase.isWeaponInputEnabled = true; 

@@ -9,6 +9,7 @@ public class ImpactMemoryPool : MonoBehaviour
 
     private void Awake()
     {
+        
         memoryPool = new MemoryPool[impactPrefab.Length];
         for (int i = 0; i < impactPrefab.Length; ++i)
         {
