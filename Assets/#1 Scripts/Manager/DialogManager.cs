@@ -147,7 +147,10 @@ public class DialogManager : MonoBehaviour
         // 현재 대화의 전체 텍스트를 바로 표시
         if (currentDialog != null)
         {
+            dialogContentText.gameObject.SetActive(false);
             dialogContentText.text = currentDialog.dialogText;
+            dialogContentText.gameObject.SetActive(true);
+            
         }
     }
     
