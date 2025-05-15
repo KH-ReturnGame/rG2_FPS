@@ -101,8 +101,10 @@ public class TutorialManager : MonoBehaviour
         // Check current task condition
         if (currentTask != null && currentTask.IsRunning)
         {
-            if (currentTask.CheckCondition())
+            bool taskCompleted = currentTask.CheckCondition();
+            if (taskCompleted)
             {
+                Debug.Log($"Task completed: {currentTask.GetType().Name}");
                 ProcessNextTask();
             }
         }
@@ -110,6 +112,8 @@ public class TutorialManager : MonoBehaviour
 
     private void StartTutorialStep(int stepIndex)
     {
+        Debug.Log($"Starting tutorial step {stepIndex}");
+        
         if (stepIndex >= tutorialSteps.Count)
         {
             CompleteTutorial();
@@ -192,24 +196,24 @@ public class TutorialManager : MonoBehaviour
                 break;
         }
         
-        // Start first task if none is running
-        if (currentTask == null && taskQueue.Count > 0)
-        {
-            ProcessNextTask();
-        }
+        ProcessNextTask();
     }
     
     public void AddTask(Task task)
     {
         taskQueue.Enqueue(task);
+        Debug.Log($"Added task: {task.GetType().Name}, Task queue count: {taskQueue.Count}");
     }
     
     private void ProcessNextTask()
     {
+        Debug.Log($"Processing next task. Current state: {CurrentState}, Current CP: {CurrentCheckpoint}");
+        
         // End current task if it exists
         if (currentTask != null && currentTask.IsRunning)
         {
             currentTask.EndTask();
+            Debug.Log("Ended current task");
         }
     
         // Start next task if available
@@ -217,9 +221,11 @@ public class TutorialManager : MonoBehaviour
         {
             currentTask = taskQueue.Dequeue();
             currentTask.StartTask();
+            Debug.Log($"Starting next task: {currentTask.GetType().Name}, Remaining tasks: {taskQueue.Count}");
         }
         else
         {
+            Debug.Log("No more tasks in queue");
             currentTask = null;
         
             // 마지막 step인지 확인
@@ -230,10 +236,16 @@ public class TutorialManager : MonoBehaviour
             }
         
             // Check if we should advance to next tutorial step
-            if (tutorialSteps[CurrentState + 1].requiredCheckpoint == CurrentCheckpoint)
+            if (CurrentState + 1 < tutorialSteps.Count && 
+                tutorialSteps[CurrentState + 1].requiredCheckpoint <= CurrentCheckpoint)
             {
+                Debug.Log($"Advancing to next tutorial step. Current state: {CurrentState} -> {CurrentState + 1}");
                 CurrentState++;
                 StartTutorialStep(CurrentState);
+            }
+            else
+            {
+                Debug.Log($"Not advancing to next tutorial step. Next step requires checkpoint: {tutorialSteps[CurrentState + 1].requiredCheckpoint}, Current CP: {CurrentCheckpoint}");
             }
         }
     }
@@ -242,27 +254,52 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log($"Checkpoint triggered: {checkpointNumber}, Current CP: {CurrentCheckpoint}");
         
-        // Update checkpoint progress
-        if (checkpointNumber == CurrentCheckpoint)
+        // Skip if this checkpoint is less than our current progress
+        if (checkpointNumber < CurrentCheckpoint)
         {
-            CurrentCheckpoint++;
-            
-            // Check if this checkpoint should trigger next tutorial step
-            if (CurrentState < tutorialSteps.Count && tutorialSteps[CurrentState].requiredCheckpoint <= CurrentCheckpoint)
+            Debug.Log($"Ignoring checkpoint {checkpointNumber} as we're already at {CurrentCheckpoint}");
+            return;
+        }
+        
+        // Update checkpoint progress
+        CurrentCheckpoint = checkpointNumber + 1;
+        Debug.Log($"Updated CurrentCheckpoint to {CurrentCheckpoint}");
+        
+        // Find the appropriate tutorial state for this checkpoint
+        int targetState = CurrentState;
+        for (int i = 0; i < tutorialSteps.Count; i++)
+        {
+            if (tutorialSteps[i].requiredCheckpoint <= CurrentCheckpoint && i > targetState)
             {
-                // Interrupt current task if it exists
-                if (currentTask != null && currentTask.IsRunning)
-                {
-                    currentTask.InterruptTask();
-                }
-                
-                // Clear task queue
-                taskQueue.Clear();
-                
-                // Start next tutorial step
-                CurrentState++;
-                StartTutorialStep(CurrentState);
+                targetState = i-1;
+                Debug.Log($"Found suitable state: {i} for checkpoint {CurrentCheckpoint}");
             }
+        }
+        
+        // Only change state if we need to move forward
+        if (targetState > CurrentState)
+        {
+            Debug.Log($"Advancing state: {CurrentState} -> {targetState}");
+            
+            // Interrupt current task if it exists
+            if (currentTask != null && currentTask.IsRunning)
+            {
+                Debug.Log($"Interrupting current task: {currentTask.GetType().Name}");
+                currentTask.InterruptTask();
+            }
+            
+            // Clear task queue
+            int queueCount = taskQueue.Count;
+            taskQueue.Clear();
+            Debug.Log($"Cleared {queueCount} tasks from queue");
+            
+            // Update state and start new step
+            CurrentState = targetState;
+            StartTutorialStep(CurrentState);
+        }
+        else
+        {
+            Debug.Log($"Not advancing state as targetState ({targetState}) <= CurrentState ({CurrentState})");
         }
     }
     

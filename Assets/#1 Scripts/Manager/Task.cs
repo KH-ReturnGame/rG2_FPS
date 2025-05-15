@@ -28,7 +28,10 @@ public abstract class Task
     {
         isRunning = false;
         isDone = true;
-        TutorialManager.Instance.instructionText.text = "";
+        if (TutorialManager.Instance != null && TutorialManager.Instance.instructionText != null)
+        {
+            TutorialManager.Instance.instructionText.text = "";
+        }
         Debug.Log($"Completed task: {GetType().Name}");
     }
 }
@@ -49,16 +52,45 @@ public class MovePlayerTask : Task
     public override void StartTask()
     {
         base.StartTask();
+        
+        // Check if transforms are valid
+        if (playerTransform == null || targetTransform == null)
+        {
+            Debug.LogError("MovePlayerTask: Player or target transform is null!");
+            EndTask(); // Auto-complete if invalid
+            return;
+        }
+        
         // Activate UI helper or indicator if needed
         // e.g., UIManager.instance.ShowDirectionIndicator(targetTransform.position);
     }
 
     public override bool CheckCondition()
     {
-        if (!isRunning || isDone) return isDone;
-        
-        if (Vector3.Distance(playerTransform.position, targetTransform.position) <= completionDistance)
+        if (!isRunning || isDone)
         {
+            return isDone;
+        }
+        
+        // Safety check
+        if (playerTransform == null || targetTransform == null)
+        {
+            Debug.LogError("MovePlayerTask: Player or target transform became null during execution!");
+            EndTask();
+            return true;
+        }
+        
+        float currentDistance = Vector3.Distance(playerTransform.position, targetTransform.position);
+        
+        // Log distance occasionally for debugging
+        if (Time.frameCount % 30 == 0) // Log every 30 frames
+        {
+            Debug.Log($"Distance to target: {currentDistance}, Need: {completionDistance}");
+        }
+        
+        if (currentDistance <= completionDistance)
+        {
+            Debug.Log($"MovePlayerTask: Player reached target! Distance: {currentDistance}");
             EndTask();
             return true;
         }
@@ -98,12 +130,22 @@ public class WaitForSecondsTask : Task
     
     public override bool CheckCondition()
     {
-        if (!isRunning || isDone) return isDone;
+        if (!isRunning || isDone)
+        {
+            return isDone;
+        }
         
         elapsedTime += Time.deltaTime;
-        Debug.Log(elapsedTime);
+        
+        // Only log every half second to avoid spamming console
+        if (Mathf.FloorToInt(elapsedTime * 2) > Mathf.FloorToInt((elapsedTime - Time.deltaTime) * 2))
+        {
+            Debug.Log($"WaitTask: {elapsedTime:F1}s / {waitTime:F1}s");
+        }
+        
         if (elapsedTime >= waitTime)
         {
+            Debug.Log($"WaitForSecondsTask: Wait time completed ({waitTime}s)");
             EndTask();
             return true;
         }
@@ -131,10 +173,14 @@ public class InteractionTask : Task
     
     public override bool CheckCondition()
     {
-        if (!isRunning || isDone) return isDone;
+        if (!isRunning || isDone)
+        {
+            return isDone;
+        }
         
         if (interactionDetected)
         {
+            Debug.Log($"InteractionTask: Interaction with {requiredInteractionTag} detected");
             EndTask();
             return true;
         }
@@ -160,6 +206,7 @@ public class InteractionTask : Task
     {
         if (isRunning && requiredInteractionTag == interactionTag)
         {
+            Debug.Log($"InteractionTask: Detected interaction with {interactionTag}");
             interactionDetected = true;
         }
     }
@@ -184,17 +231,28 @@ public class ListenToDialogTask : Task
     {
         base.StartTask();
         
+        if (DialogManager.Instance == null)
+        {
+            Debug.LogError("ListenToDialogTask: DialogManager instance not found!");
+            EndTask(); // Auto-complete if invalid
+            return;
+        }
+        
         // Subscribe to dialog state changes
         DialogManager.Instance.onDialogStateChanged.AddListener(OnDialogStateChanged);
         
         // Enqueue dialogs
         DialogManager.Instance.EnqueueDialogs(dialogs);
         dialogsEnqueued = true;
+        Debug.Log("ListenToDialogTask: Enqueued dialogs");
     }
     
     public override bool CheckCondition()
     {
-        if (!isRunning || isDone) return isDone;
+        if (!isRunning || isDone)
+        {
+            return isDone;
+        }
         
         // Task completes when all dialogs are finished
         // The actual completion is handled via the event callback
@@ -206,7 +264,13 @@ public class ListenToDialogTask : Task
         // When dialog finishes and we've previously enqueued dialogs, complete task
         if (!isActive && dialogsEnqueued)
         {
-            DialogManager.Instance.onDialogStateChanged.RemoveListener(OnDialogStateChanged);
+            Debug.Log("ListenToDialogTask: All dialogs completed");
+            
+            if (DialogManager.Instance != null)
+            {
+                DialogManager.Instance.onDialogStateChanged.RemoveListener(OnDialogStateChanged);
+            }
+            
             EndTask();
         }
     }
@@ -215,15 +279,22 @@ public class ListenToDialogTask : Task
     {
         base.EndTask();
         // Ensure we're unsubscribed
-        DialogManager.Instance.onDialogStateChanged.RemoveListener(OnDialogStateChanged);
+        if (DialogManager.Instance != null)
+        {
+            DialogManager.Instance.onDialogStateChanged.RemoveListener(OnDialogStateChanged);
+        }
     }
     
     public override void InterruptTask()
     {
         base.InterruptTask();
+        
         // Clear all dialogs
-        DialogManager.Instance.ClearAllDialogs();
-        DialogManager.Instance.onDialogStateChanged.RemoveListener(OnDialogStateChanged);
+        if (DialogManager.Instance != null)
+        {
+            DialogManager.Instance.ClearAllDialogs();
+            DialogManager.Instance.onDialogStateChanged.RemoveListener(OnDialogStateChanged);
+        }
     }
 }
 
@@ -243,10 +314,11 @@ public class MovePlayerWithDialogTask : MovePlayerTask
         base.StartTask();
         
         // Start dialogs if there are any
-        if (dialogs != null && dialogs.Length > 0)
+        if (dialogs != null && dialogs.Length > 0 && DialogManager.Instance != null)
         {
             DialogManager.Instance.EnqueueDialogs(dialogs);
             dialogsStarted = true;
+            Debug.Log("MovePlayerWithDialogTask: Started dialogs");
         }
     }
     
@@ -264,9 +336,10 @@ public class MovePlayerWithDialogTask : MovePlayerTask
         base.InterruptTask();
         
         // If this task started dialogs, clear them
-        if (dialogsStarted)
+        if (dialogsStarted && DialogManager.Instance != null)
         {
             DialogManager.Instance.ClearAllDialogs();
+            Debug.Log("MovePlayerWithDialogTask: Cleared dialogs due to interruption");
         }
     }
 }
@@ -287,10 +360,11 @@ public class WaitForSecondsWithDialogTask : WaitForSecondsTask
         base.StartTask();
         
         // Start dialogs if there are any
-        if (dialogs != null && dialogs.Length > 0)
+        if (dialogs != null && dialogs.Length > 0 && DialogManager.Instance != null)
         {
             DialogManager.Instance.EnqueueDialogs(dialogs);
             dialogsStarted = true;
+            Debug.Log("WaitForSecondsWithDialogTask: Started dialogs");
         }
     }
     
@@ -299,9 +373,10 @@ public class WaitForSecondsWithDialogTask : WaitForSecondsTask
         base.InterruptTask();
         
         // If this task started dialogs, clear them
-        if (dialogsStarted)
+        if (dialogsStarted && DialogManager.Instance != null)
         {
             DialogManager.Instance.ClearAllDialogs();
+            Debug.Log("WaitForSecondsWithDialogTask: Cleared dialogs due to interruption");
         }
     }
 }
