@@ -151,7 +151,7 @@ public class TutorialManager : MonoBehaviour
         {
             currentTask.EndTask();
         }
-        
+    
         // Start next task if available
         if (taskQueue.Count > 0)
         {
@@ -161,9 +161,16 @@ public class TutorialManager : MonoBehaviour
         else
         {
             currentTask = null;
+        
+            // 마지막 step인지 확인
+            if (CurrentState >= tutorialSteps.Count - 1)
+            {
+                CompleteTutorial();
+                return;
+            }
+        
             // Check if we should advance to next tutorial step
-            if (CurrentState < tutorialSteps.Count - 1 && 
-                tutorialSteps[CurrentState + 1].requiredCheckpoint == CurrentCheckpoint)
+            if (tutorialSteps[CurrentState + 1].requiredCheckpoint == CurrentCheckpoint)
             {
                 CurrentState++;
                 StartTutorialStep(CurrentState);
