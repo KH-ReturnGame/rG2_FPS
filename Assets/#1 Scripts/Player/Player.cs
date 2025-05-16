@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections;
 
 public enum PlayerStats
 {
@@ -33,6 +34,8 @@ public class Player : MonoBehaviour
     
     
     [SerializeField]
+    public GameObject hitPanel;        // 피격 UI (계속 보여줄 것)
+    public GameObject deathPanel;      // 선택: 사망용 UI 패널
     private AudioClip[] hitVoiceClips; // 피격 보이스들
     [SerializeField]
     private AudioSource voiceSource; // 별도의 보이스용 AudioSource
@@ -234,18 +237,37 @@ public class Player : MonoBehaviour
 
         if (isDie)
         {
-            // 사망 음성 재생
-            if (hasPlayedDeathVoice == false && deathVoiceClip != null)
+            // 사망 음성 1회 재생
+            if (!hasPlayedDeathVoice && deathVoiceClip != null)
             {
                 voiceSource.PlayOneShot(deathVoiceClip);
                 hasPlayedDeathVoice = true;
             }
 
+            // 피격 UI 계속 표시
+            if (hitPanel != null)
+                hitPanel.SetActive(true);
+
+            // 선택: 사망 전용 패널 표시
+            if (deathPanel != null)
+                deathPanel.SetActive(true);
+
+            // 게임 정지
+            Time.timeScale = 0f;
+
             Debug.Log("GameOver!");
         }
         else
         {
-            PlayRandomHitVoice(); // 일반 피격음
+            // 일반 피격음
+            PlayRandomHitVoice();
+
+            // 피격 UI 잠시 표시
+            if (hitPanel != null)
+            {
+                hitPanel.SetActive(true);
+                StartCoroutine(HideHitPanelAfterDelay(0.5f));  // 짧게 보였다 사라짐
+            }
         }
     }
     private void PlayRandomHitVoice()
@@ -260,5 +282,12 @@ public class Player : MonoBehaviour
 
         int index = UnityEngine.Random.Range(0, hitVoiceClips.Length);
         voiceSource.PlayOneShot(hitVoiceClips[index]);
+    }
+    
+    private IEnumerator HideHitPanelAfterDelay(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay); // Time.timeScale 무시
+        if (status.CurrentHP > 0 && hitPanel != null)   // 죽은 상태이면 유지
+            hitPanel.SetActive(false);
     }
 }
