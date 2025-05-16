@@ -119,13 +119,13 @@ public class Enemy : MonoBehaviour
                         if (hit.collider.gameObject != player)
                         {
                             Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.yellow); // 장애물에 막힌 광선 (노란색)
-                            Debug.Log("씨발 벽이잖아!!!");
+                            //Debug.Log("씨발 벽이잖아!!!");
                             return false;
                         }
                         else
                         {
                             Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green); // 플레이어를 감지한 광선 (초록색)
-                            Debug.Log("인간 ㅎㅇ!"); 
+                            //Debug.Log("인간 ㅎㅇ!"); 
                             return true;
                         }
                     }

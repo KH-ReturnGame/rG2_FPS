@@ -66,4 +66,13 @@ public class LobbyOption : MonoBehaviour
         optionPanel.SetActive(false);
         WeaponBase.isWeaponInputEnabled = false;
     }
+    
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false; // 에디터에서는 Play모드 종료
+#else
+        Application.Quit(); // 빌드 실행 중일 때 종료
+#endif
+    }
 }

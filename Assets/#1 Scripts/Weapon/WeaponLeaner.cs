@@ -26,6 +26,9 @@ public class WeaponLeaner : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0f || !WeaponBase.isWeaponInputEnabled)
+            return;
+        
         // 1. Lean 방향 감지
         float targetLean = 0f;
         if (Input.GetKey(KeyCode.Q)) targetLean = leanAngle;

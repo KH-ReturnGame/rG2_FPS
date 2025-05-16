@@ -58,7 +58,11 @@ public class WeaponRevolver : WeaponBase
         ResetVariables();
         AdjustAimImageSize();
     }
-
+    public void Update()
+    {
+        if (Time.timeScale == 0f || !WeaponBase.isWeaponInputEnabled)
+            return;
+    }
     private void Awake()
     {
         base.Setup();
