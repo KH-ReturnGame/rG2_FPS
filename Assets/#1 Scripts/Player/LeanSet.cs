@@ -53,7 +53,7 @@ public class LeanSet : MonoBehaviour
         // 반원 궤적 계산
         float angle = Mathf.Abs(leanTimer) * Mathf.PI / 2f;
         float xOffset = Mathf.Sin(angle) * leanRadius * Mathf.Sign(leanTimer);
-        float yOffset = -Mathf.Sin(angle) * leanRadius * 0.3f;
+        float yOffset = Mathf.Sin(angle) * leanRadius * 0.1f;
 
         // ✅ 방향 기준 이동 (카메라 회전 반영)
         Vector3 offset = -transform.right * xOffset - transform.up * yOffset;
