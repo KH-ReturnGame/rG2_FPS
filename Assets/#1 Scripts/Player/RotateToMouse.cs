@@ -15,9 +15,6 @@ public class RotateToMouse : MonoBehaviour
 
     private void Update()
     {
-        if (Time.timeScale == 0f || !WeaponBase.isWeaponInputEnabled)
-            return;
-        
         if (Cursor.lockState != CursorLockMode.Locked)
             return; // 마우스 락 안 되어 있으면 회전 안 함
         float mouseX = Input.GetAxis("Mouse X");

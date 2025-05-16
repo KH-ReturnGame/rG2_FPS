@@ -33,9 +33,6 @@ public class WeaponSwitchSystem : MonoBehaviour
     }
     private void Update()
     {
-        if (Time.timeScale == 0f || !WeaponBase.isWeaponInputEnabled)
-            return;
-        
         UpdateSwitch();
     }
 

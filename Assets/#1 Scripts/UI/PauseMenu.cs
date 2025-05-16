@@ -7,7 +7,6 @@ public class PauseMenu : MonoBehaviour
     public GameObject optionPanel;
     
     private bool resumeDelay = false;
-    private bool isPaused = false;
 
     void Start()
     {
@@ -48,47 +47,36 @@ public class PauseMenu : MonoBehaviour
 
     public void PauseGame()
     {
-        isPaused = true;
-
         Time.timeScale = 0f;
         pausePanel.SetActive(true);
-        optionPanel.SetActive(false); // 옵션 패널 강제 닫기
-
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
-        AudioListener.pause = true;
+        
         WeaponBase.isWeaponInputEnabled = false;
     }
 
     public void ResumeGame()
     {
-        isPaused = false;
-
         Time.timeScale = 1f;
         pausePanel.SetActive(false);
-        optionPanel.SetActive(false);
-
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        Input.ResetInputAxes();
-        AudioListener.pause = false;
+        Input.ResetInputAxes(); // 클릭 초기화
         WeaponBase.isWeaponInputEnabled = true;
     }
 
     public void OnClickMainMenu() // 시작 화면
     {
         Time.timeScale = 1f;
-        AudioListener.pause = false;
         SceneLoader.LoadScene("Lobby");
     }
 
     public void OnClickRestart() // 재시작
     {
         Time.timeScale = 1f;
-        AudioListener.pause = false;
         SceneLoader.LoadScene("Main");
+        //SceneManager.LoadScene("Main");
     }
     
     public void OnClickOption()

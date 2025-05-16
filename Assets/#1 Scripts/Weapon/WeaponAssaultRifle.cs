@@ -193,7 +193,7 @@ public class WeaponAssaultRifle : WeaponBase
             animator.Play(animation, -1, 0);
             
             if ( animator.AimModeIs == false) StartCoroutine("OnMuzzleFlashEffect");// √—±∏ ¿Ã∆Â∆Æ
-            //Debug.Log("sdf");
+            Debug.Log("sdf");
             PlaySound(audioClipFire); // √—±‚ πﬂªÁ¿Ω
             casingMemoryPool.SpawnCasing(casingSpawnPoint.position, transform.right); //≈∫«« ª˝º∫
 

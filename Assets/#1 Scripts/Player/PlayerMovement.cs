@@ -53,8 +53,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.timeScale == 0f || !WeaponBase.isWeaponInputEnabled)
-            return;
         //1�ʴ� moveForve �ӷ����� �̵�
         characterController.Move(moveForce * 1.15f * Time.deltaTime);
 

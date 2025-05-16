@@ -79,9 +79,6 @@ public class Player : MonoBehaviour
     
     public void Update()
     {
-        if (Time.timeScale == 0f || !WeaponBase.isWeaponInputEnabled)
-        return;
-        
         //상태 매니저의 Execute실행
         _stateManager.Execute();
 
