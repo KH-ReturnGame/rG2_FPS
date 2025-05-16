@@ -29,7 +29,9 @@ public class WeaponAssaultRifle : WeaponBase
     [Header("Aim UI")]
     [SerializeField]
     private Image imageAim;
-
+    
+    public bool IsAiming => animator.AimModeIs;
+    
     private float spread_radius = 0.008f;
     public float spread_Aimmod1_radius = 0.008f;
     public float spread_Aimmod2_radius = 0.001f;
