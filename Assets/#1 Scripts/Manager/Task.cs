@@ -446,12 +446,6 @@ public class KeyPressTask : Task
             {
                 Debug.Log($"KeyPressTask: Successfully pressed {requiredKey} for {requiredPressTime} seconds!");
                 
-                // Unlock the key in the control manager
-                if (ControlManager.Instance != null)
-                {
-                    ControlManager.Instance.UnlockControl(requiredKey);
-                }
-                
                 EndTask();
                 return true;
             }
@@ -536,15 +530,6 @@ public class MultiKeyPressTask : Task
         {
             Debug.Log("MultiKeyPressTask: All keys completed!");
             
-            // Unlock all keys
-            if (ControlManager.Instance != null)
-            {
-                foreach (KeyCode key in requiredKeys)
-                {
-                    ControlManager.Instance.UnlockControl(key);
-                }
-            }
-            
             EndTask();
             return true;
         }
@@ -571,11 +556,6 @@ public class MultiKeyPressTask : Task
                 {
                     Debug.Log($"MultiKeyPressTask: Successfully pressed {activeKey} for {requiredPressTime} seconds!");
                     
-                    // Unlock the key in the control manager
-                    if (ControlManager.Instance != null)
-                    {
-                        ControlManager.Instance.UnlockControl(activeKey);
-                    }
                     
                     // If we're on the last key, end task
                     if (activeKeyIndex == requiredKeys.Length - 1)
