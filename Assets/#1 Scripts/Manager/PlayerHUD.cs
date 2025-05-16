@@ -140,4 +140,20 @@ public class WeaponHUD : MonoBehaviour
             yield return null;
         }
     }
+    
+    private IEnumerator OnDieScreen()
+    {
+        float percent = 0;
+
+        while (percent < 1)
+        {
+            percent += Time.deltaTime;
+            
+            Color color = imageBloodScreen.color;
+            color.a = Mathf.Lerp(1,0, curveBloodScreen.Evaluate(percent));
+            imageBloodScreen.color = color;
+            
+            yield return null;
+        }
+    }
 }
