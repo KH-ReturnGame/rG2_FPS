@@ -313,53 +313,50 @@ public class TutorialManager : MonoBehaviour
     public void CheckNextStep(GameObject sender, int checkpointNumber)
     {
         Debug.Log($"Checkpoint triggered: {checkpointNumber}, Current CP: {CurrentCheckpoint}");
-        
-        // Skip if this checkpoint is less than our current progress
-        if (checkpointNumber < CurrentCheckpoint)
+    
+        // 체크포인트 진행 상황 업데이트 (체크포인트 번호는 연속적이어야 함)
+        if (checkpointNumber >= CurrentCheckpoint)
         {
-            Debug.Log($"Ignoring checkpoint {checkpointNumber} as we're already at {CurrentCheckpoint}");
-            return;
+            CurrentCheckpoint = checkpointNumber + 1;
+            Debug.Log($"Updated CurrentCheckpoint to {CurrentCheckpoint}");
         }
-        
-        // Update checkpoint progress
-        CurrentCheckpoint = checkpointNumber + 1;
-        Debug.Log($"Updated CurrentCheckpoint to {CurrentCheckpoint}");
-        
-        // Find the appropriate tutorial state for this checkpoint
-        int targetState = CurrentState;
-        for (int i = 0; i < tutorialSteps.Count; i++)
+    
+        // 다음 적절한 튜토리얼 상태 찾기
+        int nextState = -1;
+        for (int i = CurrentState + 1; i < tutorialSteps.Count; i++)
         {
-            if (tutorialSteps[i].requiredCheckpoint <= CurrentCheckpoint && i > targetState)
+            if (tutorialSteps[i].requiredCheckpoint <= CurrentCheckpoint)
             {
-                targetState = i-1;
-                Debug.Log($"Found suitable state: {i} for checkpoint {CurrentCheckpoint}");
+                nextState = i;
+                Debug.Log($"Found next suitable state: {nextState} requiring checkpoint {tutorialSteps[i].requiredCheckpoint}");
+                break; // 요구 사항을 충족하는 첫 번째 상태를 선택
             }
         }
-        
-        // Only change state if we need to move forward
-        if (targetState > CurrentState)
+    
+        // 적합한 다음 상태를 찾았다면 상태 변경
+        if (nextState > CurrentState)
         {
-            Debug.Log($"Advancing state: {CurrentState} -> {targetState}");
-            
-            // Interrupt current task if it exists
+            Debug.Log($"Advancing state: {CurrentState} -> {nextState}");
+        
+            // 현재 실행 중인 태스크가 있다면 중단
             if (currentTask != null && currentTask.IsRunning)
             {
                 Debug.Log($"Interrupting current task: {currentTask.GetType().Name}");
                 currentTask.InterruptTask();
             }
-            
-            // Clear task queue
+        
+            // 태스크 큐 비우기
             int queueCount = taskQueue.Count;
             taskQueue.Clear();
             Debug.Log($"Cleared {queueCount} tasks from queue");
-            
-            // Update state and start new step
-            CurrentState = targetState;
+        
+            // 상태 업데이트 및 새 단계 시작
+            CurrentState = nextState;
             StartTutorialStep(CurrentState);
         }
         else
         {
-            Debug.Log($"Not advancing state as targetState ({targetState}) <= CurrentState ({CurrentState})");
+            Debug.Log($"Not advancing state as no suitable next state was found");
         }
     }
     

@@ -28,7 +28,7 @@ public class DialogManager : MonoBehaviour
     // Dialog UI components
     [SerializeField] private GameObject dialogPanel;
     [SerializeField] private TextMeshProUGUI speakerNameText;
-    [SerializeField] private TextMeshProUGUI dialogContentText;
+    [SerializeField] public TextMeshProUGUI dialogContentText;
     
     // Audio source for voice clips
     [SerializeField] private AudioSource voiceAudioSource;

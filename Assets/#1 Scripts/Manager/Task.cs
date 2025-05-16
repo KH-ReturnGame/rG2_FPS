@@ -32,6 +32,9 @@ public abstract class Task
         {
             TutorialManager.Instance.instructionText.text = "";
         }
+
+        DialogManager.Instance.dialogContentText.text = "";
+        
         Debug.Log($"Completed task: {GetType().Name}");
     }
 }
