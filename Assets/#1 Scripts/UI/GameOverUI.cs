@@ -93,7 +93,7 @@ public class GameOverUI : MonoBehaviour
     public void OnMenuClicked()
     {
         Time.timeScale = 1f;
-        SceneLoader.LoadScene("MenuScene");
+        SceneLoader.LoadScene("Main Menu");
     }
     
     public void OnQuitClicked()
