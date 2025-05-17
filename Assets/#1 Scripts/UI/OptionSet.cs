@@ -20,6 +20,7 @@ public class OptionManager : MonoBehaviour
     public TMP_Dropdown resolutionDropdown;
     private readonly Vector2Int[] resolutionOptions = new Vector2Int[]
     {
+        new Vector2Int(3840, 2160),
         new Vector2Int(1920, 1080),
         new Vector2Int(1280, 720),
         new Vector2Int(640, 480)
