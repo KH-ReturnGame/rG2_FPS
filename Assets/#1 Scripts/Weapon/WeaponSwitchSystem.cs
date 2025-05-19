@@ -42,7 +42,7 @@ public class WeaponSwitchSystem : MonoBehaviour
 
         // 1~4 숫자키 누르면 무기 교체
         int inputIndex = 0;
-        if(int.TryParse(Input.inputString,out inputIndex)&& (inputIndex > 0 && inputIndex < 5))
+        if(int.TryParse(Input.inputString,out inputIndex)&& (inputIndex > 0 && inputIndex < 3))
         {
             if(curr == 0) // 현재 무기가 AssaultRifle일 때
             {

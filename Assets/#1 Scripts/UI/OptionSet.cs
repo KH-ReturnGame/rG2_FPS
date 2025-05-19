@@ -120,7 +120,8 @@ public class OptionManager : MonoBehaviour
         Vector2Int res = resolutionOptions[resIndex];
         FullScreenMode mode;
 
-        if (res.x <= 1280 && res.y <= 720)
+        // 이 조건은 사실상 필요 없음. 모든 해상도에서 모드 변경 허용해도 무방
+        if (res.x <= 3840 && res.y <= 2160)
         {
             mode = (modeIndex == 1) ? FullScreenMode.Windowed : FullScreenMode.FullScreenWindow;
         }
@@ -135,9 +136,14 @@ public class OptionManager : MonoBehaviour
             };
         }
 
+        // 필요 시 보정값 추가 가능 (Windowed에서 확대 방지)
         Screen.SetResolution(res.x, res.y, mode);
+        Screen.fullScreenMode = mode;
+
         Debug.Log($"[ResolutionSet] {res.x}x{res.y}, {mode}");
     }
+
+
 
     // ---------------------- 프레임레이트 & VSync ----------------------
     private void OnFrameRateChanged(int index)
