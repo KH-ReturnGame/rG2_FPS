@@ -3,6 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class LobbyOption : MonoBehaviour
 {
+    
+    [Header("Game Mode Selector")]
+    public GameObject gameModeSelector; 
+
     public GameObject optionPanel;
     
     private bool resumeDelay = false;
@@ -45,6 +49,7 @@ public class LobbyOption : MonoBehaviour
 
     public void OnClickMainMenu() // 시작 화면
     {
+        
         Time.timeScale = 1f;
         SceneManager.LoadScene("Lobby");
     }
@@ -57,12 +62,14 @@ public class LobbyOption : MonoBehaviour
     
     public void OnClickOption()
     {
+        gameModeSelector.SetActive(true);
         optionPanel.SetActive(true);
         WeaponBase.isWeaponInputEnabled = false;
     }
 
     public void OnClickCloseOption()
     {
+        gameModeSelector.SetActive(true);
         optionPanel.SetActive(false);
         WeaponBase.isWeaponInputEnabled = false;
     }
