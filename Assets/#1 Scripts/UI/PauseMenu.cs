@@ -69,12 +69,14 @@ public class PauseMenu : MonoBehaviour
     public void OnClickMainMenu() // 시작 화면
     {
         Time.timeScale = 1f;
+        SpeedRunManager.Instance.isSpeedRun = false;
         SceneLoader.LoadScene("Lobby");
     }
 
     public void OnClickRestart() // 재시작
     {
         Time.timeScale = 1f;
+        SpeedRunManager.Instance.totalTime = 0f;
         SceneLoader.LoadScene("Main");
         //SceneManager.LoadScene("Main");
     }

@@ -4,6 +4,7 @@ using TMPro;
 
 public class GameModeSelector : MonoBehaviour
 {
+    public static GameModeSelector Instance;
     public Image modeImage; // 모드 이미지
     public TMP_Text modeNameText; // 모드 이름 텍스트
 
@@ -20,6 +21,7 @@ public class GameModeSelector : MonoBehaviour
 
     private void Start()
     {
+        Instance = this;
         leftButton.onClick.AddListener(SelectLeft);
         rightButton.onClick.AddListener(SelectRight);
         startButton.onClick.AddListener(StartSelectedMode);
@@ -49,7 +51,13 @@ public class GameModeSelector : MonoBehaviour
             modeNameText.text = modeNames[currentMode];
     }
 
-    private void StartSelectedMode()
+    public void StartSelectedMode()
+    {
+        SpeedRunManager.Instance.isSpeedRun = false;
+        StartScene();
+    }
+
+    public void StartScene()
     {
         SceneLoader.LoadScene(sceneNames[currentMode]);
     }
