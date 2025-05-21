@@ -48,8 +48,8 @@ public class TutorialManager : MonoBehaviour
     public int CurrentCheckpoint = 0;
     
     // Task management
-    private Task currentTask;
-    private Queue<Task> taskQueue = new Queue<Task>();
+    private Task_ currentTask;
+    private Queue<Task_> taskQueue = new Queue<Task_>();
     
     // Player reference
     [SerializeField] private Transform playerTransform;
@@ -259,7 +259,7 @@ public class TutorialManager : MonoBehaviour
         ProcessNextTask();
     }
     
-    public void AddTask(Task task)
+    public void AddTask(Task_ task)
     {
         taskQueue.Enqueue(task);
         Debug.Log($"Added task: {task.GetType().Name}, Task queue count: {taskQueue.Count}");

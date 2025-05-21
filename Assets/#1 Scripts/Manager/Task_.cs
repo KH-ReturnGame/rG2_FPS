@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public abstract class Task
+public abstract class Task_
 {
     protected bool isDone = false;
     protected bool isRunning = false;
@@ -39,7 +39,7 @@ public abstract class Task
     }
 }
 
-public class MovePlayerTask : Task
+public class MovePlayerTask : Task_
 {
     private Transform playerTransform;
     private Transform targetTransform;
@@ -115,7 +115,7 @@ public class MovePlayerTask : Task
     }
 }
 
-public class WaitForSecondsTask : Task
+public class WaitForSecondsTask : Task_
 {
     private float waitTime;
     private float elapsedTime = 0f;
@@ -156,7 +156,7 @@ public class WaitForSecondsTask : Task
     }
 }
 
-public class InteractionTask : Task
+public class InteractionTask : Task_
 {
     private string requiredInteractionTag;
     private bool interactionDetected = false;
@@ -215,7 +215,7 @@ public class InteractionTask : Task
     }
 }
 
-public class ListenToDialogTask : Task
+public class ListenToDialogTask : Task_
 {
     private DialogData[] dialogs;
     private bool dialogsEnqueued = false;
@@ -396,7 +396,7 @@ public class WaitForSecondsWithDialogTask : WaitForSecondsTask
     }
 }
 
-public class KeyPressTask : Task
+public class KeyPressTask : Task_
 {
     private KeyCode requiredKey;
     private float requiredPressTime;
@@ -468,7 +468,7 @@ public class KeyPressTask : Task
     }
 }
 
-public class MultiKeyPressTask : Task
+public class MultiKeyPressTask : Task_
 {
     private KeyCode[] requiredKeys;
     private float requiredPressTime;

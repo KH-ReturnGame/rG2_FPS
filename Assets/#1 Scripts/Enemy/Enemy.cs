@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     public LayerMask obstacleMask2;
 
     // 디버그용
-    public Path path;
+    public Path_ path;
 
     [Header("Sight values")]
     public float sightDistance = 50f;
