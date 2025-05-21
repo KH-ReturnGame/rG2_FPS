@@ -21,10 +21,10 @@ public abstract class WeaponBase : MonoBehaviour
     protected GameObject bulletHoleContainer;
     
     public static bool isWeaponInputEnabled = true; // 모든 무기에서 공통으로 체크할 입력 여부
-    protected float lastAttackTime = 0; // 마지막 발사 시간
-    protected bool isReload = false;
-    protected bool isAttack = false;
-    protected AudioSource audioSource;
+    protected float LastAttackTime = 0; // 마지막 발사 시간
+    protected bool IsReload = false;
+    protected bool IsAttack = false;
+    protected AudioSource AudioSource;
     protected PlayerAnimateController animator;
 
     [HideInInspector]
@@ -44,14 +44,14 @@ public abstract class WeaponBase : MonoBehaviour
 
     protected void PlaySound(AudioClip clip)
     {
-        audioSource.Stop();
-        audioSource.clip = clip;
-        audioSource.Play();
+        AudioSource.Stop();
+        AudioSource.clip = clip;
+        AudioSource.Play();
     }
     protected void Setup()
     {
         WeaponBase.isWeaponInputEnabled = true; 
-        audioSource = GetComponent<AudioSource>();
+        AudioSource = GetComponent<AudioSource>();
         animator = GetComponent<PlayerAnimateController>();
     }
 

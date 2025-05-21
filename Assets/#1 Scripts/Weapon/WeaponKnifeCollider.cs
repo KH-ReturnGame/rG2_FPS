@@ -32,17 +32,4 @@ public class WeaponKnifeCollider : MonoBehaviour
         
         collider.enabled = false;
     }
-    
-    /*
-    private void OnTriggerEnter(Collider other)
-    {
-        impactrMemoryPool.SpawnImpact(other, knifeTransform);
-
-        if (other.CompareTag("ImpactEnemy"))
-        {
-            other.GetComponent<EnemyFSM>
-        }
-        if(other)
-    }
-    */
 }

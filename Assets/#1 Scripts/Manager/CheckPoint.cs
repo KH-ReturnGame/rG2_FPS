@@ -1,13 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CheckPoint : MonoBehaviour
 {
-    [SerializeField] private int checkPointNumber = 0;
+    [SerializeField] private int checkPointNumber;
     [SerializeField] private bool activateOnce = true;
     [SerializeField] private GameObject visualIndicator;
     
-    private bool hasBeenActivated = false;
+    private bool hasBeenActivated;
     
     public int CheckPointNumber => checkPointNumber;
     

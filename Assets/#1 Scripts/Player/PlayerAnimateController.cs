@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerAnimateController : MonoBehaviour
 {
-    private Animator animator;// 애니메이터 컴포넌트
+    private Animator animator;
 
     private void Awake()
     {

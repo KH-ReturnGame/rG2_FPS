@@ -3,13 +3,14 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class GameFinishedUI : MonoBehaviour
 {
     [Header("UI")]
     public GameObject gameFinishedPanel;
     public CanvasGroup canvasGroup; // 꼭 연결해야 함
-    public GameObject SpeedRunText;
+    public GameObject speedRunText;
 
     [Header("버튼")]
     public Button retryButton;
@@ -62,8 +63,8 @@ public class GameFinishedUI : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
         if (SpeedRunManager.Instance.isSpeedRun)
         {
-            float totalTime = SpeedRunManager.Instance.EndSpeedRun();SpeedRunText.SetActive(true);
-            SpeedRunText.GetComponent<TextMeshProUGUI>().text = totalTime.ToString("F2") + "s 만에 클리어!!";
+            float totalTime = SpeedRunManager.Instance.EndSpeedRun();speedRunText.SetActive(true);
+            speedRunText.GetComponent<TextMeshProUGUI>().text = totalTime.ToString("F2") + "s 만에 클리어!!";
         }
 
         yield return new WaitForSecondsRealtime(0.5f);

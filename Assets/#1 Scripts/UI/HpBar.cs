@@ -8,18 +8,18 @@ public class HpBar : MonoBehaviour
     private void Start()
     {
         if (playerStatus != null)
-            playerStatus.onHPEvent.AddListener(OnHpChanged);
+            playerStatus.onHpEvent.AddListener(OnHpChanged);
     }
 
     private void OnDestroy()
     {
         if (playerStatus != null)
-            playerStatus.onHPEvent.RemoveListener(OnHpChanged);
+            playerStatus.onHpEvent.RemoveListener(OnHpChanged);
     }
 
     private void OnHpChanged(float prevHp, float currHp)
     {
-        float hpPercent = currHp / playerStatus.MaxHP;
+        float hpPercent = currHp / playerStatus.MaxHp;
         UpdateBar(hpPercent);
     }
 

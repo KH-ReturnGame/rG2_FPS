@@ -1,8 +1,5 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using TMPro;
 
 public class Lobby : MonoBehaviour
 {
@@ -20,8 +17,6 @@ public class Lobby : MonoBehaviour
 
     public void Tutorial()
     {
-        gameModeSelector.SetActive(false);
-        SceneLoader.LoadScene("Main");
     }
 
     public void Preparing()

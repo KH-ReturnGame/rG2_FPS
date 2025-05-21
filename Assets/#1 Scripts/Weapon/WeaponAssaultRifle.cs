@@ -55,11 +55,9 @@ public class WeaponAssaultRifle : WeaponBase
     public LayerMask rayLayerMask;
     public bool RifleMode = false;
     
-
     private CasingMemoryPool casingMemoryPool;
     private ImpactMemoryPool impactMemoryPool; // 공격 효과 생성 후 활성/ 비활성 관리
     private Camera mainCamera;                 // 광선 발사
-    
     
     private void Awake()
     {
@@ -84,9 +82,9 @@ public class WeaponAssaultRifle : WeaponBase
     
     private void OnEnable()
     {
-        if (audioSource != null)
+        if (AudioSource != null)
         {
-            audioSource.Stop();
+            AudioSource.Stop();
         }
 
         // 무기 장착 사운드
@@ -101,8 +99,6 @@ public class WeaponAssaultRifle : WeaponBase
 
         ResetVariables();
         AdjustAimImageSize();
-
-        //baseCamEuler = mainCamera.transform.localEulerAngles; // ? 수정됨
     }
 
 
@@ -112,7 +108,7 @@ public class WeaponAssaultRifle : WeaponBase
     {
         if (!WeaponBase.isWeaponInputEnabled) return;
         //재장전 중일 때는 무기 액션 ㄴㄴ
-        if(isReload) return;
+        if(IsReload) return;
 
         //모드 전환중 액션 ㄴ
         if (isModeChange == true) return; 
@@ -120,7 +116,7 @@ public class WeaponAssaultRifle : WeaponBase
         // 왼쪽 마우스 클릭 (공격 시작
         if (type == 0)
         {
-            // ㅡ연속 공격
+            // 연속 공격
             if( weaponSet.isAutomaticAttack == true)
             {
                 isAttak = true;
@@ -154,7 +150,7 @@ public class WeaponAssaultRifle : WeaponBase
 
     public override void StartReload()
     {
-        if(isReload || weaponSet.currentMagazine <= 0 || animator.AimModeIs) return; //현재 재장전 중이면 꺼지셈
+        if(IsReload || weaponSet.currentMagazine <= 0 || animator.AimModeIs) return; //현재 재장전 중이면 꺼지셈
         StopWeaponAction(); //무기 액션 도중 재장전 시도하면 무기 액션 종료하고 재장전
         StartCoroutine("OnReload");
     }
@@ -171,14 +167,14 @@ public class WeaponAssaultRifle : WeaponBase
 
     private void OnAttack()
     {
-        if (Time.time - lastAttackTime > weaponSet.attackRate)
+        if (Time.time - LastAttackTime > weaponSet.attackRate)
         {
             if (animator.MoveSpeed > 0.5f)
             {
                 return;
             }
 
-            lastAttackTime = Time.time;
+            LastAttackTime = Time.time;
             
             // 탄 수 없으면 공격 X
             if (weaponSet.currentAmmo <= 0)
@@ -201,7 +197,6 @@ public class WeaponAssaultRifle : WeaponBase
 
             TwoStepRaycast();//광선 발사해 원하는 위치 공격
             //반동 구현
-            //Debug.Log(recoilOffset+"/"+targetOffset+"/"+offset);
             recoilOffset += recoil_X;
             targetOffset += recoil_X;
         }
@@ -256,7 +251,7 @@ public class WeaponAssaultRifle : WeaponBase
 
     private IEnumerator OnReload()
     {
-        isReload = true;
+        IsReload = true;
         
         //재장전 애니메이션 사운드 재생
         animator.OnReload();
@@ -266,9 +261,9 @@ public class WeaponAssaultRifle : WeaponBase
         {
             // 사운드 재생중이 아니고, 현재 애니메이션이 Movement이면
             // 재장전 애니메이션(, 사운드) 재생이 종료되었다는 뜻
-            if (audioSource.isPlaying == false && animator.CurrentAnimationIs("Movement"))
+            if (AudioSource.isPlaying == false && animator.CurrentAnimationIs("Movement"))
             {
-                isReload = false;
+                IsReload = false;
                 
                 // 현재 탄창 수를 1감소하고 바뀐 탄창 정보를 Text UI에 업데이트
                 weaponSet.currentMagazine--;
@@ -485,7 +480,7 @@ public class WeaponAssaultRifle : WeaponBase
 
     private void ResetVariables()
     {
-        isReload = false;
+        IsReload = false;
         isAttak = false;
         isModeChange = false;
     }

@@ -11,7 +11,7 @@ public class ParticleAutoDestroyerByTime : MonoBehaviour
 
     private void Update()
     {
-        // 파티클 재생중 아님녀 삭제
+        // 파티클 재생중 아니면 삭제
         if (particle.isPlaying == false)
         {
             Destroy(gameObject);

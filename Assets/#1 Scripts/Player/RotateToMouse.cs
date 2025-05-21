@@ -19,8 +19,6 @@ public class RotateToMouse : MonoBehaviour
             return; // 마우스 락 안 되어 있으면 회전 안 함
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
-
-        //UpdateRotate(mouseX, mouseY); -> 플레이어에서 관리
     }
 
     public void UpdateRotate(float mouseX, float mouseY)

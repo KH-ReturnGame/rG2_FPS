@@ -41,7 +41,7 @@ public class GameOverUI : MonoBehaviour
         gameOverPanel.SetActive(false);
 
         // HP 이벤트 구독
-        playerStatus.onHPEvent.AddListener(OnHpChanged);
+        playerStatus.onHpEvent.AddListener(OnHpChanged);
     }
 
     private void OnHpChanged(float previous, float current)

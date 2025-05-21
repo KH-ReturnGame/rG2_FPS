@@ -8,7 +8,7 @@ public class WeaponKnife : WeaponBase
 
     private void OnEnable()
     {
-        isAttack = false;
+        IsAttack = false;
         
         // 무기가 활성화 될 때 해당 무기의 탄창 정보 갱심
         onMagazineEvent.Invoke(weaponSet.currentMagazine);
@@ -30,7 +30,7 @@ public class WeaponKnife : WeaponBase
     {
         if (!WeaponBase.isWeaponInputEnabled) return;
         
-        if(isAttack == true) return;
+        if(IsAttack == true) return;
         
         //연속 공격
         if (weaponSet.isAutomaticAttack == true)
@@ -45,7 +45,7 @@ public class WeaponKnife : WeaponBase
     }
     public override void StopWeaponAction(int type = 0)
     {
-        isAttack = false;
+        IsAttack = false;
         StopCoroutine("OnAttackLoop");
     }
 
@@ -63,7 +63,7 @@ public class WeaponKnife : WeaponBase
 
     private IEnumerator OnAttack(int type)
     {
-        isAttack =  true;
+        IsAttack =  true;
         
         //공격 모션 선택 (0,1)
         animator.SetFloat("attackType",type);
@@ -76,7 +76,7 @@ public class WeaponKnife : WeaponBase
         {
             if (animator.CurrentAnimationIs("Movement"))
             {
-                isAttack =  false;
+                IsAttack =  false;
                 
                 yield break;    
             }

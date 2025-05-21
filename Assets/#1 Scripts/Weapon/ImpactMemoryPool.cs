@@ -39,14 +39,6 @@ public class ImpactMemoryPool : MonoBehaviour
         {
             OnSpawnImpact(ImpactType.Obstacle, knifeTransform.position, Quaternion.Inverse(knifeTransform.rotation));
         }
-        /*
-        적 태그 생성 후 추가 (# 18번 영상)
-        else if (other.CompareTag("ImpactEnemy"))
-        {
-            OnSpawnImpact(ImpactType.Enemy, knifeTransform.position, Quaternion.Inverse(knifeTransform.rotation));
-        }
-        */
-        
     }
 
     public void OnSpawnImpact(ImpactType type, Vector3 position, Quaternion rotation)

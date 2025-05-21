@@ -53,7 +53,7 @@ public class WeaponHUD : MonoBehaviour
         SetupWeapon();
             
         weapon.onAmmoEvent.AddListener(UpdateAmmoHUD);
-        status.onHPEvent.AddListener(UpdateHPHUD);
+        status.onHpEvent.AddListener(UpdateHPHUD);
     }
 
 

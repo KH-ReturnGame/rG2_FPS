@@ -34,7 +34,7 @@ public class WeaponGrenade : WeaponBase
     {
         if (!WeaponBase.isWeaponInputEnabled) return;
         
-        if (type == 0 && isAttack == false && weaponSet.currentAmmo > 0)
+        if (type == 0 && IsAttack == false && weaponSet.currentAmmo > 0)
         {
             StartCoroutine("OnAttack");
         }
@@ -50,7 +50,7 @@ public class WeaponGrenade : WeaponBase
     
     private IEnumerator OnAttack()
     {
-        isAttack =  true;
+        IsAttack =  true;
         
         animator.Play("Fire",-1,0);
         PlaySound(audioClipFire);
@@ -61,7 +61,7 @@ public class WeaponGrenade : WeaponBase
         {
             if (animator.CurrentAnimationIs("Movement"))
             {
-                isAttack =  false;
+                IsAttack =  false;
                 
                 yield break;    
             }

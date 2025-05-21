@@ -14,7 +14,6 @@ public class Impact : MonoBehaviour
         memoryPool = pool;
     }
 
-    // Update is called once per frame
     private void Update()
     {
         if (particle.isPlaying == false && memoryPool != null)

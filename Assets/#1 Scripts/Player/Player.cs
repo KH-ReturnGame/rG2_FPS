@@ -287,7 +287,7 @@ public class Player : MonoBehaviour
     private IEnumerator HideHitPanelAfterDelay(float delay)
     {
         yield return new WaitForSecondsRealtime(delay); // Time.timeScale 무시
-        if (status.CurrentHP > 0 && hitPanel != null)   // 죽은 상태이면 유지
+        if (status.CurrentHp > 0 && hitPanel != null)   // 죽은 상태이면 유지
             hitPanel.SetActive(false);
     }
 }

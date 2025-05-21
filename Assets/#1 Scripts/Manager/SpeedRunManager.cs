@@ -4,9 +4,9 @@ using UnityEngine;
 public class SpeedRunManager : MonoBehaviour
 {
     public static SpeedRunManager Instance;
-    public float totalTime = 0f;
-    private bool isRecording = false;
-    public bool isSpeedRun = false;
+    public float totalTime;
+    private bool isRecording;
+    public bool isSpeedRun;
     
     private void Start()
     {

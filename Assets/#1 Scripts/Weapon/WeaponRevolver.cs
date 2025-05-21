@@ -42,9 +42,9 @@ public class WeaponRevolver : WeaponBase
 
     private void OnEnable()
     {
-        if (audioSource != null)
+        if (AudioSource != null)
         {
-            audioSource.Stop();
+            AudioSource.Stop();
         }
         
         // 총구 이펙트 오브젝트 비활성화
@@ -75,7 +75,7 @@ public class WeaponRevolver : WeaponBase
     {
         if (!WeaponBase.isWeaponInputEnabled) return;
         
-        if (type == 0 && isAttack == false && isReload == false)
+        if (type == 0 && IsAttack == false && IsReload == false)
         {
             OnAttack();
         }
@@ -83,12 +83,12 @@ public class WeaponRevolver : WeaponBase
 
     public override void StopWeaponAction(int type = 0)
     {
-        isAttack = false;
+        IsAttack = false;
     }
 
     public override void StartReload()
     {
-        if (isReload == true || weaponSet.currentMagazine <= 0) return;
+        if (IsReload == true || weaponSet.currentMagazine <= 0) return;
 
         // 무기 액션 중 r -> 취소 후 재장전
         StopWeaponAction();
@@ -97,14 +97,14 @@ public class WeaponRevolver : WeaponBase
 
     public void OnAttack()
     {
-        if (Time.time - lastAttackTime > weaponSet.attackRate)
+        if (Time.time - LastAttackTime > weaponSet.attackRate)
         {
             if (animator.MoveSpeed > 0.5f)
             {
                 return;
             }
 
-            lastAttackTime = Time.time;
+            LastAttackTime = Time.time;
 
             // 탄 수 없으면 공격 X
             if (weaponSet.currentAmmo <= 0)
@@ -140,7 +140,7 @@ public class WeaponRevolver : WeaponBase
 
     private IEnumerator OnReload()
     {
-        isReload = true;
+        IsReload = true;
 
         //재장전 애니메이션 사운드 재생
         animator.OnReload();
@@ -150,9 +150,9 @@ public class WeaponRevolver : WeaponBase
         {
             // 사운드 재생중이 아니고, 현재 애니메이션이 Movement이면
             // 재장전 애니메이션(, 사운드) 재생이 종료되었다는 뜻
-            if (audioSource.isPlaying == false && animator.CurrentAnimationIs("Movement"))
+            if (AudioSource.isPlaying == false && animator.CurrentAnimationIs("Movement"))
             {
-                isReload = false;
+                IsReload = false;
 
                 // 현재 탄창 수를 1감소하고 바뀐 탄창 정보를 Text UI에 업데이트
                 weaponSet.currentMagazine--;
@@ -285,8 +285,8 @@ public class WeaponRevolver : WeaponBase
     }
     private void ResetVariables()
     {
-        isReload = false;
-        isAttack = false;
+        IsReload = false;
+        IsAttack = false;
     }
     private void AdjustAimImageSize()
     {
