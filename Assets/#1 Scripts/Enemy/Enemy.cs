@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour
     public LayerMask obstacleMask;
     public LayerMask obstacleMask2;
 
+    // 점수 관련 코드
+    public int scoreValue = 100; 
     // 디버그용
     public Path_ path;
 
@@ -67,13 +69,16 @@ public class Enemy : MonoBehaviour
         if (currentHP - damage > 0)
         {
             currentHP -= damage;
-            //
+            
             stateMachine.ChangeState(new SearchState());
             lastKnownPos = player.transform.position;
-            //
         }
         else
         {
+            ScoreManager.Instance.AddScore(scoreValue);
+
+            ComboManager.Instance.RegisterKill();
+
             Destroy(gameObject);
         }
 
@@ -96,7 +101,7 @@ public class Enemy : MonoBehaviour
          CanSeePlayer();
         currentState = stateMachine.activeState.ToString();
     }
-
+    
     public bool CanSeePlayer()
     {
        
