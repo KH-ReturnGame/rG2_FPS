@@ -46,8 +46,7 @@ public class LeanSet : MonoBehaviour
         if (Input.GetKey(KeyCode.Q)) targetLean = 1f;
         else if (Input.GetKey(KeyCode.E)) targetLean = -1f;
         else targetLean = 0f;
-
-        // 보간
+        
         leanTimer = Mathf.SmoothDamp(leanTimer, targetLean, ref leanVelocity, leanDuration);
 
         // 반원 궤적 계산
@@ -55,7 +54,7 @@ public class LeanSet : MonoBehaviour
         float xOffset = Mathf.Sin(angle) * leanRadius * Mathf.Sign(leanTimer);
         float yOffset = Mathf.Sin(angle) * leanRadius * 0.3f;
 
-        // ✅ 방향 기준 이동 (카메라 회전 반영)
+        // 방향 기준 이동 (카메라 회전 반영)
         Vector3 offset = -transform.right * xOffset - transform.up * yOffset;
         transform.localPosition = defaultLocalPos + offset;
 

@@ -11,7 +11,7 @@ public class WeaponHUD : MonoBehaviour
     [SerializeField]
     private WeaponBase weapon;    // 현재 정보가 주어지는 무기
     [SerializeField]
-    private PlayerStatus status;
+    private PlayerStatus status; 
     
     
 

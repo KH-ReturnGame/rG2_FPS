@@ -94,8 +94,7 @@ public class Enemy : MonoBehaviour
         }
         return false;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
          CanSeePlayer();

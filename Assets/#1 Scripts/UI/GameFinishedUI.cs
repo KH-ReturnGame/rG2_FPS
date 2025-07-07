@@ -9,7 +9,7 @@ public class GameFinishedUI : MonoBehaviour
 {
     [Header("UI")]
     public GameObject gameFinishedPanel;
-    public CanvasGroup canvasGroup; // 꼭 연결해야 함
+    public CanvasGroup canvasGroup; 
     public GameObject speedRunText;
 
     [Header("버튼")]

@@ -3,7 +3,7 @@ using UnityEngine;
 public class HeadMoving : MonoBehaviour
 {
     [SerializeField]
-    private Transform cameraHolder;
+    private Transform cameraHolder; // 카메라 설정
 
     [SerializeField]
     private float bobFrequency;

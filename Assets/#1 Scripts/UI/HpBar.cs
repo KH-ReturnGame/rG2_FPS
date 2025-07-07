@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class HpBar : MonoBehaviour
 {
-    [SerializeField] private Image barFillImage;  // fill 이미지
+    [SerializeField] private Image barFillImage; 
     [SerializeField] private PlayerStatus playerStatus;
 
     private void Start()

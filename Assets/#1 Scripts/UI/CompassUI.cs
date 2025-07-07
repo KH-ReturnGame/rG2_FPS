@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class CompassUI : MonoBehaviour
 {
+    // 화면 위쪽 나침반 UI
     public RawImage compassImage;
     public Transform playerCamera;
 

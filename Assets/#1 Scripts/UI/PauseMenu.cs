@@ -45,7 +45,7 @@ public class PauseMenu : MonoBehaviour
     }
 
 
-    public void PauseGame()
+    public void PauseGame() 
     {
         Time.timeScale = 0f;
         pausePanel.SetActive(true);
@@ -55,7 +55,7 @@ public class PauseMenu : MonoBehaviour
         WeaponBase.isWeaponInputEnabled = false;
     }
 
-    public void ResumeGame()
+    public void ResumeGame() // 게임 재개
     {
         Time.timeScale = 1f;
         pausePanel.SetActive(false);
@@ -81,7 +81,7 @@ public class PauseMenu : MonoBehaviour
         //SceneManager.LoadScene("Main");
     }
     
-    public void OnClickOption()
+    public void OnClickOption() 
     {
         optionPanel.SetActive(true);
         pausePanel.SetActive(false);

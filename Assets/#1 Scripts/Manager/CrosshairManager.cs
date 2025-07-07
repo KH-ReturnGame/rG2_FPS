@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class CrosshairManager : MonoBehaviour
 {
+    // 조준선 변경 코드
     public GameObject[] crosshairs;
     private int currentIndex = 0;
 
@@ -13,6 +14,7 @@ public class CrosshairManager : MonoBehaviour
 
     void Update()
     {
+        // 순환하면서 순서대로 이미지 변경
         if (Input.GetKeyDown(KeyCode.PageUp))
         {
             currentIndex = (currentIndex + 1) % crosshairs.Length;
