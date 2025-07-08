@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MiniMap : MonoBehaviour
 {
-    [Header("플레이어")]
+    [Header("플레이어 트랜스폼")]
     public Transform player;
 
     [Header("카메라 높이 고정")]

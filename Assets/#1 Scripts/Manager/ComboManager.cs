@@ -8,15 +8,17 @@ public class ComboManager : MonoBehaviour
 
     public Slider comboSlider;
     public TextMeshProUGUI comboText; 
-    public float comboSec = 5f; // 콤보 지속 시간
+    public float comboWindow = 5f; // 콤보 지속 시간
 
-    private float timer = 0f; // 슬라이더 용 타이머
+    private float timer = 0f; 
     private int comboCount = 0; // 연속 콤보 횟수
     private bool isComboActive = false;
 
     void Awake()
     {
-		comboText.text = ""; // 연속 콤보 텍스트 초기화
+		comboText.text = "";
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
     void Update()
@@ -24,7 +26,7 @@ public class ComboManager : MonoBehaviour
         if (isComboActive)
         {
             timer -= Time.deltaTime;
-            comboSlider.value = timer / comboSec;
+            comboSlider.value = timer / comboWindow;
 
             if (timer <= 0f)
             {
@@ -39,14 +41,13 @@ public class ComboManager : MonoBehaviour
         {
             isComboActive = true;
             comboCount = 1;
-            timer = comboSec;
+            timer = comboWindow;
         }
         else
         {
             comboCount++;
-            timer = comboSec;
-			
-			// 콤보 2회 이상부터 -> 점수 x 콤보 수 만큼 점수 증가
+            timer = comboWindow;
+
             if (comboCount >= 2)
             {
                 int bonus = (comboCount - 1) * 100;
@@ -69,8 +70,9 @@ public class ComboManager : MonoBehaviour
     void UpdateUI()
     {
         comboSlider.gameObject.SetActive(true);
-        comboSlider.value = timer / comboSec;
+        comboSlider.value = timer / comboWindow;
 
+        // 연속처치 텍스트
         if (comboCount >= 2)
         {
             comboText.text = $"연속처치 x{comboCount}";

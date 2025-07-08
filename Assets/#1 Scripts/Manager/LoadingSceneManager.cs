@@ -6,8 +6,6 @@ using TMPro;
 
 public class LoadingSceneManager : MonoBehaviour
 {
-    // 로딩화면
-    
     public static string nextScene;
 
     [Header("Loading Scene")]
@@ -37,7 +35,7 @@ public class LoadingSceneManager : MonoBehaviour
             // 실제 진행률
             float targetProgress = Mathf.Clamp01(op.progress / 0.9f);
 
-            // 슬라이더 값 보정
+            // 부드럽게 설정
             currentProgress = Mathf.Lerp(currentProgress, targetProgress, Time.deltaTime * 5f);
 
             // UI 반영
