@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 87a9dbb98ea67504bb2e7a9acbe7135f
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164492
+  packageName: '[HDRP/Built-in/URP] Abandoned Factory Buildings - Day/Night Scene'
+  packageVersion: 1.5
+  assetPath: Assets/ScansFactory/AbandonedFactory/Prefabs/FactoryChunks/P_WallA_04_01.prefab
+  uploadId: 701004

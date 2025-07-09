@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 82e5f313a97af1b428c4c7e6b2d94eb9
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164492
+  packageName: '[HDRP/Built-in/URP] Abandoned Factory Buildings - Day/Night Scene'
+  packageVersion: 1.5
+  assetPath: Assets/ScansFactory/AbandonedFactory/Prefabs/Props/P_en_PipeBackground_02_01.prefab
+  uploadId: 701004

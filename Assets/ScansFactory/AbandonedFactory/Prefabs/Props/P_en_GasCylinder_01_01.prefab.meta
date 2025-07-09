@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 60a8aa94003b4794b83f61fdec5bafce
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164492
+  packageName: '[HDRP/Built-in/URP] Abandoned Factory Buildings - Day/Night Scene'
+  packageVersion: 1.5
+  assetPath: Assets/ScansFactory/AbandonedFactory/Prefabs/Props/P_en_GasCylinder_01_01.prefab
+  uploadId: 701004

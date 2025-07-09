@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0b7092c496bd3d14f82f714ea6fcd3cb
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164492
+  packageName: '[HDRP/Built-in/URP] Abandoned Factory Buildings - Day/Night Scene'
+  packageVersion: 1.5
+  assetPath: Assets/ScansFactory/AbandonedFactory/Prefabs/Decals/Decal_dirt_01_03.prefab
+  uploadId: 701004

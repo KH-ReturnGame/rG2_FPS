@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 913725c62c937464a9f23ce8de6060be
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164492
+  packageName: '[HDRP/Built-in/URP] Abandoned Factory Buildings - Day/Night Scene'
+  packageVersion: 1.5
+  assetPath: Assets/ScansFactory/AbandonedFactory/Prefabs/Props/P_en_WoodPallet_01_12.prefab
+  uploadId: 701004
