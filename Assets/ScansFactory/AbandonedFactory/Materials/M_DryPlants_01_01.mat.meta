@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4ed50b65a7d296b43aedbedad006e7c7
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164492
+  packageName: '[HDRP/Built-in/URP] Abandoned Factory Buildings - Day/Night Scene'
+  packageVersion: 1.5
+  assetPath: Assets/ScansFactory/AbandonedFactory/Materials/M_DryPlants_01_01.mat
+  uploadId: 701004

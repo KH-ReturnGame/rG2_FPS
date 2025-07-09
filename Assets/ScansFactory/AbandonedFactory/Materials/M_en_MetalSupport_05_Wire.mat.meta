@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 813ee8d804e529e49831f087a2da99f8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164492
+  packageName: '[HDRP/Built-in/URP] Abandoned Factory Buildings - Day/Night Scene'
+  packageVersion: 1.5
+  assetPath: Assets/ScansFactory/AbandonedFactory/Materials/M_en_MetalSupport_05_Wire.mat
+  uploadId: 701004

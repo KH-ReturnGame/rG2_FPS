@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 29af76bbe1bcc3848860ba34b3c0dbbc
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164492
+  packageName: '[HDRP/Built-in/URP] Abandoned Factory Buildings - Day/Night Scene'
+  packageVersion: 1.5
+  assetPath: Assets/ScansFactory/AbandonedFactory/FX/Smoke Dark.prefab
+  uploadId: 701004

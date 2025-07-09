@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0cc56a90b0e819246877ccbff328d2f3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164492
+  packageName: '[HDRP/Built-in/URP] Abandoned Factory Buildings - Day/Night Scene'
+  packageVersion: 1.5
+  assetPath: Assets/ScansFactory/AbandonedFactory/Materials/M_en_dirtdecal_01_03.mat
+  uploadId: 701004

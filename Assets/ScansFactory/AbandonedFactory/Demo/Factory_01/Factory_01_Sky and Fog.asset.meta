@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: ec249f3c8e63b3947a900b9c6d51768e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164492
+  packageName: '[HDRP/Built-in/URP] Abandoned Factory Buildings - Day/Night Scene'
+  packageVersion: 1.5
+  assetPath: Assets/ScansFactory/AbandonedFactory/Demo/Factory_01/Factory_01_Sky
+    and Fog.asset
+  uploadId: 701004
