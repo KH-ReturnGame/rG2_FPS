@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 27f92ac500b20db4c888a26ee0fd5dd6
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164492
+  packageName: '[HDRP/Built-in/URP] Abandoned Factory Buildings - Day/Night Scene'
+  packageVersion: 1.5
+  assetPath: Assets/ScansFactory/TEX_HDRP_URP_Buildin_Links.txt
+  uploadId: 701004
