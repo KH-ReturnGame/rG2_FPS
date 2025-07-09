@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0822fd80c03938148a2af0dcbf7a8a0c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Effects/Chain_01/Materials/mi_Chain_01_01_Skeletal.mat
+  uploadId: 725976

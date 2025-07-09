@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: abc00000000016095740212498014878
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Environment/PlasticCan_02/mi_PlasticCan_02_01.mat
+  uploadId: 725976

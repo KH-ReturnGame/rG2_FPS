@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: abc00000000009293189810075060114
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Prefabs/Construction Elements/sm_SteelCatwalks_01_06_stairs.prefab
+  uploadId: 725976

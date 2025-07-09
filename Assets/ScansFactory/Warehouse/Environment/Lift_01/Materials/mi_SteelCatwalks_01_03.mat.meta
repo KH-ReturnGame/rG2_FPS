@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a37affe22d7f25d4fb494a4d8bbe62b9
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Environment/Lift_01/Materials/mi_SteelCatwalks_01_03.mat
+  uploadId: 725976

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f683d8a53cbe72249bcfaed3d2939e2e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Environment/Wall_02/Materials/mi_Wall_02_01.mat
+  uploadId: 725976

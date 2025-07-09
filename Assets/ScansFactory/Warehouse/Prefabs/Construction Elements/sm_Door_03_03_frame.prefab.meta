@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: abc00000000011231048394433779093
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Prefabs/Construction Elements/sm_Door_03_03_frame.prefab
+  uploadId: 725976

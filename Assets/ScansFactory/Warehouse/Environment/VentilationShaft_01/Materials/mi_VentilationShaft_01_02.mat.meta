@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c5eab0f7f12dc134781d3a1a4fc0f7ae
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Environment/VentilationShaft_01/Materials/mi_VentilationShaft_01_02.mat
+  uploadId: 725976

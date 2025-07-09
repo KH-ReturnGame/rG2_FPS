@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: efc1dfe5ebbd63849958ffac0a09894b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Environment/SteamEngine_01/Materials/mi_SteamEngine_01_06_03.mat
+  uploadId: 725976

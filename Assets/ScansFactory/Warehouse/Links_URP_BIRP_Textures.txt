@@ -1,0 +1,13 @@
+Thanks for the confirmation and supporting our work.
+Below you have access to all render pipelines we have:
+
+Here you have 
+- URP:https://bit.ly/4fr1RYJ
+- BIRP:https://bit.ly/3NTroxT
+- HDRP(same as on the asset store):https://bit.ly/4hveqEb
+
+And please remember bigger textures for HDRP if you need them:
+- Textures: https://bit.ly/3Amfrhe
+
+If any problems please let us know at support@scansfactory.com
+ScansFactoryTeam

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: abc00000000011478981279479305409
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Environment/Lamp_01/mi_Lamp_01_02_Emissive.mat
+  uploadId: 725976

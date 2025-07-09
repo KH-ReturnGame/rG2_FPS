@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8e033c2f67043e5428d593ecdfa79060
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4890085278179872738
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Demo/Warehouse_01_P/Warehouse_Lighting_Settings.lighting
+  uploadId: 725976

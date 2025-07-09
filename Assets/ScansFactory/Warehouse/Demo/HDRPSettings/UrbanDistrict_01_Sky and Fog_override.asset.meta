@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: efd50d27fc634fc498bc12b809440347
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Demo/HDRPSettings/UrbanDistrict_01_Sky
+    and Fog_override.asset
+  uploadId: 725976

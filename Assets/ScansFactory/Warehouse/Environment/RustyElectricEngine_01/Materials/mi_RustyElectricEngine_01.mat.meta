@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 05ab776829d4e124994f010aa0a91355
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Environment/RustyElectricEngine_01/Materials/mi_RustyElectricEngine_01.mat
+  uploadId: 725976

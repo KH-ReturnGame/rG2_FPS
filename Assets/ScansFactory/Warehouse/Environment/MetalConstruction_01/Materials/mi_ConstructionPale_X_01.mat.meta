@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 07d7631868e2de94c8fecc87e220e174
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Environment/MetalConstruction_01/Materials/mi_ConstructionPale_X_01.mat
+  uploadId: 725976

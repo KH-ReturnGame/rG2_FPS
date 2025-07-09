@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e5f93d40fb6bbe24bad79c169edf038c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Environment/StairsMetal_01/Materials/mi_StairsMetal_01_01.mat
+  uploadId: 725976

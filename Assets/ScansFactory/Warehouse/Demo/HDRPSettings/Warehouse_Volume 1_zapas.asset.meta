@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b8dc21da22f0a4348a0a7f430c67a16e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Demo/HDRPSettings/Warehouse_Volume 1_zapas.asset
+  uploadId: 725976

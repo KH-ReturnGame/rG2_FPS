@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9b1e5077a85bc2141a38c5edbf12e812
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Environment/GasCylinder_01/Materials/mi_GasCylinder_01_01.mat
+  uploadId: 725976

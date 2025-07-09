@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: abc00000000017028904427138073084
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Prefabs/Electrical Installations/sm_ElectricalBox_02_22.prefab
+  uploadId: 725976

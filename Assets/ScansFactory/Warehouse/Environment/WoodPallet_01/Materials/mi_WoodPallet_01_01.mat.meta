@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cde27b4f6a6c1544b94ce4479da148d6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Environment/WoodPallet_01/Materials/mi_WoodPallet_01_01.mat
+  uploadId: 725976

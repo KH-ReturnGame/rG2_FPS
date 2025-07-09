@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ea1d1ae127847ac4ea89fbc85c29e2ce
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301016
+  packageName: '[HDRP] Warehouse - Abandoned Factory District'
+  packageVersion: 1.05
+  assetPath: Assets/ScansFactory/Warehouse/Environment/Pipes_01/Materials/mi_PipeCaps_01_01.mat
+  uploadId: 725976
