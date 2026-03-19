@@ -5,6 +5,8 @@ public class SearchState : BaseState
     private float searchTimer;
     private float moveTimer;
 
+    public float searchLimit = 5;
+
     public override void Enter()
     {
         enemy.Agent.SetDestination(enemy.LastKnownPos);
@@ -24,7 +26,7 @@ public class SearchState : BaseState
                 enemy.Agent.SetDestination(enemy.transform.position + (Random.insideUnitSphere * 8));
                 moveTimer = 0;
             }
-            if(searchTimer > 10)
+            if(searchTimer > searchLimit)
             {
                 stateMachine.ChangeState(new PatrolState());
             }
